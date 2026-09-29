@@ -1,0 +1,62 @@
+{
+  "id": "dosage-fort-fort",
+  "version": 1,
+  "titre": "Dosage acide fort par base forte",
+  "matiere": "chimie",
+  "niveau": ["1ere", "terminale"],
+  "grandeurs": {
+    "Ca": {
+      "label": "Concentration de l'acide (Ca)",
+      "unite": "mol/L",
+      "min": 0.01,
+      "max": 1.0,
+      "step": 0.01,
+      "default": 0.10
+    },
+    "Va": {
+      "label": "Volume d'acide dosé (Va)",
+      "unite": "mL",
+      "min": 5,
+      "max": 50,
+      "step": 1,
+      "default": 20
+    },
+    "Cb": {
+      "label": "Concentration de la base (Cb)",
+      "unite": "mol/L",
+      "min": 0.01,
+      "max": 1.0,
+      "step": 0.01,
+      "default": 0.10
+    },
+    "Ve": {
+      "label": "Volume équivalent (Ve)",
+      "unite": "mL",
+      "min": 1,
+      "max": 50,
+      "step": 0.5,
+      "default": 20
+    }
+  },
+  "variantes": [
+    {
+      "id": "A",
+      "nom": "Variante A — Inconnue : Volume équivalent (Ve)",
+      "inconnue": "Ve",
+      "donnees": ["Ca", "Va", "Cb"],
+      "formule": "Ca * Va / Cb",
+      "description": "Calculer le volume de base Cb qu'il faut verser pour atteindre l'équivalence avec l'acide Ca."
+    },
+    {
+      "id": "B",
+      "nom": "Variante B — Inconnue : Concentration de l'acide (Ca)",
+      "inconnue": "Ca",
+      "donnees": ["Va", "Cb", "Ve"],
+      "formule": "Cb * Ve / Va",
+      "description": "Calculer la concentration inconnue Ca de l'acide à partir du volume Ve observé à l'équivalence."
+    }
+  ],
+  "vues": ["burette", "becher", "courbe-ph"],
+  "tolerance": 0.02,
+  "modele": "dosageFortFort.ts"
+}
