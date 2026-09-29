@@ -1,7 +1,9 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
+import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  base: './', // Allow opening index.html directly from USB or static file server
+  plugins: [react()],
+  base: './',
   build: {
     target: 'es2020',
     outDir: 'dist',

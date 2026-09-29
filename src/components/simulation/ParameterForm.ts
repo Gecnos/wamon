@@ -6,6 +6,8 @@ export interface FormState {
   userAnswer: number;
   tolerance: number;
   indicator: 'btb' | 'phenolphthalein' | 'helianthine';
+  /** Volume max de la burette (optionnel, défaut 25 mL) */
+  maxVb?: number;
 }
 
 /**
