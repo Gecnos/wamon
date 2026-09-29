@@ -1,0 +1,20 @@
+{
+  "id": "erlenmeyer",
+  "nom": "Erlenmeyer",
+  "categorie": "contenants-reaction",
+  "schema": "erlenmeyer",
+  "role": "Récipient à col étroit évitant les projections lors de l'agitation d'une réaction ou d'un titrage.",
+  "precision": "Faible (graduations indicatives ±10%)",
+  "utilisation": [
+    "Recevoir la solution titrée et l'indicateur coloré.",
+    "Agiter continuellement sans risque d'éclaboussure grâce au col conique."
+  ],
+  "erreurs_frequentes": [
+    "Confondre avec la fiole jaugée (col droit sans graduation exacte)."
+  ],
+  "securite": [
+    "Peut être bouché temporairement pour secouer une préparation."
+  ],
+  "niveaux": ["college", "2nde", "1ere", "terminale"],
+  "utilise_dans": ["dosage-fort-fort"]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "becher",
+  "nom": "Bécher",
+  "categorie": "contenants-reaction",
+  "schema": "becher",
+  "role": "Récipient de travail pour préparer, contenir ou effectuer des réactions chimiques.",
+  "precision": "Faible (graduations approximatives ±10%, verrerie de contenance NON volumétrique)",
+  "utilisation": [
+    "Recevoir la solution à prélever ou à titrer.",
+    "Mélanger des réactifs sous agitation.",
+    "Attention : ne pas utiliser pour mesurer un volume précis !"
+  ],
+  "erreurs_frequentes": [
+    "Utiliser le bécher pour mesurer le volume d'une solution à titrer (erreur majeure !)."
+  ],
+  "securite": [
+    "Manipuler avec soin par la paroi supérieure.",
+    "Attention aux parois chaudes après chauffage."
+  ],
+  "niveaux": ["college", "2nde", "1ere", "terminale"],
+  "utilise_dans": ["dosage-fort-fort", "dilution"]
+}

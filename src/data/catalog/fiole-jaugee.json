@@ -1,0 +1,24 @@
+{
+  "id": "fiole-jaugee",
+  "nom": "Fiole jaugée",
+  "categorie": "mesure-volume",
+  "schema": "fiole-jaugee",
+  "role": "Préparer par dissolution ou dilution un volume précis de solution mère ou fille.",
+  "precision": "Très élevée (verrerie de contenance étalonnée)",
+  "utilisation": [
+    "Introduire le soluté ou le prélèvement concentré.",
+    "Remplir aux 2/3 avec de l'eau distillée et agiter pour dissoudre.",
+    "Compléter jusqu'au trait de jauge (bas du ménisque aligné).",
+    "Boucher et homogénéiser par retournement."
+  ],
+  "erreurs_frequentes": [
+    "Dépasser le trait de jauge lors de l'ajout d'eau.",
+    "Oublier d'homogénéiser par retournement.",
+    "Chauffer la fiole (déformation du volume étalonné)."
+  ],
+  "securite": [
+    "Boucher hermétiquement la fiole avant de la retourner."
+  ],
+  "niveaux": ["2nde", "1ere", "terminale"],
+  "utilise_dans": ["dilution"]
+}

@@ -1,0 +1,25 @@
+{
+  "id": "burette",
+  "nom": "Burette graduée",
+  "categorie": "mesure-volume",
+  "schema": "burette",
+  "role": "Verser un volume précis de solution titrante, goutte à goutte.",
+  "precision": "Élevée (classe A: ±0,05 mL pour 25 mL)",
+  "utilisation": [
+    "Rincer la burette avec la solution titrante.",
+    "Remplir au-dessus du niveau zéro avec un entonnoir.",
+    "Chasser la bulle d'air retenue sous le robinet.",
+    "Ajuster au zéro en observant le bas du ménisque au niveau des yeux."
+  ],
+  "erreurs_frequentes": [
+    "Lecture du ménisque de côté (erreur de parallaxe).",
+    "Bulle d'air résiduelle dans l'embout sous le robinet.",
+    "Oubli du rinçage préalable de la verrerie."
+  ],
+  "securite": [
+    "Porter des lunettes de protection et une blouse.",
+    "Manipuler les solutions corrosives (acides/bases) avec précaution."
+  ],
+  "niveaux": ["1ere", "terminale"],
+  "utilise_dans": ["dosage-fort-fort"]
+}

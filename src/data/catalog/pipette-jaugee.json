@@ -1,0 +1,25 @@
+{
+  "id": "pipette-jaugee",
+  "nom": "Pipette jaugée (1 traits ou 2 traits)",
+  "categorie": "mesure-volume",
+  "schema": "pipette-jaugee",
+  "role": "Prlever un volume fixe très précis de solution (ex: Va = 10 mL ou 20 mL).",
+  "precision": "Très élevée (verrerie de mesure de référence)",
+  "utilisation": [
+    "Rincer la pipette avec la solution à prélever.",
+    "Utiliser systématiquement une poire à pipeter (propipette).",
+    "Ajuster le niveau au trait de jauge en alignant le bas du ménisque.",
+    "Vider dans le récipient récepteur en appuyant le pointeau sur le verre."
+  ],
+  "erreurs_frequentes": [
+    "Pipeter à la bouche (strictement interdit !).",
+    "Souffler la dernière goutte restante à la pointe.",
+    "Confondre pipette jaugée (volume fixe) et éprouvette graduée (approximation)."
+  ],
+  "securite": [
+    "Ne jamais pipeter à la bouche.",
+    "Utiliser une poire à pipeter propre."
+  ],
+  "niveaux": ["1ere", "terminale"],
+  "utilise_dans": ["dosage-fort-fort", "dilution"]
+}

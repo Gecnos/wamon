@@ -1,0 +1,22 @@
+{
+  "id": "statif",
+  "nom": "Statif avec support et pince à burette",
+  "categorie": "supports-accessoires",
+  "schema": "statif",
+  "role": "Maintenir la burette verticale de manière stable et sécurisée au-dessus du bécher lors du titrage.",
+  "precision": "Accessoire de maintien mécanique",
+  "utilisation": [
+    "Fixer la noix de serrage sur la tige du statif.",
+    "Installer la pince double ou pince à burette.",
+    "Insérer la burette verticalement sans trop serrer pour éviter la casse du verre."
+  ],
+  "erreurs_frequentes": [
+    "Serrer trop fort la pince sur le tube en verre.",
+    "Statif instable ou placé au bord de la paillasse."
+  ],
+  "securite": [
+    "Vérifier l'équilibre de la base en fonte sur la paillasse."
+  ],
+  "niveaux": ["college", "2nde", "1ere", "terminale"],
+  "utilise_dans": ["dosage-fort-fort"]
+}
