@@ -1,5 +1,3 @@
-import { TitrationState } from '../../models/dosageFortFort';
-
 /**
  * Tracé dynamique vectoriel SVG de la courbe de titrage pH = f(Vb).
  * 
