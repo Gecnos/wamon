@@ -1,0 +1,21 @@
+// Déploiement de Wamon sur Cloudflare Workers (site statique, sans code serveur).
+// Workers Builds remplace automatiquement `name` par le nom du Worker du tableau de bord.
+{
+  "name": "wamon",
+  "compatibility_date": "2026-09-30",
+
+  // Exécuté par `wrangler deploy` et `wrangler dev`, mais pas par `wrangler preview` :
+  // pour les prévisualisations, la commande de build doit être réglée dans le tableau de bord.
+  "build": {
+    "command": "npm run build"
+  },
+
+  "assets": {
+    "directory": "./dist",
+    // Toute URL inconnue renvoie index.html : les liens profonds et le mode hors ligne fonctionnent.
+    "not_found_handling": "single-page-application"
+  },
+
+  // Obligatoire pour `wrangler preview`, même vide.
+  "previews": {}
+}

@@ -45,7 +45,7 @@
       "inconnue": "Ve",
       "donnees": ["Ca", "Va", "Cb"],
       "formule": "Ca * Va / Cb",
-      "description": "Calculer le volume de base Cb qu'il faut verser pour atteindre l'équivalence avec l'acide Ca."
+      "description": "Calculer le volume équivalent Ve de solution basique nécessaire pour doser cet acide."
     },
     {
       "id": "B",
@@ -53,7 +53,7 @@
       "inconnue": "Ca",
       "donnees": ["Va", "Cb", "Ve"],
       "formule": "Cb * Ve / Va",
-      "description": "Calculer la concentration inconnue Ca de l'acide à partir du volume Ve observé à l'équivalence."
+      "description": "Calculer la concentration Ca de l'acide à partir du volume observé à l'équivalence."
     }
   ],
   "vues": ["burette", "becher", "courbe-ph"],
