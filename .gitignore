@@ -14,9 +14,11 @@ coverage/
 .dev.vars
 !.env.example
 
-# Outils d'assistants IA locaux
+# Skills d'assistants IA : installés localement (voir CONTRIBUTING.md).
+# skills-lock.json, lui, est versionné pour que chacun installe les mêmes.
 .agents/
-skills-lock.json
+.claude/skills/
+.claude/settings.local.json
 
 # Éditeurs et système
 .vscode/*

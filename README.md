@@ -1,27 +1,76 @@
+<div align="center">
+
+<img src="public/favicon.svg" width="64" height="64" alt="" />
+
 # Wamon
 
-**Le laboratoire dans la classe.** Wamon est une application libre pour aider les enseignants de physique-chimie du secondaire à transformer les exercices du programme en expériences visibles. Elle est pensée pour être projetée en classe, y compris dans les établissements où le matériel de laboratoire et la connexion Internet sont limités.
+**Le labo dans la classe.** Vos élèves calculent, l’expérience tranche.
 
-## État du projet
+[Utiliser Wamon](#utiliser-wamon) · [Proposer un exercice](#proposer-un-exercice-sans-programmer) · [Contribuer au code](#contribuer-au-code) · [Documentation](docs/README.md)
 
-Le premier parcours interactif est le dosage d’un acide fort par une base forte. Il existe sous deux formes :
+</div>
 
-- **Séance guidée** (`/seance/…`), pour l’enseignant qui projette : quatre étapes (faire calculer, entrer la réponse de la classe, lancer l’expérience, comparer), un seul bouton principal par écran, réponses par groupe et correction détaillée à la demande.
-- **Labo libre** (`/labo`), pour manipuler soi-même, y compris sur téléphone : choix de l’acide, de la base, des concentrations, de la burette et de l’indicateur, versement goutte à goutte ou robinet ouvert, relevé des mesures et tracé de sa propre courbe.
+Wamon est une application libre et gratuite pour les professeurs de physique-chimie du secondaire. Elle transforme un exercice du programme en expérience projetée : la classe calcule, le professeur saisit sa réponse, puis réalise l’expérience devant elle. Tout le monde voit si le résultat tient.
 
-Un **mode projection** agrandit toute l’interface et masque les réglages. L’application contient aussi un catalogue illustré du matériel (une page par instrument), un guide enseignant et un formulaire qui télécharge un modèle d’exercice JSON.
+Elle est pensée pour les établissements où le matériel de laboratoire manque et où la connexion est fragile : un ordinateur et un vidéoprojecteur suffisent, et l’application fonctionne hors ligne une fois chargée.
 
-Le fichier de données de dilution et son modèle de calcul sont présents, mais cet exercice n’est pas encore intégré au parcours de simulation React. Les modules JSON ne sont pas encore chargés automatiquement : ajouter un fichier seul ne le rend pas disponible dans l’application.
+![Page d’accueil de Wamon : une démonstration de dosage se trace en direct sur du papier millimétré](docs/images/accueil.png)
 
-## Démarrage rapide
+## Ce que fait Wamon
 
-### Prérequis
+### Une séance guidée en quatre temps
 
-- Node.js 20.19 ou ultérieur
-- npm
-- Git
+1. **Faire calculer** : l’énoncé est projeté comme une copie d’élève, lisible au fond de la salle. Le professeur règle les données ou les tire au hasard.
+2. **Entrer la réponse** : la valeur trouvée par la classe, et celles des groupes s’ils ne sont pas d’accord.
+3. **Lancer l’expérience** : on manipule avec la valeur de la classe. Le virage de l’indicateur arrive-t-il au bon volume ? La solution a-t-elle la teinte du témoin ?
+4. **Comparer** : verdict, écart de chaque groupe, position des réponses sur la courbe et correction au stylo rouge, affichée seulement à la demande.
 
-### Installation
+| Énoncé projeté | Expérience | Bilan |
+| --- | --- | --- |
+| ![Énoncé présenté comme une copie d’élève](docs/images/seance-enonce.png) | ![Dosage en cours, courbe tracée en direct](docs/images/seance-experience.png) | ![Verdict et position des réponses sur la courbe](docs/images/seance-bilan.png) |
+
+### Des exercices du programme
+
+| Exercice | Niveau | La classe calcule | L’expérience montre |
+| --- | --- | --- | --- |
+| Préparer une solution par dissolution | Seconde | la masse à peser, ou la concentration obtenue | la teinte de la solution comparée à un témoin |
+| Préparer une solution par dilution | Seconde | le volume à prélever, ou la concentration de la fille | la teinte de la solution comparée à un témoin |
+| Dosage acide fort / base forte | Première, terminale | le volume équivalent, ou la concentration de l’acide | le virage de l’indicateur et la courbe de pH |
+| Dosage de l’acide éthanoïque | Terminale | le volume équivalent, ou la concentration de l’acide | la courbe d’un acide faible, la demi-équivalence, le choix de l’indicateur |
+
+![Dilution : la solution préparée avec la réponse de la classe est comparée à un tube témoin](docs/images/seance-dilution.png)
+
+### Et aussi
+
+- **Un labo libre** pour les élèves, y compris sur téléphone : choix de l’acide (fort ou faible), de la base, des concentrations et de l’indicateur, versement goutte à goutte, relevé des mesures, courbe construite par l’élève.
+
+  <img src="docs/images/labo-mobile.png" width="260" alt="Le labo libre sur téléphone : burette, bécher et lecture du pH" />
+
+- **Un mode projection** qui agrandit toute l’interface et masque les réglages.
+- **Un catalogue du matériel** : une fiche par instrument, avec le bon geste et les erreurs fréquentes.
+- **Une adresse par écran** : le bouton « retour » du navigateur revient à l’étape précédente sans rien perdre.
+
+## Utiliser Wamon
+
+Aucune installation n’est nécessaire pour les professeurs : ouvrez l’adresse du site dans un navigateur récent (Chrome, Edge, Firefox ou Safari). Après une première visite, Wamon fonctionne sans connexion.
+
+Le [guide pour la classe](docs/enseignants/utiliser-wamon-en-classe.md) explique comment préparer et mener une séance.
+
+## Proposer un exercice, sans programmer
+
+Vous avez un exercice qui marche bien avec vos élèves ? Dans Wamon, ouvrez **Proposer un exercice** et remplissez la fiche comme un sujet de TP : énoncé, données, réponse attendue, correction et ce que la classe doit voir. Un aperçu montre comment l’exercice apparaîtra en classe.
+
+Vous l’envoyez ensuite par GitHub, par WhatsApp ou par e-mail. Aucun fichier technique à écrire : l’équipe s’en charge, fait relire l’exercice par d’autres professeurs et vous prévient quand il est en ligne.
+
+![Formulaire de proposition d’exercice avec aperçu en classe](docs/images/contribuer.png)
+
+Plus de détails : [Proposer un exercice](docs/enseignants/proposer-un-exercice.md).
+
+## Contribuer au code
+
+### Démarrer
+
+Prérequis : Node.js 20.19 ou plus récent, npm et Git.
 
 ```bash
 git clone https://github.com/Gecnos/wamon.git
@@ -30,110 +79,33 @@ npm install
 npm run dev
 ```
 
-Vite affiche l’adresse locale à ouvrir dans le navigateur.
-
-### Commandes utiles
-
-```bash
-npm run dev       # serveur de développement
-npm run build     # vérification TypeScript et build de production
-npm run preview   # prévisualiser le contenu de dist/
-npm test          # tests automatisés Vitest
-npm run test:watch
-```
-
-Le dépôt utilise React 18, React Router 7, Tailwind CSS 4, TypeScript, Vite 6, le plugin React pour Vite et Vitest 3. Chaque écran et chaque étape de séance a sa propre URL (`HashRouter`, pour fonctionner hors ligne et sur un hébergement statique) : le bouton « retour » du navigateur revient à l’écran précédent. L’état de la séance est conservé dans `sessionStorage`. L’interface est écrite uniquement avec des classes Tailwind ; `src/styles/app.css` ne contient que le thème (couleurs, polices) et la variante `projection:`. `npm run build` est la vérification à lancer avant une proposition de changement. Les configurations TypeScript de l’application et de Vite sont séparées dans `tsconfig.app.json` et `tsconfig.node.json`.
-
-## Architecture du code
-
-L’entrée HTML charge `src/main.tsx`, qui monte `src/App.tsx`. Les routes sont déclarées dans `src/App.tsx` ; `src/pages/AppShell.tsx` affiche l’en-tête, la navigation et le bouton de projection.
-
-| Emplacement | Responsabilité |
+| Commande | Rôle |
 | --- | --- |
-| `src/pages/` | Accueil, séance guidée, labo libre, matériel, guide et contribution |
-| `src/features/seance/` | Étapes de la séance guidée, état partagé et calculs de comparaison |
-| `src/features/titration/` | Paillasse animée, courbe, lecture des mesures et choix de l’indicateur |
-| `src/ui/` | Composants d’interface réutilisables (boutons, champ numérique, icônes) |
-| `src/lib/` | Formatage des nombres, stockage local, mode projection |
-| `src/data/modules/` | Données descriptives des exercices au format JSON |
-| `src/data/catalog/` | Fiches JSON du matériel de laboratoire |
-| `src/models/` | Calculs et modèles scientifiques indépendants de l’interface |
-| `src/engine/` | Dessin SVG du montage et animation de l’expérience |
-| `src/core/` | Fonctions génériques : validation des résultats, formules et export JSON |
-| `src/components/svg/` | Schémas SVG des instruments du catalogue |
-| `src/styles/app.css` | Point d’entrée Tailwind et thème |
-| `tests/` | Tests des modèles, validations, catalogue et fonctions centrales |
-| `public/` | Manifeste et service worker |
+| `npm run dev` | Serveur de développement avec rechargement à chaud |
+| `npm test` | Tests (modèles scientifiques, exercices, catalogue) |
+| `npm run build` | Vérification TypeScript et build de production dans `dist/` |
+| `npm run preview` | Sert le build pour le tester, service worker compris |
 
-La séance guidée (`src/pages/SeanceView.tsx`) lit `src/data/modules/dosage-fort-fort.json` via `src/features/seance/logic.ts`. La séance et le labo pilotent le montage SVG de `src/engine/` par le hook `src/features/titration/useTitration.ts`. Le fichier `src/main.ts` contient une ancienne implémentation impérative : ce n’est pas l’entrée chargée par `index.html`.
+### Technologies
 
-## Ajouter un exercice
+React 18, React Router 7 (`HashRouter`, compatible hors ligne et hébergement statique), Tailwind CSS 4, TypeScript, Vite 6 et Vitest 3. Les polices Atkinson Hyperlegible sont embarquées dans le build.
 
-### Préparer les données pédagogiques
+### Où commencer
 
-La page **Contribuer** télécharge un JSON de départ. Le schéma est défini dans `src/types.ts` (`ModuleConfig`). Un module comprend notamment :
+- [Architecture du code](docs/developpeurs/architecture.md)
+- [Ajouter un exercice](docs/developpeurs/ajouter-un-exercice.md), à partir d’une proposition d’enseignant
+- [Principes de design](docs/developpeurs/design.md) : lisibilité en projection, mobile, Tailwind uniquement
+- [Déploiement](docs/developpeurs/deploiement.md) (Cloudflare Workers)
 
-- `id`, `version`, `titre`, `matiere`, `niveau` et `description` ;
-- `grandeurs`, une table de symboles avec intitulé, unité, bornes et valeur par défaut ;
-- `variantes`, qui précise l’inconnue, les grandeurs fournies, la formule et la consigne ;
-- `vues`, les instruments et graphiques prévus ;
-- `tolerance`, l’écart relatif admis ;
-- `modele`, une référence documentaire au modèle scientifique.
-
-Les expressions de formule prises en charge par `src/core/formulaEvaluator.ts` sont l’addition, la soustraction, la multiplication, la division, le modulo, les parenthèses et les puissances `^`. Les noms de variables doivent correspondre aux clés de `grandeurs`.
-
-### Brancher l’exercice à l’application
-
-Le chargement dynamique des modules n’est pas encore implémenté. Pour rendre un nouvel exercice interactif, il faut donc également :
-
-1. Ajouter ou adapter les données dans `src/data/modules/`.
-2. Écrire le calcul scientifique dans `src/models/` et tester les cas limites.
-3. Relier les données et le modèle à la vue de simulation. La sélection du module et de ses variantes doit être intégrée à `src/features/seance/`.
-4. Ajouter ou réutiliser les composants de `src/ui/` et `src/features/`.
-5. Si l’expérience nécessite un montage ou une animation, compléter le rendu SVG et le moteur dans `src/engine/`.
-6. Ajouter des tests dans `tests/`, puis lancer `npm test` et `npm run build`.
-
-Un exercice qui réutilise un modèle et un rendu existants peut demander peu de code, mais le fichier JSON seul ne suffit pas encore à l’enregistrer dans l’interface. Pour ajouter un nouveau type d’expérience, documentez les équations, unités, hypothèses, cas limites, observations attendues et consignes de sécurité.
-
-## Ajouter un instrument au catalogue
-
-Les fiches sont dans `src/data/catalog/`. Elles décrivent le rôle, la précision, les étapes d’utilisation, les erreurs fréquentes, la sécurité et les niveaux concernés. Les schémas sont dans `src/components/svg/`; le catalogue et ses fiches sont rendus par `src/pages/CatalogView.tsx` (`/materiel` et `/materiel/:id`). Ajoutez un test si vous modifiez le format ou le comportement des fiches.
-
-## Contribution au projet
-
-1. Créez une branche dédiée à votre changement (`feature/...` ou `fix/...`).
-2. Gardez les changements concentrés et documentez les décisions pédagogiques ou scientifiques.
-3. Ajoutez ou mettez à jour les tests utiles.
-4. Lancez `npm test` et `npm run build`.
-5. Ouvrez une pull request avec le contexte, les étapes pour vérifier le changement et, pour les exercices, les sources et la solution de référence.
-
-Les propositions sont relues pour leur justesse scientifique, les unités, la sécurité des manipulations, l’accessibilité et l’adéquation aux programmes des classes visées. Les détails pour les contributions pédagogiques sont dans [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Déploiement et fonctionnement hors ligne
-
-Le projet se construit avec `npm run build` dans `dist/`. Wrangler peut détecter le projet Vite ; Vite 6 est requis par sa configuration automatique. Pour un déploiement Cloudflare, configurez la commande de build `npm run build` et le dossier de sortie `dist`.
-
-Un service worker est fourni dans `public/sw.js`. Il met en cache la page d’entrée et le manifeste et peut retourner la page d’entrée pour une navigation hors ligne. Il ne met pas actuellement en cache de façon explicite tous les bundles générés ni les polices distantes. La disponibilité hors ligne complète doit donc être vérifiée sur l’hébergement ciblé avant une utilisation sans connexion.
+Les tickets marqués [`bon premier ticket`](https://github.com/Gecnos/wamon/labels/bon%20premier%20ticket) sont un bon point d’entrée. Lisez [CONTRIBUTING.md](CONTRIBUTING.md) avant d’ouvrir une pull request.
 
 ## Licences
 
-- Code : MIT.
-- Contenus pédagogiques : CC BY-SA.
+- Code : [MIT](LICENSE).
+- Contenus pédagogiques (énoncés, fiches de matériel, corrections) : [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr).
 
-Merci d’indiquer les sources et les crédits des contenus, données et schémas adaptés. Vérifiez la licence des contributions avant de les intégrer.
+Merci de citer les sources des énoncés et des données que vous adaptez.
 
-## Déploiement (Cloudflare Workers)
+## Code de conduite
 
-Le site est servi comme contenu statique par Cloudflare Workers. La configuration est dans `wrangler.jsonc` : elle sert `dist/`, et le bloc `previews` est requis par `wrangler preview`.
-
-Dans le tableau de bord Cloudflare, sous **Workers & Pages → wamon → Settings → Builds** :
-
-| Réglage | Valeur |
-| --- | --- |
-| Build command | `npm run build` |
-| Deploy command (branche de production) | `npx wrangler deploy` |
-| Non-production branch deploy command | `npx wrangler preview` |
-
-La commande de build doit être réglée dans le tableau de bord, car `wrangler preview` n'exécute pas le `build.command` du fichier de configuration. `wrangler deploy`, lui, l'exécute.
-
-Pour vérifier la configuration sans rien publier : `npx wrangler deploy --dry-run`.
+Wamon réunit des professeurs, des élèves et des développeurs. Chacun s’engage à respecter le [code de conduite](CODE_OF_CONDUCT.md).

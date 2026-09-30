@@ -1,0 +1,35 @@
+name: Signaler un problème
+description: Un bouton qui ne marche pas, un affichage cassé, une erreur scientifique…
+labels: ["problème"]
+body:
+  - type: textarea
+    id: probleme
+    attributes:
+      label: Que s’est-il passé ?
+      description: Ce que vous faisiez, ce que vous attendiez, ce qui s’est passé à la place.
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Adresse de la page
+      placeholder: …/#/seance/dilution/experience
+  - type: dropdown
+    id: appareil
+    attributes:
+      label: Appareil
+      options:
+        - Ordinateur relié à un vidéoprojecteur
+        - Ordinateur
+        - Tablette
+        - Téléphone
+  - type: input
+    id: navigateur
+    attributes:
+      label: Navigateur
+      placeholder: Chrome, Edge, Firefox, Safari…
+  - type: textarea
+    id: capture
+    attributes:
+      label: Capture d’écran (facultatif)
+      description: Glissez une image dans ce champ.
