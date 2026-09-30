@@ -8,8 +8,8 @@ const base =
   'inline-flex select-none items-center justify-center gap-2 rounded-xl font-semibold transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-45';
 
 const variants: Record<Variant, string> = {
-  primary: 'bg-brand text-white shadow-sm hover:bg-brand-strong',
-  accent: 'bg-accent text-white shadow-sm hover:bg-[#843609]',
+  primary: 'bg-encre text-white shadow-sm hover:bg-encre-strong',
+  accent: 'bg-encre text-white shadow-sm hover:bg-[#9d2415]',
   secondary: 'border border-line-strong bg-surface text-ink hover:border-ink-2 hover:bg-sunken',
   ghost: 'text-ink-2 hover:bg-sunken hover:text-ink',
 };
