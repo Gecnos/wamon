@@ -1,4 +1,30 @@
-node_modules
-dist
+# Dépendances (réinstallées par `npm ci`)
+node_modules/
+
+# Build et caches
+dist/
+*.tsbuildinfo
+.vite/
+.wrangler/
+coverage/
+
+# Variables d'environnement locales
+.env
+.env.*
+.dev.vars
+!.env.example
+
+# Outils d'assistants IA locaux
+.agents/
+skills-lock.json
+
+# Éditeurs et système
+.vscode/*
+!.vscode/extensions.json
+.idea/
 .DS_Store
+Thumbs.db
+
+# Journaux
 *.log
+npm-debug.log*

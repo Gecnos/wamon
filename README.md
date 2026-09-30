@@ -4,7 +4,12 @@
 
 ## État du projet
 
-Le premier parcours interactif est le dosage d’un acide fort par une base forte. Il comprend le réglage des paramètres, la réponse de la classe, la simulation du versement, le changement de couleur d’un indicateur, une courbe et la comparaison de groupes. L’application contient aussi un catalogue illustré du matériel, une page de présentation pour les enseignants et un formulaire qui télécharge un modèle d’exercice JSON.
+Le premier parcours interactif est le dosage d’un acide fort par une base forte. Il existe sous deux formes :
+
+- **Séance guidée** (`/seance/…`), pour l’enseignant qui projette : quatre étapes (faire calculer, entrer la réponse de la classe, lancer l’expérience, comparer), un seul bouton principal par écran, réponses par groupe et correction détaillée à la demande.
+- **Labo libre** (`/labo`), pour manipuler soi-même, y compris sur téléphone : choix de l’acide, de la base, des concentrations, de la burette et de l’indicateur, versement goutte à goutte ou robinet ouvert, relevé des mesures et tracé de sa propre courbe.
+
+Un **mode projection** agrandit toute l’interface et masque les réglages. L’application contient aussi un catalogue illustré du matériel (une page par instrument), un guide enseignant et un formulaire qui télécharge un modèle d’exercice JSON.
 
 Le fichier de données de dilution et son modèle de calcul sont présents, mais cet exercice n’est pas encore intégré au parcours de simulation React. Les modules JSON ne sont pas encore chargés automatiquement : ajouter un fichier seul ne le rend pas disponible dans l’application.
 
@@ -12,7 +17,7 @@ Le fichier de données de dilution et son modèle de calcul sont présents, mais
 
 ### Prérequis
 
-- Node.js 18 ou ultérieur
+- Node.js 20.19 ou ultérieur
 - npm
 - Git
 
@@ -37,27 +42,30 @@ npm test          # tests automatisés Vitest
 npm run test:watch
 ```
 
-Le dépôt utilise React 18, TypeScript, Vite 6, le plugin React pour Vite et Vitest 3. `npm run build` est la vérification à lancer avant une proposition de changement. Les configurations TypeScript de l’application et de Vite sont séparées dans `tsconfig.app.json` et `tsconfig.node.json`.
+Le dépôt utilise React 18, React Router 7, Tailwind CSS 4, TypeScript, Vite 6, le plugin React pour Vite et Vitest 3. Chaque écran et chaque étape de séance a sa propre URL (`HashRouter`, pour fonctionner hors ligne et sur un hébergement statique) : le bouton « retour » du navigateur revient à l’écran précédent. L’état de la séance est conservé dans `sessionStorage`. L’interface est écrite uniquement avec des classes Tailwind ; `src/styles/app.css` ne contient que le thème (couleurs, polices) et la variante `projection:`. `npm run build` est la vérification à lancer avant une proposition de changement. Les configurations TypeScript de l’application et de Vite sont séparées dans `tsconfig.app.json` et `tsconfig.node.json`.
 
 ## Architecture du code
 
-L’entrée HTML charge `src/main.tsx`, qui monte `src/App.tsx`. `src/pages/AppShell.tsx` gère la navigation entre les écrans.
+L’entrée HTML charge `src/main.tsx`, qui monte `src/App.tsx`. Les routes sont déclarées dans `src/App.tsx` ; `src/pages/AppShell.tsx` affiche l’en-tête, la navigation et le bouton de projection.
 
 | Emplacement | Responsabilité |
 | --- | --- |
-| `src/pages/` | Accueil, simulation, catalogue, guide de classe et contribution |
-| `src/components/` | Formulaires, courbe, groupes, résultats et composants d’interface |
+| `src/pages/` | Accueil, séance guidée, labo libre, matériel, guide et contribution |
+| `src/features/seance/` | Étapes de la séance guidée, état partagé et calculs de comparaison |
+| `src/features/titration/` | Paillasse animée, courbe, lecture des mesures et choix de l’indicateur |
+| `src/ui/` | Composants d’interface réutilisables (boutons, champ numérique, icônes) |
+| `src/lib/` | Formatage des nombres, stockage local, mode projection |
 | `src/data/modules/` | Données descriptives des exercices au format JSON |
 | `src/data/catalog/` | Fiches JSON du matériel de laboratoire |
 | `src/models/` | Calculs et modèles scientifiques indépendants de l’interface |
 | `src/engine/` | Dessin SVG du montage et animation de l’expérience |
 | `src/core/` | Fonctions génériques : validation des résultats, formules et export JSON |
 | `src/components/svg/` | Schémas SVG des instruments du catalogue |
-| `src/styles/` | Styles de base et styles de l’expérience Wamon |
+| `src/styles/app.css` | Point d’entrée Tailwind et thème |
 | `tests/` | Tests des modèles, validations, catalogue et fonctions centrales |
 | `public/` | Manifeste et service worker |
 
-La simulation React active est `src/pages/SimulationView.tsx`. Elle importe actuellement explicitement `src/data/modules/dosage-fort-fort.json`, le modèle `src/models/dosageFortFort.ts` et les fonctions de rendu/animation dans `src/engine/`. Le fichier `src/main.ts` contient une ancienne implémentation impérative : ce n’est pas l’entrée chargée par `index.html`.
+La séance guidée (`src/pages/SeanceView.tsx`) lit `src/data/modules/dosage-fort-fort.json` via `src/features/seance/logic.ts`. La séance et le labo pilotent le montage SVG de `src/engine/` par le hook `src/features/titration/useTitration.ts`. Le fichier `src/main.ts` contient une ancienne implémentation impérative : ce n’est pas l’entrée chargée par `index.html`.
 
 ## Ajouter un exercice
 
@@ -80,8 +88,8 @@ Le chargement dynamique des modules n’est pas encore implémenté. Pour rendre
 
 1. Ajouter ou adapter les données dans `src/data/modules/`.
 2. Écrire le calcul scientifique dans `src/models/` et tester les cas limites.
-3. Relier les données et le modèle à la vue de simulation. La sélection du module et de ses variantes doit être intégrée à `src/pages/SimulationView.tsx`.
-4. Ajouter ou réutiliser les commandes de saisie dans `src/components/`.
+3. Relier les données et le modèle à la vue de simulation. La sélection du module et de ses variantes doit être intégrée à `src/features/seance/`.
+4. Ajouter ou réutiliser les composants de `src/ui/` et `src/features/`.
 5. Si l’expérience nécessite un montage ou une animation, compléter le rendu SVG et le moteur dans `src/engine/`.
 6. Ajouter des tests dans `tests/`, puis lancer `npm test` et `npm run build`.
 
@@ -89,7 +97,7 @@ Un exercice qui réutilise un modèle et un rendu existants peut demander peu de
 
 ## Ajouter un instrument au catalogue
 
-Les fiches sont dans `src/data/catalog/`. Elles décrivent le rôle, la précision, les étapes d’utilisation, les erreurs fréquentes, la sécurité et les niveaux concernés. Les schémas sont dans `src/components/svg/`; le catalogue et ses détails sont rendus par les composants de `src/pages/CatalogView.tsx` et `src/components/catalog/`. Ajoutez un test si vous modifiez le format ou le comportement des fiches.
+Les fiches sont dans `src/data/catalog/`. Elles décrivent le rôle, la précision, les étapes d’utilisation, les erreurs fréquentes, la sécurité et les niveaux concernés. Les schémas sont dans `src/components/svg/`; le catalogue et ses fiches sont rendus par `src/pages/CatalogView.tsx` (`/materiel` et `/materiel/:id`). Ajoutez un test si vous modifiez le format ou le comportement des fiches.
 
 ## Contribution au projet
 
@@ -113,3 +121,19 @@ Un service worker est fourni dans `public/sw.js`. Il met en cache la page d’en
 - Contenus pédagogiques : CC BY-SA.
 
 Merci d’indiquer les sources et les crédits des contenus, données et schémas adaptés. Vérifiez la licence des contributions avant de les intégrer.
+
+## Déploiement (Cloudflare Workers)
+
+Le site est servi comme contenu statique par Cloudflare Workers. La configuration est dans `wrangler.jsonc` : elle sert `dist/`, et le bloc `previews` est requis par `wrangler preview`.
+
+Dans le tableau de bord Cloudflare, sous **Workers & Pages → wamon → Settings → Builds** :
+
+| Réglage | Valeur |
+| --- | --- |
+| Build command | `npm run build` |
+| Deploy command (branche de production) | `npx wrangler deploy` |
+| Non-production branch deploy command | `npx wrangler preview` |
+
+La commande de build doit être réglée dans le tableau de bord, car `wrangler preview` n'exécute pas le `build.command` du fichier de configuration. `wrangler deploy`, lui, l'exécute.
+
+Pour vérifier la configuration sans rien publier : `npx wrangler deploy --dry-run`.
