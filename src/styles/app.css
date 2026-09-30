@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+/* Mode projection : la classe `projection` est posée sur <html>. */
+@custom-variant projection (&:where(.projection, .projection *));
+
+@theme {
+  --font-sans: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* Fond clair, texte sombre : la combinaison la plus sûre sur un vidéoprojecteur. */
+  --color-paper: #f5f3ea;
+  --color-surface: #ffffff;
+  --color-sunken: #ece9dd;
+  --color-line: #d3d8cc;
+  --color-line-strong: #9aa79a;
+  --color-ink: #0e2219;
+  --color-ink-2: #3a4e44;
+  --color-brand: #1b5a3d;
+  --color-brand-strong: #103b27;
+  --color-brand-soft: #e0ece3;
+  --color-accent: #a3440c;
+  --color-accent-soft: #fbe8d9;
+  --color-ok: #17683b;
+  --color-ok-soft: #dff2e5;
+  --color-bad: #a1301c;
+  --color-bad-soft: #fbe3dc;
+
+  --animate-fade-in: fade-in 220ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: none; }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
+  }
+
+  /* Tout est en rem : agrandir la racine agrandit toute l'interface. */
+  html.projection {
+    font-size: 125%;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    min-height: 100dvh;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  .projection :focus-visible {
+    outline-width: 4px;
+  }
+
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}
+
