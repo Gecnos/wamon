@@ -113,3 +113,19 @@ Un service worker est fourni dans `public/sw.js`. Il met en cache la page d’en
 - Contenus pédagogiques : CC BY-SA.
 
 Merci d’indiquer les sources et les crédits des contenus, données et schémas adaptés. Vérifiez la licence des contributions avant de les intégrer.
+
+## Déploiement (Cloudflare Workers)
+
+Le site est servi comme contenu statique par Cloudflare Workers. La configuration est dans `wrangler.jsonc` : elle sert `dist/`, et le bloc `previews` est requis par `wrangler preview`.
+
+Dans le tableau de bord Cloudflare, sous **Workers & Pages → wamon → Settings → Builds** :
+
+| Réglage | Valeur |
+| --- | --- |
+| Build command | `npm run build` |
+| Deploy command (branche de production) | `npx wrangler deploy` |
+| Non-production branch deploy command | `npx wrangler preview` |
+
+La commande de build doit être réglée dans le tableau de bord, car `wrangler preview` n'exécute pas le `build.command` du fichier de configuration. `wrangler deploy`, lui, l'exécute.
+
+Pour vérifier la configuration sans rien publier : `npx wrangler deploy --dry-run`.
