@@ -15,7 +15,7 @@ export function Readout({ volume, maxVb, pH, color, colorLabel }: ReadoutProps) 
       <div className="p-3 sm:p-4">
         <dt className="text-sm font-semibold text-ink-2">Volume versé</dt>
         <dd className="mt-1 text-2xl font-bold tabular-nums text-ink sm:text-3xl">{fmt(volume, 1)}<span className="ml-1 text-base font-semibold text-ink-2">mL</span></dd>
-        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-sunken" aria-hidden="true"><div className="h-full rounded-full bg-brand transition-[width] duration-150" style={{ width: `${Math.min(100, (volume / maxVb) * 100)}%` }} /></div>
+        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-sunken" aria-hidden="true"><div className="h-full rounded-full bg-encre transition-[width] duration-150" style={{ width: `${Math.min(100, (volume / maxVb) * 100)}%` }} /></div>
       </div>
       <div className="p-3 sm:p-4">
         <dt className="text-sm font-semibold text-ink-2">pH</dt>

@@ -50,10 +50,10 @@ export function NumberField({ label, symbol, unit, value, onChange, min = 0, max
   return (
     <div className="min-w-0">
       <label htmlFor={id} className={`flex items-baseline gap-2 font-semibold text-ink ${big ? 'text-lg' : 'text-[0.95rem]'}`}>
-        {symbol && <span className="font-mono text-brand">{symbol}</span>}
+        {symbol && <span className="font-mono text-encre">{symbol}</span>}
         <span>{label}</span>
       </label>
-      <div className={`mt-2 flex items-stretch overflow-hidden rounded-xl border-2 border-line bg-surface focus-within:border-brand ${big ? 'h-20' : 'h-12'}`}>
+      <div className={`mt-2 flex items-stretch overflow-hidden rounded-xl border-2 border-line bg-surface focus-within:border-encre ${big ? 'h-20' : 'h-12'}`}>
         <button type="button" className={`${control} border-r border-line`} onClick={() => nudge(-1)} disabled={value !== null && value <= min} aria-label={`Diminuer ${label}`}>
           <Minus size={big ? 26 : 18} />
         </button>

@@ -1,42 +1,79 @@
 @import "tailwindcss";
+/* Polices embarquées dans le build : l'application reste lisible hors ligne. */
+@import "@fontsource-variable/atkinson-hyperlegible-next";
+@import "@fontsource-variable/atkinson-hyperlegible-mono";
 
 /* Mode projection : la classe `projection` est posée sur <html>. */
 @custom-variant projection (&:where(.projection, .projection *));
 
+/*
+ * Direction « cahier de TP » : papier blanc, encre bleue, papier millimétré
+ * pour les mesures, stylo rouge pour la correction, surligneur pour la
+ * réponse de la classe. Atkinson Hyperlegible a été dessinée pour la
+ * lisibilité à distance et en basse vision : idéal pour un vidéoprojecteur.
+ */
 @theme {
-  --font-sans: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, "Cascadia Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-sans: "Atkinson Hyperlegible Next Variable", system-ui, sans-serif;
+  --font-mono: "Atkinson Hyperlegible Mono Variable", ui-monospace, monospace;
 
-  /* Fond clair, texte sombre : la combinaison la plus sûre sur un vidéoprojecteur. */
-  --color-paper: #f5f3ea;
+  --color-paper: #f3f5f9;
   --color-surface: #ffffff;
-  --color-sunken: #ece9dd;
-  --color-line: #d3d8cc;
-  --color-line-strong: #9aa79a;
-  --color-ink: #0e2219;
-  --color-ink-2: #3a4e44;
-  --color-brand: #1b5a3d;
-  --color-brand-strong: #103b27;
-  --color-brand-soft: #e0ece3;
-  --color-accent: #a3440c;
-  --color-accent-soft: #fbe8d9;
-  --color-ok: #17683b;
-  --color-ok-soft: #dff2e5;
-  --color-bad: #a1301c;
-  --color-bad-soft: #fbe3dc;
+  --color-sunken: #eaeef5;
+  --color-grid: #d5deea;
+  --color-grid-fine: #e8edf5;
+  --color-line: #d2d9e4;
+  --color-line-strong: #93a0b6;
 
-  --animate-fade-in: fade-in 220ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --color-ink: #13203a;
+  --color-ink-2: #46526a;
 
-  @keyframes fade-in {
+  --color-encre: #1e44c4;
+  --color-encre-strong: #142f8e;
+  --color-encre-soft: #e6ebfb;
+
+  --color-rouge: #c02d1c;
+  --color-rouge-soft: #fce6e2;
+  --color-vert: #127546;
+  --color-vert-soft: #ddf2e6;
+  --color-surligneur: #ffe45c;
+
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+
+  --animate-enter: enter 240ms var(--ease-out-strong) both;
+  --animate-shake: shake 700ms var(--ease-in-out-strong) 1;
+
+  @keyframes enter {
     from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: none; }
   }
+
+  /* Retourner la fiole pour homogénéiser. */
+  @keyframes shake {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-8deg); }
+    60% { transform: rotate(6deg); }
+  }
+}
+
+/* Papier millimétré : lignes fines tous les 8 px, épaisses tous les 40 px. */
+@utility bg-millimetre {
+  background-color: var(--color-surface);
+  background-image:
+    linear-gradient(var(--color-grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
+    linear-gradient(var(--color-grid-fine) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-grid-fine) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px;
+  background-position: -1px -1px;
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
     scroll-padding-top: 5rem;
+    font-optical-sizing: auto;
   }
 
   /* Tout est en rem : agrandir la racine agrandit toute l'interface. */
@@ -49,8 +86,29 @@
     min-height: 100dvh;
   }
 
+  /* 16 px minimum : iOS ne zoome plus sur les champs. */
+  input,
+  textarea,
+  select {
+    font-size: max(1rem, 16px);
+  }
+
+  button,
+  a,
+  summary,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+
+  button,
+  summary,
+  [role="button"] {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   :focus-visible {
-    outline: 3px solid var(--color-brand);
+    outline: 3px solid var(--color-encre);
     outline-offset: 2px;
   }
 
@@ -64,4 +122,3 @@
     margin: 0;
   }
 }
-
