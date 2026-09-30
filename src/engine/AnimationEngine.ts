@@ -196,13 +196,16 @@ export class AnimationEngine {
         if (this.mode === 'fast' && this.currentVb >= this.fastTarget) {
           this._showStream(false);
           this.mode = 'idle';
+          this.rafId = null;
           this._syncValveColor();
+          this._dispatchVolumeChange();
           this._startDropOnlyLoop();
           return;
         }
 
         if (this.currentVb >= this.config.maxVb) {
           this.stop();
+          this._dispatchVolumeChange();
           this._startDropOnlyLoop();
           return;
         }
