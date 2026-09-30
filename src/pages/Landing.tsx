@@ -1,78 +1,112 @@
-import type { AppView } from '../App';
+import { Link } from 'react-router-dom';
+import { LinkButton } from '../ui/Button';
+import { ArrowRight, Board, Flask } from '../ui/icons';
+import { STEPS } from '../features/seance/logic';
 
-interface LandingProps {
-  onStart: (view: AppView) => void;
-}
-
-function LabIllustration() {
+function SessionPreview() {
   return (
-    <div className="home-lab" aria-label="Illustration d’un dosage acido-basique">
-      <div className="lab-topline"><span className="lab-live-dot" /> TP DE CHIMIE · EN DIRECT</div>
-      <svg className="lab-svg" viewBox="0 0 520 340" role="img" aria-hidden="true">
-        <defs>
-          <linearGradient id="solution" x1="0" x2="0" y1="0" y2="1"><stop stopColor="#efaa4b" stopOpacity=".35"/><stop offset="1" stopColor="#db7848" stopOpacity=".78"/></linearGradient>
-          <linearGradient id="glass" x1="0" x2="1"><stop stopColor="#fff" stopOpacity=".12"/><stop offset=".5" stopColor="#fff" stopOpacity=".52"/><stop offset="1" stopColor="#fff" stopOpacity=".08"/></linearGradient>
-        </defs>
-        <path d="M113 40h294M373 40v32M367 72h12M373 72v142" fill="none" stroke="#74877e" strokeWidth="5" strokeLinecap="round"/>
-        <path d="M373 214v13" stroke="#d9e5da" strokeWidth="3" />
-        <path className="lab-drop" d="M373 239c-8 12-8 17 0 21 8-4 8-9 0-21Z" fill="#e69a46"/>
-        <path d="M350 88h46M351 89v104c0 6 5 10 11 10h24c6 0 11-4 11-10V89" fill="url(#glass)" stroke="#d9e5da" strokeWidth="3"/>
-        <path d="M356 115h36M356 133h22M356 151h36M356 169h22" stroke="#d9e5da" strokeWidth="2" opacity=".8"/>
-        <path d="M233 170h54v54l57 83c5 8-1 17-10 17H132c-9 0-15-9-10-17l57-83v-54h54Z" fill="url(#glass)" stroke="#d9e5da" strokeWidth="3"/>
-        <path d="M162 262h152l28 42c3 5 0 10-6 10H137c-6 0-9-5-6-10l31-42Z" fill="url(#solution)"/>
-        <path d="M214 171h92M184 228h98" stroke="#d9e5da" strokeWidth="3" strokeLinecap="round"/>
-        <path d="M111 327h303" stroke="#74877e" strokeWidth="4" strokeLinecap="round"/>
-        <circle cx="188" cy="276" r="4" fill="#fff4d6" opacity=".8"/><circle cx="245" cy="294" r="3" fill="#fff4d6" opacity=".8"/><circle cx="286" cy="279" r="5" fill="#fff4d6" opacity=".65"/>
-        <text x="392" y="131" fill="#dce8dd" fontSize="12" fontFamily="monospace">NaOH</text>
-        <text x="175" y="300" fill="#fff4d6" fontSize="12" fontFamily="monospace">HCl + indicateur</text>
-      </svg>
-      <div className="lab-caption"><span>Volume versé</span><strong>14,8 mL</strong><span className="lab-caption-divider"/><span>Virage de l’indicateur</span><i className="lab-color-dot" /></div>
+    <div className="relative rounded-3xl border border-line bg-surface p-5 shadow-[0_20px_60px_-30px_rgba(14,34,25,0.45)] sm:p-7" aria-hidden="true">
+      <div className="flex items-center justify-between text-sm font-semibold text-ink-2">
+        <span>Séance · Dosage acide fort / base forte</span>
+        <span className="rounded-full bg-brand-soft px-2.5 py-1 text-brand-strong">Étape 1 sur 4</span>
+      </div>
+      <p className="mt-5 text-xl font-bold leading-snug text-ink sm:text-2xl">Calculer le volume équivalent V<sub>e</sub> de soude nécessaire pour doser cet acide.</p>
+      <div className="mt-5 grid grid-cols-3 gap-2 sm:gap-3">
+        {[['Ca', '0,1', 'mol/L'], ['Va', '20', 'mL'], ['Cb', '0,1', 'mol/L']].map(([symbol, value, unit]) => (
+          <div key={symbol} className="rounded-xl bg-sunken p-3">
+            <p className="font-mono text-sm text-ink-2">{symbol}</p>
+            <p className="mt-1 text-xl font-bold tabular-nums text-ink sm:text-2xl">{value} <span className="text-sm font-semibold text-ink-2">{unit}</span></p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-6 flex items-center gap-2">
+        {STEPS.map((step, i) => (
+          <div key={step.id} className="flex flex-1 flex-col gap-1.5">
+            <span className={`h-1.5 rounded-full ${i === 0 ? 'bg-brand' : 'bg-line'}`} />
+            <span className={`hidden text-xs font-semibold sm:block ${i === 0 ? 'text-brand-strong' : 'text-ink-2'}`}>{step.short}</span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
 
-export default function Landing({ onStart }: LandingProps) {
+export default function Landing() {
   return (
-    <div className="home-page">
-      <header className="home-nav">
-        <a className="home-brand" href="#accueil" aria-label="Wamon, accueil"><span className="brand-mark">W</span><span>Wamon<small>Le labo dans la classe</small></span></a>
-        <nav aria-label="Navigation du site">
-          <button onClick={() => onStart('simulation')}>Les simulations</button>
-          <button onClick={() => onStart('catalog')}>Le matériel</button>
-          <button onClick={() => onStart('contribute')}>Contribuer</button>
-        </nav>
-        <button className="home-nav-cta" onClick={() => onStart('simulation')}>Ouvrir le labo <span aria-hidden="true">↗</span></button>
-      </header>
-
-      <main id="accueil">
-        <section className="home-hero">
-          <div className="home-hero-copy">
-            <p className="home-eyebrow"><span /> PHYSIQUE-CHIMIE · SECONDAIRE</p>
-            <h1>La science se comprend <em>en la voyant.</em></h1>
-            <p className="home-intro">Wamon transforme les exercices de physique-chimie en expériences visibles, à faire ensemble au tableau — même sans laboratoire ni connexion Internet.</p>
-            <div className="home-actions">
-              <button className="home-button-primary" onClick={() => onStart('simulation')}>Lancer une expérience <span aria-hidden="true">→</span></button>
-              <button className="home-button-link" onClick={() => onStart('about')}>Découvrir comment ça marche <span aria-hidden="true">↓</span></button>
-            </div>
-            <div className="home-proof"><span className="proof-icon">⌁</span><span><strong>Gratuit · Libre · Hors ligne</strong><small>Conçu pour les réalités de la classe</small></span></div>
+    <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <section className="grid items-center gap-10 py-10 sm:py-16 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
+        <div>
+          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-semibold text-ink-2">
+            <Board size={16} className="text-brand" /> Pour les enseignants de physique-chimie
+          </p>
+          <h1 className="mt-5 text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
+            Vos exercices de chimie, vérifiés <span className="text-brand">par l’expérience.</span>
+          </h1>
+          <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-2">
+            Projetez un énoncé, laissez la classe calculer, puis réalisez le dosage devant elle. Les élèves voient si leur résultat tient debout — même sans laboratoire équipé ni connexion.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <LinkButton to="/seance/enonce" size="lg">Préparer une séance <ArrowRight /></LinkButton>
+            <LinkButton to="/labo" size="lg" variant="secondary">Manipuler librement</LinkButton>
           </div>
-          <LabIllustration />
-          <span className="home-index">01 — APPRENDRE EN EXPÉRIMENTANT</span>
-        </section>
+          <p className="mt-4 text-sm text-ink-2">Gratuit, libre et utilisable hors ligne. Aucun compte à créer.</p>
+        </div>
+        <SessionPreview />
+      </section>
 
-        <section className="home-topics" aria-labelledby="topics-title">
-          <div className="section-heading"><div><p className="home-eyebrow">LE LABORATOIRE VIRTUEL</p><h2 id="topics-title">Choisir un terrain d’expérience</h2></div><p>Des exercices du programme, pensés pour être projetés et discutés en classe.</p></div>
-          <div className="topic-list">
-            <button className="topic-row topic-ready" onClick={() => onStart('simulation')}>
-              <span className="topic-number">01</span><span className="topic-icon topic-chem">✳</span><span className="topic-title"><strong>Chimie</strong><small>Dosages, réactions et transformations</small></span><span className="topic-status"><i /> 1 simulation disponible</span><span className="topic-arrow">↗</span>
-            </button>
-            <div className="topic-row topic-soon"><span className="topic-number">02</span><span className="topic-icon topic-physics">⌁</span><span className="topic-title"><strong>Physique</strong><small>Électricité, mécanique et optique</small></span><span className="topic-status">En préparation</span><span className="topic-arrow">↗</span></div>
-          </div>
-          <div className="home-bottom-links"><button onClick={() => onStart('catalog')}>Explorer le matériel de laboratoire <span>→</span></button><button onClick={() => onStart('contribute')}>Proposer un exercice <span>→</span></button></div>
-        </section>
-      </main>
+      <section aria-labelledby="deroule" className="border-t border-line py-12 sm:py-16">
+        <h2 id="deroule" className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">Une séance se déroule en quatre temps</h2>
+        <p className="mt-2 max-w-2xl text-ink-2">Wamon vous guide d’une étape à l’autre. À chaque écran, un seul bouton principal vous dit quoi faire ensuite.</p>
+        <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {STEPS.map((step, i) => (
+            <li key={step.id} className="rounded-2xl border border-line bg-surface p-5">
+              <span className="grid size-10 place-items-center rounded-full bg-brand text-lg font-bold text-white">{i + 1}</span>
+              <h3 className="mt-4 text-lg font-bold text-ink">{step.label}</h3>
+              <p className="mt-1 text-ink-2">{step.hint}.</p>
+            </li>
+          ))}
+        </ol>
+      </section>
 
-      <footer className="home-footer"><a className="home-brand" href="#accueil"><span className="brand-mark">W</span><span>Wamon<small>Le labo dans la classe</small></span></a><p>Un projet libre pour faire de la science, partout.</p><div><span>Code MIT</span><span>·</span><span>Contenus CC BY-SA</span></div></footer>
+      <section aria-labelledby="modes" className="border-t border-line py-12 sm:py-16">
+        <h2 id="modes" className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">Deux façons de travailler</h2>
+        <div className="mt-8 grid gap-4 lg:grid-cols-2">
+          <Link to="/seance/enonce" className="group rounded-3xl border-2 border-brand bg-brand-soft p-6 transition-colors hover:bg-[#d3e5d8] sm:p-8">
+            <Board size={32} className="text-brand" />
+            <h3 className="mt-4 text-xl font-bold text-ink sm:text-2xl">Séance guidée</h3>
+            <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-brand-strong">L’enseignant projette, la classe cherche</p>
+            <p className="mt-3 text-ink-2">Vous choisissez les données, la classe calcule, vous saisissez sa réponse puis lancez le dosage. Wamon compare le résultat au modèle et aide à discuter les écarts entre groupes.</p>
+            <span className="mt-5 inline-flex items-center gap-2 font-bold text-brand-strong">Commencer une séance <ArrowRight className="transition-transform group-hover:translate-x-1" /></span>
+          </Link>
+          <Link to="/labo" className="group rounded-3xl border-2 border-line bg-surface p-6 transition-colors hover:border-line-strong sm:p-8">
+            <Flask size={32} className="text-accent" />
+            <h3 className="mt-4 text-xl font-bold text-ink sm:text-2xl">Labo libre</h3>
+            <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-accent">Chacun manipule à son rythme</p>
+            <p className="mt-3 text-ink-2">Choisissez l’acide, la base, les concentrations et l’indicateur. Versez goutte à goutte, relevez vos mesures et tracez votre propre courbe — sur ordinateur, tablette ou téléphone.</p>
+            <span className="mt-5 inline-flex items-center gap-2 font-bold text-accent">Ouvrir la paillasse <ArrowRight className="transition-transform group-hover:translate-x-1" /></span>
+          </Link>
+        </div>
+      </section>
+
+      <section aria-labelledby="experiences" className="border-t border-line py-12 sm:py-16">
+        <h2 id="experiences" className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">Expériences disponibles</h2>
+        <ul className="mt-6 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface">
+          <li>
+            <Link to="/seance/enonce" className="flex items-center gap-4 p-5 hover:bg-paper">
+              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand"><Flask /></span>
+              <span className="min-w-0 flex-1"><span className="block font-bold text-ink">Dosage d’un acide fort par une base forte</span><span className="block text-sm text-ink-2">Chimie · 1re et terminale · burette, bécher, indicateurs colorés, courbe pH</span></span>
+              <span className="hidden rounded-full bg-ok-soft px-3 py-1 text-sm font-semibold text-ok sm:inline">Disponible</span>
+              <ArrowRight className="text-ink-2" />
+            </Link>
+          </li>
+          <li className="flex items-center gap-4 p-5 text-ink-2">
+            <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-sunken"><Flask /></span>
+            <span className="min-w-0 flex-1"><span className="block font-bold">Dilution d’une solution mère</span><span className="block text-sm">Chimie · 2de · pipette et fiole jaugées</span></span>
+            <span className="rounded-full bg-sunken px-3 py-1 text-sm font-semibold">En préparation</span>
+          </li>
+        </ul>
+        <p className="mt-4 text-ink-2">Un exercice qui marche bien avec vos élèves ? <Link to="/contribuer" className="font-semibold text-ink underline underline-offset-4">Proposez-le</Link>.</p>
+      </section>
     </div>
   );
 }
