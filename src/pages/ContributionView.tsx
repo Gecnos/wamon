@@ -1,16 +1,24 @@
-import { useState } from 'react';
+import { useId, useState, type ReactNode } from 'react';
+import { Button } from '../ui/Button';
+
+const field = 'mt-2 block w-full rounded-xl border-2 border-line bg-surface px-3 py-2.5 text-lg text-ink outline-none focus:border-brand';
+
+function Field({ label, children }: { label: string; children: (id: string) => ReactNode }) {
+  const id = useId();
+  return <div><label htmlFor={id} className="font-semibold text-ink">{label}</label>{children(id)}</div>;
+}
 
 export default function ContributionView() {
   const [title, setTitle] = useState('Mon nouvel exercice');
   const [subject, setSubject] = useState<'chimie' | 'physique'>('chimie');
   const [level, setLevel] = useState('terminale');
-  const [description, setDescription] = useState('Décrire ici la situation et la question posée aux élèves.');
+  const [description, setDescription] = useState('');
 
   const downloadTemplate = () => {
     const id = title.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'nouvel-exercice';
     const module = {
       id, version: 1, titre: title, matiere: subject, niveau: [level],
-      description,
+      description: description || 'Décrire ici la situation et la question posée aux élèves.',
       grandeurs: {
         A: { label: 'Grandeur connue A', unite: 'unité', min: 0, max: 100, step: 1, default: 10 },
         B: { label: 'Grandeur connue B', unite: 'unité', min: 0, max: 100, step: 1, default: 5 },
@@ -29,27 +37,43 @@ export default function ContributionView() {
   };
 
   return (
-    <div className="contribute-page page-in">
-      <header className="contribute-heading"><p className="home-eyebrow">LE PROJET EST OUVERT</p><h1>Votre exercice peut devenir une expérience.</h1><p>Les enseignants connaissent les exercices qui parlent à leurs élèves. Aidez-nous à les rendre visibles.</p></header>
-      <div className="contribute-layout">
-        <section className="contribute-form-panel">
-          <div className="contribute-panel-title"><span>01</span><div><h2>Préparer une fiche</h2><p>Décrivez l’exercice, puis téléchargez son fichier de départ.</p></div></div>
-          <label>Titre de l’exercice<input value={title} onChange={e => setTitle(e.target.value)} maxLength={90} /></label>
-          <div className="contribute-fields"><label>Matière<select value={subject} onChange={e => setSubject(e.target.value as 'chimie' | 'physique')}><option value="chimie">Chimie</option><option value="physique">Physique</option></select></label><label>Niveau<input value={level} onChange={e => setLevel(e.target.value)} placeholder="ex. 1ère, terminale" /></label></div>
-          <label>Énoncé ou objectif<textarea rows={4} value={description} onChange={e => setDescription(e.target.value)} /></label>
-          <button className="home-button-primary contribute-download" onClick={downloadTemplate}>Télécharger le fichier modèle <span aria-hidden="true">↓</span></button>
-          <p className="contribute-note">Le fichier est généré dans votre navigateur. Aucune donnée n’est envoyée.</p>
+    <div className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-10">
+      <p className="text-sm font-bold uppercase tracking-wider text-accent">Contribuer</p>
+      <h1 className="mt-1 max-w-3xl text-3xl font-extrabold tracking-tight text-ink sm:text-4xl">Votre exercice peut devenir une expérience</h1>
+      <p className="mt-3 max-w-3xl text-lg text-ink-2">Vous connaissez les exercices qui parlent à vos élèves. Décrivez-en un : nous l’aiderons à devenir une séance Wamon.</p>
+
+      <div className="mt-8 grid items-start gap-5 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)]">
+        <section aria-labelledby="fiche" className="grid gap-5 rounded-3xl border border-line bg-surface p-5 sm:p-8">
+          <h2 id="fiche" className="text-xl font-bold text-ink">1. Préparer la fiche</h2>
+          <Field label="Titre de l’exercice">{id => <input id={id} className={field} value={title} onChange={e => setTitle(e.target.value)} maxLength={90} />}</Field>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Field label="Matière">{id => <select id={id} className={field} value={subject} onChange={e => setSubject(e.target.value as 'chimie' | 'physique')}><option value="chimie">Chimie</option><option value="physique">Physique</option></select>}</Field>
+            <Field label="Niveau">{id => <input id={id} className={field} value={level} onChange={e => setLevel(e.target.value)} placeholder="ex. 1re, terminale" />}</Field>
+          </div>
+          <Field label="Énoncé ou objectif">{id => <textarea id={id} className={field} rows={4} value={description} onChange={e => setDescription(e.target.value)} placeholder="Décrivez la situation et la question posée aux élèves." />}</Field>
+          <Button size="lg" onClick={downloadTemplate}>Télécharger le fichier modèle</Button>
+          <p className="text-sm text-ink-2">Le fichier est créé dans votre navigateur. Rien n’est envoyé.</p>
         </section>
-        <aside className="contribute-steps">
-          <div className="contribute-panel-title"><span>02</span><div><h2>De la fiche à la classe</h2><p>Un parcours ouvert, avec relecture pédagogique.</p></div></div>
-          <ol>
-            <li><i>1</i><span><strong>Compléter les données</strong><small>Renseignez les grandeurs, unités, formule et variantes dans le fichier JSON.</small></span></li>
-            <li><i>2</i><span><strong>Partager au projet</strong><small>Joignez le fichier, l’énoncé d’origine et la solution détaillée à une proposition Wamon.</small></span></li>
-            <li><i>3</i><span><strong>Relire et améliorer</strong><small>Les enseignants vérifient la justesse scientifique et l’adéquation au programme.</small></span></li>
+
+        <section aria-labelledby="parcours" className="rounded-3xl border border-line bg-surface p-5 sm:p-8">
+          <h2 id="parcours" className="text-xl font-bold text-ink">2. De la fiche à la classe</h2>
+          <ol className="mt-5 grid gap-5">
+            {[
+              ['Compléter les données', 'Renseignez grandeurs, unités, formule et variantes dans le fichier JSON.'],
+              ['Partager au projet', 'Joignez le fichier, l’énoncé d’origine et la solution détaillée à une proposition Wamon.'],
+              ['Relire et améliorer', 'Des enseignants vérifient la justesse scientifique et l’adéquation au programme.'],
+            ].map(([t, d], i) => (
+              <li key={t} className="flex gap-3">
+                <span className="grid size-9 shrink-0 place-items-center rounded-full bg-brand-soft font-bold text-brand-strong">{i + 1}</span>
+                <div><p className="font-bold text-ink">{t}</p><p className="text-ink-2">{d}</p></div>
+              </li>
+            ))}
           </ol>
-          <div className="contribute-boundary"><strong>Un nouveau type de simulation ?</strong><p>La fiche peut être préparée sans coder. Une nouvelle animation ou un nouveau modèle physique demande ensuite une petite adaptation technique ; le module de dosage sert de référence aux développeurs bénévoles.</p></div>
-          <div className="license-line"><span>CODE · MIT</span><span>CONTENUS · CC BY-SA</span></div>
-        </aside>
+          <div className="mt-6 rounded-2xl bg-sunken p-4 text-ink-2">
+            <p className="font-semibold text-ink">Une nouvelle animation ?</p>
+            <p className="mt-1">La fiche se prépare sans coder. Un nouveau modèle ou une nouvelle animation demande ensuite une adaptation technique ; le dosage sert de modèle aux développeurs bénévoles.</p>
+          </div>
+        </section>
       </div>
     </div>
   );
