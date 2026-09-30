@@ -2,7 +2,8 @@ import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import AppShell from './pages/AppShell';
 import Landing from './pages/Landing';
-import SeanceView from './pages/SeanceView';
+import ExercicesView from './pages/ExercicesView';
+import SeanceView, { SeanceRedirect } from './pages/SeanceView';
 import LaboView from './pages/LaboView';
 import CatalogView from './pages/CatalogView';
 import GuideView from './pages/GuideView';
@@ -26,15 +27,17 @@ export default function App() {
         <Routes>
           <Route element={<AppShell />}>
             <Route index element={<Landing />} />
-            <Route path="seance" element={<Navigate to="/seance/enonce" replace />} />
-            <Route path="seance/:etape" element={<SeanceView />} />
+            <Route path="exercices" element={<ExercicesView />} />
+            <Route path="seance" element={<Navigate to="/exercices" replace />} />
+            <Route path="seance/:exo" element={<SeanceRedirect />} />
+            <Route path="seance/:exo/:etape" element={<SeanceView />} />
             <Route path="labo" element={<LaboView />} />
             <Route path="materiel" element={<CatalogView />} />
             <Route path="materiel/:id" element={<CatalogView />} />
             <Route path="guide" element={<GuideView />} />
             <Route path="contribuer" element={<ContributionView />} />
             {/* Anciennes adresses */}
-            <Route path="simulation" element={<Navigate to="/seance/enonce" replace />} />
+            <Route path="simulation" element={<Navigate to="/exercices" replace />} />
             <Route path="classe" element={<Navigate to="/guide" replace />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

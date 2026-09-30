@@ -3,44 +3,46 @@ import { Check } from '../../ui/icons';
 import { STEPS } from './logic';
 
 interface StepperProps {
+  exerciseId: string;
   current: number;
   furthest: number;
 }
 
-export function Stepper({ current, furthest }: StepperProps) {
+/** Les quatre temps de la séance, reliés comme une frise. */
+export function Stepper({ exerciseId, current, furthest }: StepperProps) {
   return (
     <nav aria-label="Étapes de la séance">
-      {/* Mobile : une ligne de progression et le nom de l’étape. */}
-      <div className="sm:hidden">
-        <p className="text-sm font-semibold text-ink-2">Étape {current + 1} sur {STEPS.length}</p>
-        <div className="mt-2 flex gap-1.5">
-          {STEPS.map((step, i) => <span key={step.id} className={`h-1.5 flex-1 rounded-full ${i <= current ? 'bg-brand' : 'bg-line'}`} />)}
-        </div>
-      </div>
-
-      <ol className="hidden gap-2 sm:grid sm:grid-cols-4">
+      <ol className="grid grid-cols-4">
         {STEPS.map((step, i) => {
           const active = i === current;
           const done = i < current;
           const reachable = i <= furthest && !active;
-          const content = (
-            <>
-              <span className={`grid size-9 shrink-0 place-items-center rounded-full text-base font-bold ${active ? 'bg-white text-brand-strong' : done ? 'bg-brand text-white' : 'border-2 border-line-strong text-ink-2'}`}>
-                {done ? <Check size={18} /> : i + 1}
-              </span>
-              <span className="min-w-0 font-semibold leading-tight">{step.label}</span>
-            </>
+          const dot = (
+            <span className={`relative z-10 grid size-9 shrink-0 place-items-center rounded-full text-base font-bold transition-colors duration-200 sm:size-10 ${active ? 'bg-encre text-white ring-4 ring-encre-soft' : done ? 'bg-encre-soft text-encre-strong' : 'border-2 border-line-strong bg-surface text-ink-2'}`}>
+              {done ? <Check size={18} /> : i + 1}
+            </span>
           );
-          const cls = `flex min-h-16 items-center gap-3 rounded-2xl border-2 px-3 py-2 transition-colors ${active ? 'border-brand bg-brand text-white' : done ? 'border-brand/30 bg-brand-soft text-brand-strong' : 'border-line bg-surface text-ink-2'}`;
+          const label = (
+            <span className={`mt-2 hidden text-center text-sm leading-tight sm:block ${active ? 'font-bold text-ink' : 'font-medium text-ink-2'}`}>{step.label}</span>
+          );
           return (
-            <li key={step.id}>
-              {reachable
-                ? <Link to={`/seance/${step.id}`} className={`${cls} hover:border-brand`}>{content}</Link>
-                : <div className={cls} aria-current={active ? 'step' : undefined}>{content}</div>}
+            <li key={step.id} className="relative flex flex-col items-center">
+              {/* Trait vers l’étape suivante */}
+              {i < STEPS.length - 1 && <span aria-hidden="true" className={`absolute left-1/2 top-[1.375rem] h-0.5 w-full sm:top-6 ${i < current ? 'bg-encre' : 'bg-line'}`} />}
+              {reachable ? (
+                <Link to={`/seance/${exerciseId}/${step.id}`} className="group flex flex-col items-center rounded-xl p-1" aria-label={`Revenir à l’étape ${i + 1} : ${step.label}`}>
+                  <span className="rounded-full transition-shadow group-hover:ring-4 group-hover:ring-encre-soft">{dot}</span>{label}
+                </Link>
+              ) : (
+                <div className="flex flex-col items-center p-1" aria-current={active ? 'step' : undefined}>
+                  {dot}{label}
+                </div>
+              )}
             </li>
           );
         })}
       </ol>
+      <p className="mt-2 text-center text-sm font-semibold text-ink sm:hidden">Étape {current + 1} sur 4 : {STEPS[current].label}</p>
     </nav>
   );
 }

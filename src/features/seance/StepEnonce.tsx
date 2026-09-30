@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import type { Exercise } from '../../exercises';
+import { findVariant } from '../../exercises';
 import { useProjection } from '../../lib/projection';
 import { fmt } from '../../lib/format';
 import { Button } from '../../ui/Button';
@@ -6,70 +8,77 @@ import { NumberField } from '../../ui/NumberField';
 import { Close, Dice, Eye } from '../../ui/icons';
 import { IndicatorPicker } from '../titration/IndicatorPicker';
 import { useSeance } from './SeanceContext';
-import { config, equivalenceVolume, projectedData, quantity, randomParams, variante, type Params } from './logic';
 
-export const MAX_EQUIVALENCE = 45;
-
-/** Énoncé en grand, pensé pour être lu depuis le fond de la classe. */
-function ProjectedStatement() {
-  const { state } = useSeance();
-  const v = variante(state);
+/**
+ * L’énoncé est présenté comme une copie d’élève (marge rouge, lignes bleues) :
+ * un support que toute la classe reconnaît, lisible depuis le fond de la salle.
+ */
+function ProjectedStatement({ ex }: { ex: Exercise }) {
+  const { state } = useSeance(ex);
+  const v = findVariant(ex, state.variantId);
+  const unknown = ex.quantities[v.unknown];
   return (
-    <section aria-labelledby="enonce-titre" className="rounded-3xl border border-line bg-surface p-6 sm:p-10">
-      <p className="text-sm font-bold uppercase tracking-wider text-accent">Énoncé à projeter</p>
-      <h2 id="enonce-titre" className="mt-3 text-2xl font-bold leading-snug text-ink sm:text-3xl lg:text-4xl">{v.description}</h2>
-      <p className="mt-4 text-lg text-ink-2">
-        On dose une solution d’acide chlorhydrique par une solution d’hydroxyde de sodium (soude).
-      </p>
-      <dl className="mt-8 grid gap-3 sm:grid-cols-3">
-        {projectedData(state).map(d => (
-          <div key={d.key} className="rounded-2xl bg-sunken p-4 sm:p-5">
-            <dt className="text-base font-semibold text-ink-2">{d.name}</dt>
-            <dd className="mt-1 flex items-baseline gap-2">
-              <span className="font-mono text-lg text-brand">{d.key}&nbsp;=</span>
-              <span className="text-3xl font-bold tabular-nums text-ink sm:text-4xl">{fmt(d.value, 3)}</span>
-              <span className="text-lg font-semibold text-ink-2">{d.unit}</span>
-            </dd>
-          </div>
-        ))}
+    <section
+      aria-labelledby="enonce-titre"
+      className="relative overflow-hidden rounded-2xl border border-line bg-surface bg-[repeating-linear-gradient(to_bottom,transparent_0,transparent_2.25rem,#edf1f8_2.25rem,#edf1f8_calc(2.25rem+1px))] py-8 pr-6 pl-12 shadow-[0_1px_0_#d2d9e4,0_12px_32px_-24px_rgba(19,32,58,0.35)] sm:py-10 sm:pr-10 sm:pl-20"
+    >
+      <span aria-hidden="true" className="absolute inset-y-0 left-8 w-px bg-rouge/60 sm:left-14" />
+      <p className="text-lg text-ink-2">{ex.context}</p>
+      <h2 id="enonce-titre" className="mt-4 text-2xl font-bold leading-snug text-balance text-ink sm:text-3xl lg:text-[2.5rem] lg:leading-tight">{v.question}</h2>
+      <dl className="mt-8 flex flex-wrap gap-x-10 gap-y-5">
+        {v.given.map(key => {
+          const q = ex.quantities[key];
+          return (
+            <div key={key}>
+              <dt className="text-base text-ink-2">{q.name}</dt>
+              <dd className="mt-1 flex items-baseline gap-2 whitespace-nowrap">
+                <span className="font-mono text-xl text-encre">{q.symbol} =</span>
+                <span className="font-mono text-3xl font-bold tabular-nums text-ink sm:text-4xl">{fmt(ex.value(state.params, key), q.digits)}</span>
+                <span className="text-lg font-semibold text-ink-2">{q.unit}</span>
+              </dd>
+            </div>
+          );
+        })}
       </dl>
-      <p className="mt-8 border-t border-line pt-5 text-lg font-semibold text-ink">
-        Question : que vaut <span className="font-mono text-brand">{v.inconnue}</span> ? Donnez le résultat en {quantity(v.inconnue).unite}.
+      <p className="mt-10 text-xl font-bold text-ink">
+        Que vaut <span className="font-mono text-encre">{unknown.symbol}</span>&nbsp;? Donnez le résultat en {unknown.unit}.
       </p>
     </section>
   );
 }
 
-function Settings({ onClose }: { onClose?: () => void }) {
-  const { state, update } = useSeance();
-  const v = variante(state);
-  const setParam = (key: keyof Params) => (value: number | null) => {
+function Settings({ ex, onClose }: { ex: Exercise; onClose?: () => void }) {
+  const { state, update } = useSeance(ex);
+  const v = findVariant(ex, state.variantId);
+  const warning = ex.warning(state.params);
+  const reset = { classAnswer: null, furthest: 0 };
+
+  const setParam = (key: string) => (value: number | null) => {
     if (value === null) return;
-    update(s => ({ params: { ...s.params, [key]: value }, classAnswer: null, groups: s.groups.map(g => ({ ...g, value: null })), furthest: 0 }));
+    update(s => ({ ...reset, params: { ...s.params, [key]: value }, groups: s.groups.map(g => ({ ...g, value: null })) }));
   };
-  const ve = equivalenceVolume(state.params);
-  const fields: (keyof Params)[] = v.inconnue === 'Ve' ? ['Ca', 'Va', 'Cb'] : ['Va', 'Cb', 'Ca'];
 
   return (
-    <section aria-labelledby="reglages-titre" className="rounded-3xl border border-line bg-surface p-5 sm:p-6">
+    <section aria-labelledby="reglages-titre" className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
       <div className="flex items-start justify-between gap-3">
         <div>
           <h2 id="reglages-titre" className="text-lg font-bold text-ink">Préparer l’exercice</h2>
-          <p className="mt-0.5 text-sm text-ink-2">L’énoncé se met à jour à mesure. En mode projection, ce panneau est masqué.</p>
+          <p className="mt-0.5 text-[0.95rem] text-ink-2">L’énoncé se met à jour à mesure.</p>
         </div>
         {onClose && <button type="button" onClick={onClose} className="grid size-11 place-items-center rounded-xl hover:bg-sunken" aria-label="Fermer les réglages"><Close /></button>}
       </div>
 
       <fieldset className="mt-5 min-w-0">
-        <legend className="text-[0.95rem] font-semibold text-ink">Ce que la classe doit trouver</legend>
+        <legend className="font-semibold text-ink">Ce que la classe doit trouver</legend>
         <div className="mt-2 grid grid-cols-2 gap-2">
-          {config.variantes.map(item => {
+          {ex.variants.map(item => {
             const selected = item.id === v.id;
+            const q = ex.quantities[item.unknown];
             return (
-              <button key={item.id} type="button" aria-pressed={selected} onClick={() => update({ varianteId: item.id, classAnswer: null, furthest: 0 })}
-                className={`min-h-14 rounded-xl border-2 px-3 py-2 text-left transition-colors ${selected ? 'border-brand bg-brand-soft' : 'border-line hover:border-line-strong'}`}>
-                <span className="block font-mono text-sm text-brand">{item.inconnue}</span>
-                <span className="block font-semibold leading-tight text-ink">{quantity(item.inconnue).name}</span>
+              <button key={item.id} type="button" aria-pressed={selected} onClick={() => update({ ...reset, variantId: item.id })}
+                className={`min-h-14 rounded-xl border-2 px-3 py-2 text-left transition-colors duration-150 active:scale-[0.98] ${selected ? 'border-encre bg-encre-soft' : 'border-line hover:border-line-strong'}`}>
+                <span className="block font-mono text-sm text-encre">{q.symbol}</span>
+                <span className="block font-semibold leading-tight text-ink">{q.name}</span>
               </button>
             );
           })}
@@ -77,34 +86,33 @@ function Settings({ onClose }: { onClose?: () => void }) {
       </fieldset>
 
       <div className="mt-5 grid gap-4">
-        {fields.map(key => {
-          const q = quantity(key);
-          const secret = v.inconnue === key;
+        {ex.paramKeys.map(key => {
+          const q = ex.quantities[key];
+          const secret = v.unknown === key;
           return (
-            <NumberField key={key} symbol={key} label={secret ? `${q.name} (réelle, cachée)` : q.name} unit={q.unite} value={state.params[key]} onChange={setParam(key)} min={q.min} max={q.max} step={q.step}
-              hint={secret ? `Fixe le vrai résultat. Les élèves verront seulement Ve = ${fmt(ve, 2)} mL.` : undefined} />
+            <NumberField key={key} symbol={q.symbol} label={secret ? `${q.name} (cachée aux élèves)` : q.name} unit={q.unit}
+              value={state.params[key]} onChange={setParam(key)} min={q.min} max={q.max} step={q.step}
+              hint={secret ? 'C’est la vraie valeur, celle que l’expérience va révéler.' : undefined} />
           );
         })}
       </div>
 
-      {ve > MAX_EQUIVALENCE && (
-        <p role="alert" className="mt-4 rounded-xl bg-bad-soft p-3 text-sm font-semibold text-bad">
-          Avec ces données, l’équivalence est à {fmt(ve, 1)} mL : c’est plus que la burette (50 mL). Diminuez Ca ou Va, ou augmentez Cb.
-        </p>
+      {warning && <p role="alert" className="mt-4 rounded-xl bg-rouge-soft p-3 text-[0.95rem] font-semibold text-rouge">{warning}</p>}
+
+      {ex.kind === 'titration' && (
+        <div className="mt-5">
+          <IndicatorPicker value={state.indicator} onChange={indicator => update({ indicator })} />
+        </div>
       )}
 
-      <div className="mt-5">
-        <IndicatorPicker value={state.indicator} onChange={indicator => update({ indicator })} />
-      </div>
-
-      <Button variant="secondary" className="mt-5 w-full" onClick={() => update({ params: randomParams(), classAnswer: null, furthest: 0 })}>
+      <Button variant="secondary" className="mt-5 w-full" onClick={() => update({ ...reset, params: ex.random() })}>
         <Dice /> Tirer d’autres valeurs
       </Button>
     </section>
   );
 }
 
-export function StepEnonce() {
+export function StepEnonce({ ex }: { ex: Exercise }) {
   const [projection] = useProjection();
   const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -112,20 +120,20 @@ export function StepEnonce() {
   if (projection) {
     return (
       <div className="grid gap-5">
-        {settingsOpen ? <Settings onClose={() => setSettingsOpen(false)} /> : (
+        {settingsOpen ? <Settings ex={ex} onClose={() => setSettingsOpen(false)} /> : (
           <div className="flex justify-end">
             <Button variant="ghost" onClick={() => setSettingsOpen(true)}><Eye /> Modifier les données</Button>
           </div>
         )}
-        <ProjectedStatement />
+        <ProjectedStatement ex={ex} />
       </div>
     );
   }
 
   return (
-    <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_24rem]">
-      <ProjectedStatement />
-      <Settings />
+    <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_23rem]">
+      <ProjectedStatement ex={ex} />
+      <Settings ex={ex} />
     </div>
   );
 }
