@@ -1,0 +1,58 @@
+name: Proposer un exercice
+description: Décrivez un exercice avec vos mots, sans rien programmer. L’équipe le transforme en expérience.
+title: "Exercice : "
+labels: ["exercice"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de proposer un exercice ! Écrivez-le comme un sujet de TP. Le plus simple est de remplir la fiche dans Wamon (**Proposer un exercice**) : ce formulaire s’ouvre alors déjà rempli.
+        Tout ce que vous écrivez ici est **public**. N’indiquez aucune information sur vos élèves.
+  - type: input
+    id: niveau
+    attributes:
+      label: Niveau
+      placeholder: Seconde, Première, Terminale…
+  - type: textarea
+    id: enonce
+    attributes:
+      label: Énoncé
+      description: Tel que vous le donnez aux élèves.
+    validations:
+      required: true
+  - type: textarea
+    id: donnees
+    attributes:
+      label: Données
+      description: Une ligne par valeur, avec son unité.
+      placeholder: "- Concentration de la soude (Cb) = 0,10 mol/L"
+    validations:
+      required: true
+  - type: input
+    id: reponse
+    attributes:
+      label: Ce que la classe doit trouver, et la réponse attendue
+      placeholder: Concentration du vinaigre dilué (Ca) = 0,142 mol/L
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Correction
+      description: Le raisonnement et le calcul.
+  - type: textarea
+    id: experience
+    attributes:
+      label: L’expérience à montrer
+      description: Le matériel, ce que la classe doit voir, ce qui prouve que la réponse est juste.
+  - type: input
+    id: auteur
+    attributes:
+      label: Proposé par (facultatif)
+      placeholder: Nom, établissement
+  - type: textarea
+    id: brouillon
+    attributes:
+      label: Brouillon technique (rempli automatiquement par Wamon)
+      description: Pour l’équipe technique. Laissez ce champ tel quel, ou vide si vous remplissez ce formulaire à la main.
+      render: json
