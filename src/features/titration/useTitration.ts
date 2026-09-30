@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState, type RefObject } from 'react';
 import { animationEngine, type AnimEngineConfig } from '../../engine/AnimationEngine';
 import { createTitrationCanvasSVG } from '../../engine/TitrationCanvas';
-import { calculateTitrationPoint, type IndicatorType } from '../../models/dosageFortFort';
+import type { IndicatorType } from '../../models/dosageFortFort';
+import { titrationPoint } from '../../models/titration';
 
 export const TITRANT_COLOR = 'rgba(196, 119, 61, 0.82)';
 
@@ -11,6 +12,8 @@ export interface TitrationSetup {
   Cb: number;
   indicator: IndicatorType;
   maxVb: number;
+  /** Absent : acide fort. */
+  pKa?: number;
 }
 
 /**
@@ -19,21 +22,21 @@ export interface TitrationSetup {
  * les solutions ou la burette remet l’expérience à zéro.
  */
 export function useTitration(hostRef: RefObject<HTMLDivElement | null>, setup: TitrationSetup) {
-  const { Ca, Va, Cb, indicator, maxVb } = setup;
+  const { Ca, Va, Cb, indicator, maxVb, pKa } = setup;
   const [volume, setVolume] = useState(0);
   const [pouring, setPouring] = useState(false);
   const volumeRef = useRef(0);
   volumeRef.current = volume;
 
   const engineConfig = useCallback(
-    (initialVb: number): AnimEngineConfig => ({ initialVb, maxVb, initialVa: Va, Ca, Va, Cb, indicator, buretteFluidColor: TITRANT_COLOR }),
-    [Ca, Va, Cb, indicator, maxVb]
+    (initialVb: number): AnimEngineConfig => ({ initialVb, maxVb, initialVa: Va, Ca, Va, Cb, indicator, pKa, buretteFluidColor: TITRANT_COLOR }),
+    [Ca, Va, Cb, indicator, maxVb, pKa]
   );
 
   useEffect(() => {
     const host = hostRef.current;
     if (!host) return;
-    const start = calculateTitrationPoint(Ca, Va, Cb, 0, indicator);
+    const start = titrationPoint({ Ca, Va, Cb, pKa }, 0, indicator);
     host.innerHTML = createTitrationCanvasSVG({
       initialVb: 0,
       maxVb,
@@ -56,7 +59,7 @@ export function useTitration(hostRef: RefObject<HTMLDivElement | null>, setup: T
     };
     // L’indicateur est traité par l’effet suivant, sans vider la burette.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hostRef, Ca, Va, Cb, maxVb]);
+  }, [hostRef, Ca, Va, Cb, maxVb, pKa]);
 
   useEffect(() => {
     animationEngine.reconfigure(engineConfig(volumeRef.current));
@@ -106,7 +109,7 @@ export function useTitration(hostRef: RefObject<HTMLDivElement | null>, setup: T
 
   const reset = useCallback(() => animationEngine.reset(), []);
 
-  const reading = calculateTitrationPoint(Ca, Va, Cb, volume, indicator);
+  const reading = titrationPoint({ Ca, Va, Cb, pKa }, volume, indicator);
 
   return { volume, pouring, reading, addDrop, addVolume, undo, toggleFlow, pourTo, stop, reset };
 }

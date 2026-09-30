@@ -1,0 +1,35 @@
+{
+  "id": "dissolution",
+  "version": 1,
+  "titre": "Préparer une solution de sulfate de cuivre par dissolution",
+  "matiere": "chimie",
+  "niveau": ["2nde"],
+  "description": "Préparer une solution de concentration donnée en dissolvant une masse de solide pesée, puis en complétant une fiole jaugée.",
+  "grandeurs": {
+    "C": { "label": "Concentration de la solution (C)", "unite": "mol/L", "min": 0.02, "max": 0.5, "step": 0.01, "default": 0.1 },
+    "V": { "label": "Volume de la fiole jaugée (V)", "unite": "mL", "min": 50, "max": 500, "step": 50, "default": 100 },
+    "M": { "label": "Masse molaire du sulfate de cuivre pentahydraté (M)", "unite": "g/mol", "min": 249.7, "max": 249.7, "step": 0.1, "default": 249.7 },
+    "m": { "label": "Masse de solide à peser (m)", "unite": "g", "min": 0.01, "max": 100, "step": 0.01, "default": 2.5 }
+  },
+  "variantes": [
+    {
+      "id": "A",
+      "nom": "Variante A — Inconnue : masse à peser (m)",
+      "inconnue": "m",
+      "donnees": ["C", "V", "M"],
+      "formule": "C * V / 1000 * M",
+      "description": "Calculer la masse m de sulfate de cuivre pentahydraté à peser pour préparer cette solution."
+    },
+    {
+      "id": "B",
+      "nom": "Variante B — Inconnue : concentration obtenue (C)",
+      "inconnue": "C",
+      "donnees": ["m", "V", "M"],
+      "formule": "m / (M * V / 1000)",
+      "description": "Calculer la concentration C de la solution obtenue en dissolvant cette masse de sulfate de cuivre pentahydraté."
+    }
+  ],
+  "vues": ["balance", "fiole-jaugee"],
+  "tolerance": 0.02,
+  "modele": "preparation.ts"
+}

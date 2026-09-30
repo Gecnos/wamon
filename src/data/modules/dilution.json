@@ -1,36 +1,38 @@
 {
   "id": "dilution",
   "version": 1,
-  "titre": "Préparation d'une solution par dilution",
+  "titre": "Préparer une solution par dilution",
   "matiere": "chimie",
-  "niveau": ["2nde", "1ere"],
+  "niveau": [
+    "2nde"
+  ],
   "grandeurs": {
     "Cmere": {
-      "label": "Concentration de la solution mère (C_mère)",
+      "label": "Concentration de la solution mère (Cmère)",
       "unite": "mol/L",
-      "min": 0.1,
-      "max": 2.0,
-      "step": 0.1,
-      "default": 1.0
+      "min": 0.01,
+      "max": 0.5,
+      "step": 0.01,
+      "default": 0.1
     },
     "Vmere": {
-      "label": "Volume à prélever à la pipette (V_mère)",
+      "label": "Volume de solution mère à prélever (Vmère)",
       "unite": "mL",
-      "min": 5,
-      "max": 50,
-      "step": 1,
+      "min": 0.5,
+      "max": 100,
+      "step": 0.1,
       "default": 10
     },
     "Cfille": {
-      "label": "Concentration souhaitée (C_fille)",
+      "label": "Concentration de la solution fille (Cfille)",
       "unite": "mol/L",
-      "min": 0.01,
-      "max": 1.0,
-      "step": 0.01,
-      "default": 0.10
+      "min": 0.001,
+      "max": 0.25,
+      "step": 0.001,
+      "default": 0.01
     },
     "Vfille": {
-      "label": "Volume de la fiole jaugée (V_fille)",
+      "label": "Volume de la fiole jaugée (Vfille)",
       "unite": "mL",
       "min": 50,
       "max": 500,
@@ -43,20 +45,33 @@
       "id": "A",
       "nom": "Variante A — Inconnue : Volume de mère à prélever (V_mère)",
       "inconnue": "Vmere",
-      "donnees": ["Cmere", "Cfille", "Vfille"],
+      "donnees": [
+        "Cmere",
+        "Cfille",
+        "Vfille"
+      ],
       "formule": "Cfille * Vfille / Cmere",
-      "description": "Calculer le volume V_mère à prélever à la pipette jaugée pour préparer V_fille de concentration C_fille."
+      "description": "Calculer le volume Vmère de solution mère à prélever pour préparer la solution fille."
     },
     {
       "id": "B",
       "nom": "Variante B — Inconnue : Concentration de la solution fille (C_fille)",
       "inconnue": "Cfille",
-      "donnees": ["Cmere", "Vmere", "Vfille"],
+      "donnees": [
+        "Cmere",
+        "Vmere",
+        "Vfille"
+      ],
       "formule": "Cmere * Vmere / Vfille",
-      "description": "Calculer la concentration C_fille obtenue après dilution de V_mère dans V_fille d'eau distillée."
+      "description": "Calculer la concentration Cfille de la solution fille obtenue après dilution."
     }
   ],
-  "vues": ["pipette-jaugee", "fiole-jaugee", "becher"],
+  "vues": [
+    "pipette-jaugee",
+    "fiole-jaugee",
+    "becher"
+  ],
   "tolerance": 0.02,
-  "modele": "dilution.ts"
+  "modele": "preparation.ts",
+  "description": "Préparer une solution fille moins concentrée à partir d'une solution mère de permanganate de potassium, avec une pipette et une fiole jaugées."
 }

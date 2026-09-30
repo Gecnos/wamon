@@ -41,3 +41,15 @@ describe('Modèle physique Dosage Acide Fort / Base Forte', () => {
     expect(pBase.colorLabel).toContain('Rose');
   });
 });
+
+describe('Couleur de l’indicateur dans la zone de virage', () => {
+  it('le BBT est vert au centre de sa zone de virage (pH 6,8)', async () => {
+    const { getIndicatorColor, INDICATORS } = await import('../src/models/dosageFortFort');
+    expect(getIndicatorColor(6.8, INDICATORS.btb).color).toBe(INDICATORS.btb.colorTransition);
+  });
+
+  it('le BBT n’est plus jaune pur dès qu’il entre en zone de virage', async () => {
+    const { getIndicatorColor, INDICATORS } = await import('../src/models/dosageFortFort');
+    expect(getIndicatorColor(6.4, INDICATORS.btb).color).not.toBe(INDICATORS.btb.colorBefore);
+  });
+});
