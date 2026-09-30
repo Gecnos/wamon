@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Guide pour la classe
+    url: https://github.com/Gecnos/wamon/blob/main/docs/enseignants/utiliser-wamon-en-classe.md
+    about: Comment préparer et mener une séance avec Wamon.
