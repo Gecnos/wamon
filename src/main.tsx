@@ -13,3 +13,10 @@ createRoot(document.getElementById('root')!).render(
     </HashRouter>
   </StrictMode>
 );
+
+// Hors ligne en production seulement : en développement, le cache gênerait le rechargement à chaud.
+if (import.meta.env.PROD && 'serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => undefined);
+  });
+}
