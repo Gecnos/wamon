@@ -6,7 +6,14 @@ import type { Exercise } from './types';
 export type { Exercise, Level, Params, PhExercise, PreparationExercise, TitrationExercise, Variant, Quantity, Correction } from './types';
 
 /** Tous les exercices, dans l’ordre du programme. Ajoutez le vôtre ici. */
-export const EXERCISES: Exercise[] = [dissolution, dilution, phAcideFort, phBaseForte, phAcideFaible, dosageFortFort, dosageFaibleFort, dosageBaseFaible];
+export const EXERCISES: Exercise[] = [
+  // Solutions : préparation
+  dissolution, dilution,
+  // pH
+  phAcideFort, phBaseForte, phAcideFaible,
+  // Dosages
+  dosageFortFort, dosageFaibleFort, dosageBaseFaible,
+];
 
 export const DEFAULT_EXERCISE = dosageFortFort.id;
 

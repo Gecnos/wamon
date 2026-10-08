@@ -13,7 +13,11 @@ interface Props {
   answer: number;
 }
 
-/** Paillasse : un bécher, la sonde du pH-mètre et son afficheur. */
+/**
+ * Paillasse : un bécher, la sonde du pH-mètre et son afficheur.
+ * `stage` suit le protocole : 1 bécher rempli, 2 sonde plongée, 3 valeur lue,
+ * 4 indicateur universel ajouté (le liquide prend sa teinte).
+ */
 function Bench({ stage, pH, color }: { stage: number; pH: number; color: string }) {
   const filled = stage >= 1;
   const probed = stage >= 2;
@@ -42,6 +46,10 @@ function Bench({ stage, pH, color }: { stage: number; pH: number; color: string 
   );
 }
 
+/**
+ * Étape « Lancer l'expérience » d'un exercice de pH : protocole pas à pas,
+ * puis comparaison du pH mesuré avec la valeur attendue.
+ */
 export function PhExperience({ ex, params, variantId, answer }: Props) {
   const [stage, setStage] = useState(0);
   const exp = ex.experiment(params, variantId, answer);
@@ -52,6 +60,7 @@ export function PhExperience({ ex, params, variantId, answer }: Props) {
     'Ajouter l’indicateur universel et comparer les teintes',
   ];
   const done = stage >= steps.length;
+  // 0,1 unité de pH : la précision d'un pH-mètre de lycée, et de la lecture à l'écran.
   const close = Math.abs(exp.measured - exp.target) <= 0.1;
 
   return (
