@@ -1,23 +1,22 @@
 # Ajouter un exercice
 
-Les professeurs proposent des exercices avec leurs mots, depuis la page **Proposer un exercice**. Ce guide explique comment en faire un exercice jouable.
+Les professeurs proposent des exercices avec leurs mots, par e-mail (vianneyhoueho@gmail.com). Ce guide explique comment en faire un exercice jouable. Il existe trois types d’exercices : `titration` (dosage), `preparation` (dilution, dissolution) et `ph` (mesure de pH).
 
 ## 1. Partir de la proposition
 
-Une proposition arrive en ticket GitHub avec l’étiquette `exercice`. Elle contient :
+Une proposition arrive par e-mail ou en ticket GitHub. Elle contient :
 
 - l’énoncé, les données, la réponse attendue et la correction ;
 - l’expérience à montrer ;
-- si elle vient de l’application, un **brouillon technique** au format de `src/data/modules/`.
 
 Avant de coder :
 
 - refaites le calcul et vérifiez les unités ;
-- identifiez le type d’expérience : un dosage par la soude (`titration`), une dilution ou une dissolution (`preparation`), ou une expérience nouvelle.
+- identifiez le type d’expérience : un dosage (`titration`, avec `mirror: true` pour une base faible dosée par un acide fort), une dilution ou une dissolution (`preparation`), une mesure de pH (`ph`), ou une expérience nouvelle.
 
 ## 2. Écrire le fichier de données
 
-Créez `src/data/modules/<identifiant>.json` en partant du brouillon :
+Créez `src/data/modules/<identifiant>.json` :
 
 ```json
 {
@@ -104,4 +103,4 @@ npm run dev   # parcourez les quatre étapes, sur ordinateur et sur un écran é
 
 ## 6. Remercier
 
-Dans la pull request, citez le ticket de la proposition (`Corrige #42`) et le nom du professeur s’il l’a indiqué. Prévenez-le dans le ticket quand l’exercice est en ligne.
+Dans la pull request, citez le professeur s’il l’a souhaité, et prévenez-le par e-mail quand l’exercice est en ligne.

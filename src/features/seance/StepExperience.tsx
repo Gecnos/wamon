@@ -4,6 +4,7 @@ import { findVariant } from '../../exercises';
 import { fmt } from '../../lib/format';
 import { Button } from '../../ui/Button';
 import { Drop, Pause, Play, Reset } from '../../ui/icons';
+import { PhExperience } from '../ph/PhExperience';
 import { PreparationExperiment } from '../preparation/PreparationExperiment';
 import { BenchStage } from '../titration/BenchStage';
 import { Readout } from '../titration/Readout';
@@ -21,14 +22,14 @@ function TitrationExperiment({ ex }: { ex: TitrationExercise }) {
   const predicted = ex.predictedVolume(state.params, state.variantId, answer);
   const maxVb = buretteCapacity(ex.value(state.params, 'Ve'), predicted);
   const target = Math.min(maxVb, Number(predicted.toFixed(2)));
-  const t = useTitration(host, { Ca, Va, Cb, pKa, indicator: state.indicator, maxVb });
+  const t = useTitration(host, { Ca, Va, Cb, pKa, mirror: ex.mirror, indicator: state.indicator, maxVb });
   const reachedTarget = t.volume >= target - 1e-6;
   const v = findVariant(ex, state.variantId);
   const q = ex.quantities[v.unknown];
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,25rem)_minmax(0,1fr)]">
-      <section aria-label="Paillasse" className="grid gap-4 rounded-2xl border border-line bg-surface p-4 sm:p-5">
+      <section aria-label="Paillasse" className="grid gap-4 rounded-lg border-2 border-ink bg-surface p-4 sm:p-5">
         <BenchStage ref={host} className="h-[22rem] sm:h-[28rem] projection:h-[30rem]" />
 
         {/* Action principale : vérifier la prédiction de la classe. */}
@@ -37,7 +38,7 @@ function TitrationExperiment({ ex }: { ex: TitrationExercise }) {
         ) : !reachedTarget ? (
           <Button size="lg" onClick={() => t.pourTo(target)}><Play /> Verser jusqu’à {fmt(target, 2)} mL</Button>
         ) : (
-          <p className="rounded-xl bg-surligneur/60 p-3 text-center font-bold text-ink">
+          <p className="rounded-md border-2 border-ink bg-signal-soft p-3 text-center font-bold text-ink">
             {fmt(target, 2)} mL versés. La couleur a-t-elle changé&nbsp;? Ajustez à la main.
           </p>
         )}
@@ -54,19 +55,19 @@ function TitrationExperiment({ ex }: { ex: TitrationExercise }) {
       </section>
 
       <div className="grid gap-5">
-        <p className="rounded-2xl border-l-4 border-encre bg-encre-soft px-5 py-4 text-lg text-encre-strong">
-          La classe a trouvé <mark className="rounded bg-surligneur px-1 font-bold text-ink tabular-nums">{q.symbol} = {fmt(answer, q.digits)} {q.unit}</mark>.{' '}
+        <p className="rounded-lg border-2 border-ink bg-signal-soft px-5 py-4 text-lg text-ink">
+          La classe a trouvé <mark className="rounded bg-signal px-1.5 font-bold text-ink tabular-nums">{q.symbol} = {fmt(answer, q.digits)} {q.unit}</mark>.{' '}
           {v.unknown === 'Ve'
             ? <>Si c’est juste, l’indicateur doit changer de couleur vers <strong>{fmt(target, 2)} mL</strong>.</>
-            : <>Si c’est juste, l’équivalence doit arriver vers <strong>{fmt(target, 2)} mL</strong> de soude.</>}
+            : <>Si c’est juste, l’équivalence doit arriver vers <strong>{fmt(target, 2)} mL</strong> {/^[aeiouéèh]/i.test(ex.base.name) ? 'd’' : 'de '}{ex.base.name}.</>}
         </p>
         <Readout volume={t.volume} maxVb={maxVb} pH={t.reading.pH} color={t.reading.color} colorLabel={t.reading.colorLabel} />
-        <section aria-labelledby="courbe-titre" className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
+        <section aria-labelledby="courbe-titre" className="rounded-lg border border-line bg-surface p-4 sm:p-6">
           <h3 id="courbe-titre" className="text-lg font-bold text-ink">La courbe se trace pendant le versement</h3>
           <p className="text-[0.95rem] text-ink-2">Le saut de pH signale l’équivalence. Tombe-t-il sur la ligne de la classe&nbsp;?</p>
           <div className="mt-3">
-            <TitrationCurve title="pH en fonction du volume versé" Ca={Ca} Va={Va} Cb={Cb} pKa={pKa} maxVb={maxVb} currentVb={t.volume} showTheory={false}
-              markers={[{ value: target, label: 'Prédiction de la classe', color: '#1e44c4', dashed: true }]} />
+            <TitrationCurve title="pH en fonction du volume versé" Ca={Ca} Va={Va} Cb={Cb} pKa={pKa} mirror={ex.mirror} titrant={ex.base.name} maxVb={maxVb} currentVb={t.volume} showTheory={false}
+              markers={[{ value: target, label: 'Prédiction de la classe', color: '#1456c9', dashed: true }]} />
           </div>
         </section>
       </div>
@@ -77,5 +78,6 @@ function TitrationExperiment({ ex }: { ex: TitrationExercise }) {
 export function StepExperience({ ex }: { ex: Exercise }) {
   const { state } = useSeance(ex);
   if (ex.kind === 'titration') return <TitrationExperiment ex={ex} />;
+  if (ex.kind === 'ph') return <PhExperience ex={ex} params={state.params} variantId={state.variantId} answer={state.classAnswer ?? 0} />;
   return <PreparationExperiment ex={ex} params={state.params} variantId={state.variantId} answer={state.classAnswer ?? 0} />;
 }

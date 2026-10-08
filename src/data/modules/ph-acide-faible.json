@@ -1,0 +1,43 @@
+{
+  "id": "ph-acide-faible",
+  "version": 1,
+  "titre": "pH d'une solution d'acide éthanoïque",
+  "matiere": "chimie",
+  "niveau": ["terminale"],
+  "description": "L'acide éthanoïque (pKa = 4,76) réagit partiellement avec l'eau : son pH est bien plus élevé que celui d'un acide fort de même concentration.",
+  "grandeurs": {
+    "C": { "label": "Concentration de la solution d'acide éthanoïque (C)", "unite": "mol/L", "min": 0.05, "max": 0.2, "step": 0.01, "default": 0.1 },
+    "pH": { "label": "pH de la solution (pH)", "unite": "", "min": 2.5, "max": 3.2, "step": 0.01, "default": 2.88 },
+    "pKa": { "label": "pKa du couple CH3COOH/CH3COO- (pKa)", "unite": "", "min": 4.76, "max": 4.76, "step": 0.01, "default": 4.76 },
+    "A": { "label": "Concentration en ions éthanoate ([CH3COO-])", "unite": "mol/L", "min": 0.0001, "max": 0.01, "step": 0.0001, "default": 0.0013 }
+  },
+  "variantes": [
+    {
+      "id": "A",
+      "nom": "Variante A — Inconnue : pH",
+      "inconnue": "pH",
+      "donnees": ["C", "pKa"],
+      "formule": "(pKa - log10(C)) / 2",
+      "description": "Calculer le pH de cette solution d'acide éthanoïque. On admet que peu d'acide a réagi avec l'eau."
+    },
+    {
+      "id": "B",
+      "nom": "Variante B — Inconnue : concentration (C)",
+      "inconnue": "C",
+      "donnees": ["pH", "pKa"],
+      "formule": "10^(pKa - 2 * pH)",
+      "description": "Le pH de cette solution d'acide éthanoïque a été mesuré. Calculer sa concentration C. On admet que peu d'acide a réagi avec l'eau."
+    },
+    {
+      "id": "C",
+      "nom": "Variante C — Inconnue : concentration en ions éthanoate",
+      "inconnue": "A",
+      "donnees": ["pH"],
+      "formule": "10^(-pH)",
+      "description": "Le pH de cette solution d'acide éthanoïque a été mesuré. Quelle est la concentration en ions éthanoate ? Utiliser l'électroneutralité."
+    }
+  ],
+  "vues": ["becher", "ph-metre"],
+  "tolerance": 0.05,
+  "modele": "ph.ts"
+}

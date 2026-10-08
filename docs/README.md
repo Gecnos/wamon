@@ -3,7 +3,7 @@
 ## Pour les professeurs
 
 - [Utiliser Wamon en classe](enseignants/utiliser-wamon-en-classe.md) : préparer une séance, projeter, mener les quatre étapes, utiliser le labo libre.
-- [Proposer un exercice](enseignants/proposer-un-exercice.md) : décrire un exercice avec vos mots et l’envoyer, sans rien programmer.
+- Une idée d’exercice, une question ? Écrivez à vianneyhoueho@gmail.com.
 
 ## Pour les développeurs
 

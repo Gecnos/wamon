@@ -15,6 +15,7 @@ export interface AnimEngineConfig {
   buretteFluidColor: string;
   /** Absent : acide fort. */
   pKa?: number;
+  mirror?: boolean;
 }
 
 export interface AnimEngineState {
@@ -333,7 +334,7 @@ export class AnimationEngine {
 
   private _updateBecherSVG(): void {
     const GEO = CANVAS_GEOMETRY.becher;
-    const { Ca, Va, Cb, indicator, pKa } = this.config;
+    const { Ca, Va, Cb, indicator, pKa, mirror } = this.config;
 
     const totalVol = Va + this.currentVb;
     const maxVol = 120;
@@ -342,7 +343,7 @@ export class AnimationEngine {
     const liqTopY = GEO.bottom - fillFrac * totalH;
     const liqH = GEO.bottom - liqTopY + 4;
 
-    const titState = titrationPoint({ Ca, Va, Cb, pKa }, this.currentVb, indicator);
+    const titState = titrationPoint({ Ca, Va, Cb, pKa, mirror }, this.currentVb, indicator);
     const color = titState.color;
 
     const liqEl = document.getElementById('tc-bch-liquid');
@@ -360,8 +361,8 @@ export class AnimationEngine {
   }
 
   private _syncPhLabel(): void {
-    const { Ca, Va, Cb, indicator, pKa } = this.config;
-    const titState = titrationPoint({ Ca, Va, Cb, pKa }, this.currentVb, indicator);
+    const { Ca, Va, Cb, indicator, pKa, mirror } = this.config;
+    const titState = titrationPoint({ Ca, Va, Cb, pKa, mirror }, this.currentVb, indicator);
 
     const textEl = document.getElementById('tc-ph-text');
     if (textEl) {

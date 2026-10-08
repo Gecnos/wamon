@@ -11,35 +11,24 @@ Il existe plusieurs façons d’aider, et la plupart ne demandent pas de savoir 
 
 ## Proposer un exercice
 
-**Vous n’avez pas besoin de connaître le format des fichiers ni GitHub.**
-
-1. Dans Wamon, ouvrez **Proposer un exercice**.
-2. Remplissez la fiche comme un sujet de TP : titre, niveau, énoncé, données, ce que la classe doit trouver, réponse attendue, correction et ce que l’expérience doit montrer.
-3. Vérifiez l’aperçu : c’est ainsi que l’énoncé apparaîtra en classe.
-4. Envoyez la proposition :
-   - **par GitHub** (compte gratuit) : le formulaire s’ouvre déjà rempli, il ne reste qu’à valider ;
-   - **par WhatsApp** ou **par e-mail** (bouton « Copier le texte ») à un membre de l’équipe, qui la publiera pour vous.
-
-Votre brouillon reste enregistré dans votre navigateur tant que vous ne l’effacez pas.
+**Vous n’avez pas besoin de connaître le format des fichiers ni GitHub.** Écrivez à **vianneyhoueho@gmail.com** (le lien « Nous écrire » de l’application ouvre le message), en décrivant l’exercice comme un sujet de TP : titre, niveau, énoncé, données, ce que la classe doit trouver, réponse attendue, correction et ce que l’expérience doit montrer.
 
 Ce qui aide le plus la relecture :
 
 - l’énoncé complet, avec les unités ;
 - une correction détaillée et vérifiable ;
 - ce que la classe doit **voir** : un changement de couleur, un précipité, un volume lu sur la burette… ;
-- la source de l’exercice si vous l’avez adapté (manuel, sujet d’examen).
-
-Le guide complet est dans [docs/enseignants/proposer-un-exercice.md](docs/enseignants/proposer-un-exercice.md).
+- la source de l’exercice si vous l’avez adapté (manuel, sujet d’examen, guide du programme).
 
 ## Relire un exercice
 
-Chaque exercice est relu par au moins un professeur avant d’être publié. Les propositions en attente portent l’étiquette [`exercice`](https://github.com/Gecnos/wamon/labels/exercice). Pour relire :
+Chaque exercice est relu par au moins un professeur avant d’être publié. Pour relire :
 
 - refaites le calcul et vérifiez les unités ;
 - vérifiez que les données sont réalistes et que les manipulations sont sans danger ;
 - vérifiez que l’énoncé est clair pour un élève du niveau indiqué.
 
-Écrivez vos remarques en commentaire du ticket.
+Envoyez vos remarques par e-mail, ou en commentaire de la pull request.
 
 ## Signaler un problème
 
@@ -80,9 +69,9 @@ Node.js 20.19 ou plus récent est nécessaire.
 - **Hors ligne.** Aucune ressource externe (police, script, image) chargée au moment de l’exécution.
 - **En français.** L’interface, les commentaires et la documentation sont en français. Les identifiants de code peuvent rester en anglais.
 
-### Ajouter un exercice à partir d’une proposition
+### Ajouter un exercice à partir d’une proposition reçue
 
-Suivez [docs/developpeurs/ajouter-un-exercice.md](docs/developpeurs/ajouter-un-exercice.md). Le brouillon technique joint à chaque proposition GitHub sert de point de départ.
+Suivez [docs/developpeurs/ajouter-un-exercice.md](docs/developpeurs/ajouter-un-exercice.md). Le message du professeur sert de point de départ.
 
 ### Outils d’assistance au design (facultatif)
 

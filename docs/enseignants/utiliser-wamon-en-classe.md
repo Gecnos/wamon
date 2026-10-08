@@ -12,11 +12,11 @@ Wamon vous permet de vérifier par l’expérience un exercice que la classe vie
 
 ## Pendant la séance
 
-Cliquez sur **Projeter** en haut à droite : les textes grossissent et les réglages disparaissent. Utilisez aussi le plein écran du navigateur (touche F11).
+Cliquez sur **Projeter** (en bas du menu de gauche, ou en haut à droite sur téléphone) : les textes grossissent et les réglages disparaissent. Utilisez aussi le plein écran du navigateur (touche F11).
 
 ### 1. Faire calculer
 
-L’énoncé s’affiche comme une copie d’élève. Laissez la classe chercher, seule ou par groupes. Quand elle a une réponse, cliquez sur **La classe a une réponse**.
+L’énoncé s’affiche comme une fiche de TP. Laissez la classe chercher, seule ou par groupes. Quand elle a une réponse, cliquez sur **La classe a une réponse**.
 
 ### 2. Entrer la réponse
 
@@ -24,8 +24,9 @@ Saisissez la valeur retenue par la classe. Si les groupes ne sont pas d’accord
 
 ### 3. Lancer l’expérience
 
-- **Dosage** : **Verser jusqu’à…** verse la soude jusqu’au volume prédit par la classe. Observez l’indicateur. S’il n’a pas encore viré, continuez goutte à goutte ; s’il a viré trop tôt, la classe s’est trompée. La courbe de pH se trace en direct.
+- **Dosage** : **Verser jusqu’à…** verse la solution de la burette (soude, ou acide chlorhydrique pour l’ammoniac) jusqu’au volume prédit par la classe. Observez l’indicateur. S’il n’a pas encore viré, continuez goutte à goutte ; s’il a viré trop tôt, la classe s’est trompée. La courbe de pH se trace en direct.
 - **Dilution et dissolution** : suivez le protocole, un geste à la fois (prélever, verser, compléter au trait de jauge, homogénéiser). À la fin, comparez la teinte de la fiole à celle du tube témoin.
+- **Mesure de pH** : suivez le protocole (verser, plonger la sonde, lire, ajouter l’indicateur universel). Le pH-mètre affiche la valeur mesurée, placée sur l’échelle de teintes à côté de la valeur prévue par la classe.
 
 ### 4. Comparer
 

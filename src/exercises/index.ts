@@ -1,11 +1,12 @@
 import { dissolution, dilution } from './preparations';
-import { dosageFaibleFort, dosageFortFort } from './titrations';
+import { dosageBaseFaible, dosageFaibleFort, dosageFortFort } from './titrations';
+import { phAcideFaible, phAcideFort, phBaseForte } from './ph';
 import type { Exercise } from './types';
 
-export type { Exercise, Level, Params, PreparationExercise, TitrationExercise, Variant, Quantity, Correction } from './types';
+export type { Exercise, Level, Params, PhExercise, PreparationExercise, TitrationExercise, Variant, Quantity, Correction } from './types';
 
 /** Tous les exercices, dans l’ordre du programme. Ajoutez le vôtre ici. */
-export const EXERCISES: Exercise[] = [dissolution, dilution, dosageFortFort, dosageFaibleFort];
+export const EXERCISES: Exercise[] = [dissolution, dilution, phAcideFort, phBaseForte, phAcideFaible, dosageFortFort, dosageFaibleFort, dosageBaseFaible];
 
 export const DEFAULT_EXERCISE = dosageFortFort.id;
 

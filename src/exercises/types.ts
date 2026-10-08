@@ -67,8 +67,15 @@ interface ExerciseBase {
 
 export interface TitrationExercise extends ExerciseBase {
   kind: 'titration';
+  /**
+   * Solution dosée, dans le bécher. Son `pKa` est celui du couple de l’espèce
+   * faible : avec `mirror`, c’est l’acide conjugué d’une base faible (NH₄⁺ / NH₃).
+   */
   acid: { name: string; formula: string; pKa?: number };
+  /** Solution versée, dans la burette. */
   base: { name: string; formula: string };
+  /** Vrai : on dose une base faible par un acide fort. */
+  mirror?: boolean;
   defaultIndicator: IndicatorType;
   /** Volume versé auquel le virage devrait se produire si `answer` était juste. */
   predictedVolume: (p: Params, variantId: string, answer: number) => number;
@@ -94,4 +101,26 @@ export interface PreparationExercise extends ExerciseBase {
   };
 }
 
-export type Exercise = TitrationExercise | PreparationExercise;
+/** Mesure de pH : on prédit le pH d’une solution (ou sa concentration), le pH-mètre tranche. */
+export interface PhExercise extends ExerciseBase {
+  kind: 'ph';
+  solute: { name: string; formula: string; type: 'acide fort' | 'base forte' | 'acide faible'; pKa?: number };
+  /** pH d’une solution de concentration `C` (mol/L), 25 °C. */
+  phOf: (C: number) => number;
+  /**
+   * Ce que montre l’expérience :
+   * - `measured` : pH lu sur le pH-mètre pour la solution préparée ;
+   * - `target` : pH auquel on le compare (celui de l’énoncé, ou la prédiction de la classe) ;
+   * - `answerIsUsed` : vrai si la réponse de la classe sert à préparer la solution.
+   */
+  experiment: (p: Params, variantId: string, answer: number) => {
+    measured: number;
+    target: number;
+    concentration: number;
+    answerIsUsed: boolean;
+  };
+  /** pH que suggère une réponse de la classe, pour la placer sur l’échelle. */
+  phOfAnswer: (p: Params, variantId: string, answer: number) => number;
+}
+
+export type Exercise = TitrationExercise | PreparationExercise | PhExercise;

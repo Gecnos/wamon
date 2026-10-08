@@ -20,11 +20,11 @@ index.html → src/main.tsx → src/App.tsx (routes)
 
 | Dossier | Rôle |
 | --- | --- |
-| `src/pages/` | Un composant par route : accueil, exercices, séance, labo, matériel, guide, contribution. |
+| `src/pages/` | Un composant par route : accueil, exercices, séance, labo, matériel, guide. |
 | `src/features/seance/` | La séance guidée : état partagé, frise des étapes, les quatre étapes. |
 | `src/features/titration/` | Paillasse animée du dosage, courbe de pH, lecture des mesures, choix de l’indicateur. |
 | `src/features/preparation/` | Paillasse de dilution et de dissolution, protocole pas à pas. |
-| `src/features/contribution/` | Transformation d’une proposition d’enseignant en texte, en lien GitHub et en brouillon JSON. |
+| `src/features/ph/` | Mesure de pH : paillasse du pH-mètre et échelle aux teintes de l’indicateur universel. |
 | `src/exercises/` | Le registre des exercices (`EXERCISES`). Chaque exercice combine son fichier JSON et son comportement. |
 | `src/data/modules/` | Données des exercices : grandeurs, unités, bornes, variantes, consignes. |
 | `src/data/catalog/` | Fiches du matériel de laboratoire (`CATALOG`). |
@@ -49,14 +49,13 @@ Le routage utilise `HashRouter` (`/#/exercices`) : les adresses fonctionnent san
 | `/labo` | Labo libre (dosage) |
 | `/materiel`, `/materiel/:id` | Catalogue du matériel |
 | `/guide` | Guide pour la classe |
-| `/contribuer` | Proposer un exercice |
 
 Chaque étape de séance a sa propre adresse : le bouton « retour » du navigateur revient à l’étape précédente.
 
 ## État
 
 - **Séance** : `SeanceProvider` (`src/features/seance/SeanceContext.tsx`) garde un état par exercice (variante, données, indicateur, réponses). Il est enregistré dans `sessionStorage` : un rechargement ne perd rien.
-- **Labo libre et brouillon de proposition** : `localStorage`, pour retrouver ses réglages.
+- **Labo libre** : `localStorage`, pour retrouver ses réglages.
 - **Mode projection** : `ProjectionProvider` pose la classe `projection` sur `<html>`. La taille de base passe à 125 % et la variante Tailwind `projection:` s’active.
 
 Tous les accès au stockage passent par `src/lib/storage.ts`, qui tolère un stockage indisponible (navigation privée).

@@ -1,0 +1,33 @@
+{
+  "id": "ph-acide-fort",
+  "version": 1,
+  "titre": "pH d'une solution d'acide chlorhydrique",
+  "matiere": "chimie",
+  "niveau": ["terminale"],
+  "description": "L'acide chlorhydrique est un acide fort : [H₃O⁺] = C et pH = −log C, pour 10⁻⁶ < C < 10⁻¹ mol/L.",
+  "grandeurs": {
+    "C": { "label": "Concentration de la solution d'acide chlorhydrique (C)", "unite": "mol/L", "min": 0.001, "max": 0.1, "step": 0.001, "default": 0.01 },
+    "pH": { "label": "pH de la solution (pH)", "unite": "", "min": 1, "max": 3, "step": 0.01, "default": 2 }
+  },
+  "variantes": [
+    {
+      "id": "A",
+      "nom": "Variante A — Inconnue : pH",
+      "inconnue": "pH",
+      "donnees": ["C"],
+      "formule": "-log10(C)",
+      "description": "Calculer le pH de cette solution d'acide chlorhydrique."
+    },
+    {
+      "id": "B",
+      "nom": "Variante B — Inconnue : concentration (C)",
+      "inconnue": "C",
+      "donnees": ["pH"],
+      "formule": "10^(-pH)",
+      "description": "Le pH de cette solution d'acide chlorhydrique a été mesuré. Calculer sa concentration C."
+    }
+  ],
+  "vues": ["becher", "ph-metre"],
+  "tolerance": 0.03,
+  "modele": "ph.ts"
+}

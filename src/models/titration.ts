@@ -1,15 +1,21 @@
 import { calculateTitrationPoint, getIndicatorColor, INDICATORS, type IndicatorType, type TitrationState } from './dosageFortFort';
 
 /**
- * Dosage d’un acide (fort, ou faible si `pKa` est donné) par une base forte.
+ * Dosage d’un acide (fort, ou faible si `pKa` est donné) par une base forte,
+ * ou, avec `mirror`, d’une base faible par un acide fort.
  * Volumes en mL, concentrations en mol/L, 25 °C.
+ *
+ * Dans les deux cas, `Ca` et `Va` décrivent la solution dosée (dans le bécher)
+ * et `Cb` la solution versée (dans la burette).
  */
 export interface TitrationSetup {
   Ca: number;
   Va: number;
   Cb: number;
-  /** Absent : acide fort. Présent : acide faible de ce pKa. */
+  /** Absent : réactif fort. Présent : pKa du couple de l’espèce faible dosée. */
   pKa?: number;
+  /** Vrai : la solution dosée est une base faible (le pKa est celui de son acide conjugué). */
+  mirror?: boolean;
 }
 
 const KW = 1e-14;
@@ -43,10 +49,13 @@ export function weakAcidPH(Ca: number, Va: number, Cb: number, Vb: number, pKa: 
 }
 
 export function titrationPoint(setup: TitrationSetup, Vb: number, indicator: IndicatorType = 'btb'): TitrationState {
-  const { Ca, Va, Cb, pKa } = setup;
+  const { Ca, Va, Cb, pKa, mirror } = setup;
   if (pKa === undefined) return calculateTitrationPoint(Ca, Va, Cb, Vb, indicator);
 
-  const pH = Math.min(14, Math.max(0, weakAcidPH(Ca, Va, Cb, Vb, pKa)));
+  // Une base faible B de couple BH⁺/B se dose comme un acide faible de pKa' = 14 − pKa,
+  // avec un pH symétrique : pH = 14 − pH'.
+  const raw = mirror ? 14 - weakAcidPH(Ca, Va, Cb, Vb, 14 - pKa) : weakAcidPH(Ca, Va, Cb, Vb, pKa);
+  const pH = Math.min(14, Math.max(0, raw));
   const h = 10 ** -pH;
   const ind = INDICATORS[indicator];
   const { color, colorLabel } = getIndicatorColor(pH, ind);

@@ -6,7 +6,7 @@
 
 **Le labo dans la classe.** Vos élèves calculent, l’expérience tranche.
 
-[Utiliser Wamon](#utiliser-wamon) · [Proposer un exercice](#proposer-un-exercice-sans-programmer) · [Contribuer au code](#contribuer-au-code) · [Documentation](docs/README.md)
+[Utiliser Wamon](#utiliser-wamon) · [Proposer un exercice](#proposer-un-exercice-ou-nous-écrire) · [Contribuer au code](#contribuer-au-code) · [Documentation](docs/README.md)
 
 </div>
 
@@ -14,20 +14,20 @@ Wamon est une application libre et gratuite pour les professeurs de physique-chi
 
 Elle est pensée pour les établissements où le matériel de laboratoire manque et où la connexion est fragile : un ordinateur et un vidéoprojecteur suffisent, et l’application fonctionne hors ligne une fois chargée.
 
-![Page d’accueil de Wamon : une démonstration de dosage se trace en direct sur du papier millimétré](docs/images/accueil.png)
+![Page d’accueil de Wamon : une démonstration de dosage se trace en direct, avec la lecture du volume, du pH et de la couleur](docs/images/accueil.png)
 
 ## Ce que fait Wamon
 
 ### Une séance guidée en quatre temps
 
-1. **Faire calculer** : l’énoncé est projeté comme une copie d’élève, lisible au fond de la salle. Le professeur règle les données ou les tire au hasard.
+1. **Faire calculer** : l’énoncé est projeté comme une fiche de TP, lisible au fond de la salle. Le professeur règle les données ou les tire au hasard.
 2. **Entrer la réponse** : la valeur trouvée par la classe, et celles des groupes s’ils ne sont pas d’accord.
 3. **Lancer l’expérience** : on manipule avec la valeur de la classe. Le virage de l’indicateur arrive-t-il au bon volume ? La solution a-t-elle la teinte du témoin ?
-4. **Comparer** : verdict, écart de chaque groupe, position des réponses sur la courbe et correction au stylo rouge, affichée seulement à la demande.
+4. **Comparer** : verdict, écart de chaque groupe, position des réponses sur la courbe et correction affichée seulement à la demande.
 
 | Énoncé projeté | Expérience | Bilan |
 | --- | --- | --- |
-| ![Énoncé présenté comme une copie d’élève](docs/images/seance-enonce.png) | ![Dosage en cours, courbe tracée en direct](docs/images/seance-experience.png) | ![Verdict et position des réponses sur la courbe](docs/images/seance-bilan.png) |
+| ![Énoncé présenté comme une fiche de TP](docs/images/seance-enonce.png) | ![Dosage en cours, courbe tracée en direct](docs/images/seance-experience.png) | ![Verdict et position des réponses sur la courbe](docs/images/seance-bilan.png) |
 
 ### Des exercices du programme
 
@@ -35,8 +35,14 @@ Elle est pensée pour les établissements où le matériel de laboratoire manque
 | --- | --- | --- | --- |
 | Préparer une solution par dissolution | Seconde | la masse à peser, ou la concentration obtenue | la teinte de la solution comparée à un témoin |
 | Préparer une solution par dilution | Seconde | le volume à prélever, ou la concentration de la fille | la teinte de la solution comparée à un témoin |
+| pH d’une solution d’acide chlorhydrique | Terminale | le pH, ou la concentration | la lecture du pH-mètre et la teinte de l’indicateur universel |
+| pH d’une solution d’hydroxyde de sodium | Terminale | le pH, ou la concentration | la lecture du pH-mètre, avec le piège pOH / pH |
+| pH d’une solution d’acide éthanoïque | Terminale | le pH, la concentration, ou la concentration en ions éthanoate | un acide faible est bien moins acide qu’un acide fort de même concentration |
 | Dosage acide fort / base forte | Première, terminale | le volume équivalent, ou la concentration de l’acide | le virage de l’indicateur et la courbe de pH |
 | Dosage de l’acide éthanoïque | Terminale | le volume équivalent, ou la concentration de l’acide | la courbe d’un acide faible, la demi-équivalence, le choix de l’indicateur |
+| Dosage de l’ammoniac | Terminale | le volume équivalent, ou la concentration de l’ammoniac | la courbe d’une base faible dosée par un acide fort, l’équivalence en milieu acide |
+
+Les exercices de terminale suivent le guide du programme d’études par compétences de la classe de Terminale D du Bénin (situation d’apprentissage 2, chimie des solutions aqueuses).
 
 ![Dilution : la solution préparée avec la réponse de la classe est comparée à un tube témoin](docs/images/seance-dilution.png)
 
@@ -56,15 +62,9 @@ Aucune installation n’est nécessaire pour les professeurs : ouvrez l’adress
 
 Le [guide pour la classe](docs/enseignants/utiliser-wamon-en-classe.md) explique comment préparer et mener une séance.
 
-## Proposer un exercice, sans programmer
+## Proposer un exercice ou nous écrire
 
-Vous avez un exercice qui marche bien avec vos élèves ? Dans Wamon, ouvrez **Proposer un exercice** et remplissez la fiche comme un sujet de TP : énoncé, données, réponse attendue, correction et ce que la classe doit voir. Un aperçu montre comment l’exercice apparaîtra en classe.
-
-Vous l’envoyez ensuite par GitHub, par WhatsApp ou par e-mail. Aucun fichier technique à écrire : l’équipe s’en charge, fait relire l’exercice par d’autres professeurs et vous prévient quand il est en ligne.
-
-![Formulaire de proposition d’exercice avec aperçu en classe](docs/images/contribuer.png)
-
-Plus de détails : [Proposer un exercice](docs/enseignants/proposer-un-exercice.md).
+Vous avez un exercice qui marche bien avec vos élèves, une question ou une remarque ? Écrivez à **vianneyhoueho@gmail.com**. Décrivez l’exercice comme un sujet de TP : énoncé, données, réponse attendue, correction et ce que la classe doit voir. L’équipe le transforme en expérience, le fait relire par d’autres professeurs et vous prévient quand il est en ligne.
 
 ## Contribuer au code
 
@@ -93,7 +93,7 @@ React 18, React Router 7 (`HashRouter`, compatible hors ligne et hébergement st
 ### Où commencer
 
 - [Architecture du code](docs/developpeurs/architecture.md)
-- [Ajouter un exercice](docs/developpeurs/ajouter-un-exercice.md), à partir d’une proposition d’enseignant
+- [Ajouter un exercice](docs/developpeurs/ajouter-un-exercice.md), à partir d’une proposition reçue par e-mail
 - [Principes de design](docs/developpeurs/design.md) : lisibilité en projection, mobile, Tailwind uniquement
 - [Déploiement](docs/developpeurs/deploiement.md) (Cloudflare Workers)
 
