@@ -3,6 +3,11 @@ import { EXERCISES } from '../src/exercises';
 import { conjugateBaseConcentration, phStrongAcid, phStrongBase, phWeakAcid, universalColor } from '../src/models/ph';
 import { titrationPoint } from '../src/models/titration';
 
+/**
+ * Valeurs de référence calculées à la main : pour 0,1 mol/L d'ammoniac dosé par
+ * 0,1 mol/L d'acide chlorhydrique, pH initial 11,1, pH = pKa à la demi-équivalence
+ * et pH ≈ 5,3 à l'équivalence (½ (pKa − log C) avec C = 0,05 mol/L).
+ */
 describe('Dosage d’une base faible (ammoniac) par un acide fort', () => {
   const setup = { Ca: 0.1, Va: 20, Cb: 0.1, pKa: 9.25, mirror: true };
 

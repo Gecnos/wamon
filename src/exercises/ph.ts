@@ -7,9 +7,17 @@ import { conjugateBaseConcentration, phStrongAcid, phStrongBase, phWeakAcid } fr
 import { fromModule, makeVerify, pick } from './helpers';
 import type { Correction, Params, PhExercise } from './types';
 
+/** Concentrations du programme pour les acides et bases forts : 10⁻³ à 10⁻¹ mol/L. */
 const CONCENTRATIONS = [0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1];
+
+/**
+ * Pour l'acide faible, on reste au-dessus de 0,05 mol/L : en dessous, la part
+ * d'acide ayant réagi n'est plus négligeable, la formule pH = ½ (pKa − log C)
+ * enseignée en classe s'écarte de la valeur exacte et sortirait de la tolérance.
+ */
 const CONCENTRATIONS_FAIBLE = [0.05, 0.08, 0.1, 0.15, 0.2];
 
+/** Description d'un exercice de pH : la chimie (`phOf`) et les textes. */
 interface PhSpec {
   config: ModuleConfig;
   id: string;
@@ -23,12 +31,21 @@ interface PhSpec {
   correction: (p: Params, unknown: string, pH: number) => Correction;
 }
 
+/**
+ * Fabrique un exercice de pH à partir de son module JSON (grandeurs, variantes)
+ * et de son modèle. Trois grandeurs peuvent être cherchées :
+ * - `pH`, calculé à partir de C ;
+ * - `C`, à partir du pH annoncé dans l'énoncé ;
+ * - `A`, la concentration en base conjuguée (acide faible seulement).
+ */
 function phExercise(spec: PhSpec): PhExercise {
   const base = fromModule(spec.config, { C: { digits: 3 }, pH: { digits: 2, symbol: 'pH' }, pKa: { digits: 2 }, A: { symbol: '[CH₃COO⁻]', digits: 5 } });
   const unknownOf = (variantId: string) => base.variants.find(v => v.id === variantId)?.unknown ?? 'pH';
   const pKa = spec.solute.pKa;
 
   const value = (p: Params, key: string) => {
+    // Le pH est arrondi à 0,01 comme sur l'afficheur : c'est cette valeur que la
+    // classe lit dans l'énoncé, donc celle à partir de laquelle elle calcule C.
     if (key === 'pH') return Number(spec.phOf(p.C).toFixed(2));
     if (key === 'pKa') return pKa ?? 0;
     if (key === 'A') return pKa !== undefined ? conjugateBaseConcentration(p.C, pKa) : 0;
@@ -36,6 +53,7 @@ function phExercise(spec: PhSpec): PhExercise {
   };
   const reference = (p: Params, variantId: string) => value(p, unknownOf(variantId));
 
+  // Traduit la réponse de la classe en pH, pour la placer sur l'échelle de teintes.
   const phOfAnswer = (_p: Params, variantId: string, answer: number) => {
     const unknown = unknownOf(variantId);
     if (unknown === 'C') return spec.phOf(answer);
@@ -63,6 +81,8 @@ function phExercise(spec: PhSpec): PhExercise {
     phOfAnswer,
     experiment: (p, variantId, answer) => {
       const unknown = unknownOf(variantId);
+      // Si la classe cherche C, on prépare réellement la solution avec sa valeur :
+      // le pH mesuré dira si elle retombe sur celui de l'énoncé.
       if (unknown === 'C') return { measured: spec.phOf(answer), target: value(p, 'pH'), concentration: answer, answerIsUsed: true };
       return { measured: spec.phOf(p.C), target: phOfAnswer(p, variantId, answer), concentration: p.C, answerIsUsed: false };
     },

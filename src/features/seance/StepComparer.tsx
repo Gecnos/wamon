@@ -37,6 +37,10 @@ function TitrationPicture({ ex, rows }: { ex: Extract<Exercise, { kind: 'titrati
   );
 }
 
+/**
+ * Bilan d'un exercice de pH : chaque réponse (pH, ou concentration traduite en
+ * pH) est posée sur l'échelle de teintes, avec la valeur mesurée en rouge.
+ */
 function PhPicture({ ex, rows }: { ex: Extract<Exercise, { kind: 'ph' }>; rows: Row[] }) {
   const { state } = useSeance(ex);
   const reference = ex.phOf(state.params.C);
