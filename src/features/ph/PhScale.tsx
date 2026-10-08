@@ -1,6 +1,7 @@
 import { fmt } from '../../lib/format';
 import { universalGradient } from '../../models/ph';
 
+/** Un repère posé sur l'échelle : une valeur lue ou la réponse d'un groupe. */
 export interface PhMarker {
   label: string;
   value: number;

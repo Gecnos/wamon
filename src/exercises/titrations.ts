@@ -3,6 +3,7 @@ import faibleConfig from '../data/modules/dosage-faible-fort.json';
 import baseFaibleConfig from '../data/modules/dosage-base-faible-fort.json';
 import type { ModuleConfig } from '../types';
 import { fmt } from '../lib/format';
+import { INDICATORS } from '../models/dosageFortFort';
 import { titrationPoint } from '../models/titration';
 import { fromModule, makeVerify, pick } from './helpers';
 import type { Params, TitrationExercise } from './types';
@@ -26,7 +27,9 @@ function titration(
   config: ModuleConfig,
   extra: Pick<TitrationExercise, 'id' | 'short' | 'duration' | 'context' | 'acid' | 'base' | 'defaultIndicator' | 'equipment' | 'mirror'>
 ): TitrationExercise {
-  // Dosage d’une base faible : la base dosée s’appelle Cb et l’acide versé Ca, comme dans le programme.
+  // En interne, `Ca`/`Va` désignent toujours la solution dosée (bécher) et `Cb`
+  // la solution versée (burette), pour réutiliser le même modèle. Pour une base
+  // faible, on affiche les symboles du programme : la base dosée est Cb, l'acide versé Ca.
   const symbols = extra.mirror ? { Ca: { symbol: 'Cb' }, Va: { symbol: 'Vb' }, Cb: { symbol: 'Ca' } } : {};
   const base = fromModule(config, { Ve: { digits: 2 }, Ca: { digits: 3, ...symbols.Ca }, Cb: { digits: 3, ...symbols.Cb }, Va: { digits: 1, ...symbols.Va } });
   const sym = (key: string) => base.quantities[key].symbol;
@@ -57,7 +60,10 @@ function titration(
       let note: string;
       if (extra.mirror) {
         const eq = titrationPoint({ Ca: p.Ca, Va: p.Va, Cb: p.Cb, pKa: extra.acid.pKa, mirror: true }, ve(p)).pH;
-        note = `L’ammoniac est une base faible (couple NH₄⁺/NH₃, pKa = ${fmt(extra.acid.pKa ?? 0, 2)}) : à l’équivalence, la solution contient l’acide faible NH₄⁺ et le pH vaut environ ${fmt(eq, 1)} (milieu acide). L’hélianthine, qui vire entre 3,1 et 4,4, convient ; le BBT, qui commence à virer avant l’équivalence, ne convient pas. À la demi-équivalence, pH = pKa = ${fmt(extra.acid.pKa ?? 0, 2)}.`;
+        const eqLow = titrationPoint({ Ca: p.Ca, Va: p.Va, Cb: p.Cb, pKa: extra.acid.pKa, mirror: true }, ve(p) * 1.002).pH;
+        const eqHigh = titrationPoint({ Ca: p.Ca, Va: p.Va, Cb: p.Cb, pKa: extra.acid.pKa, mirror: true }, ve(p) * 0.998).pH;
+        const adapted = Object.values(INDICATORS).filter(i => i.pHMin >= eqLow - 0.4 && i.pHMax <= eqHigh + 0.4).map(i => i.nom);
+        note = `${extra.acid.name[0].toUpperCase()}${extra.acid.name.slice(1)} est une base faible (pKa du couple de son acide conjugué : ${fmt(extra.acid.pKa ?? 0, 2)}) : à l’équivalence, la solution contient cet acide faible et le pH vaut environ ${fmt(eq, 1)} (milieu acide). Le saut de pH va de ${fmt(eqHigh, 1)} à ${fmt(eqLow, 1)} : ${adapted.length ? `l’indicateur adapté est ${adapted.join(' ou ')}` : 'aucun des trois indicateurs ne convient parfaitement'}. À la demi-équivalence, pH = pKa = ${fmt(extra.acid.pKa ?? 0, 2)}.`;
       } else if (extra.acid.pKa !== undefined) {
         note = `L’acide éthanoïque est un acide faible : à l’équivalence, le pH vaut environ ${fmt(8.7, 1)} (milieu basique). La phénolphtaléine, qui vire entre 8,2 et 10, convient ; le BBT vire trop tôt. À la demi-équivalence, pH = pKa = ${fmt(extra.acid.pKa, 2)}.`;
       } else {

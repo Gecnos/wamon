@@ -78,6 +78,7 @@ function TitrationExperiment({ ex }: { ex: TitrationExercise }) {
 export function StepExperience({ ex }: { ex: Exercise }) {
   const { state } = useSeance(ex);
   if (ex.kind === 'titration') return <TitrationExperiment ex={ex} />;
+  // Chaque type d'exercice a sa paillasse : dosage animé, pH-mètre, dilution/dissolution.
   if (ex.kind === 'ph') return <PhExperience ex={ex} params={state.params} variantId={state.variantId} answer={state.classAnswer ?? 0} />;
   return <PreparationExperiment ex={ex} params={state.params} variantId={state.variantId} answer={state.classAnswer ?? 0} />;
 }

@@ -1,9 +1,18 @@
 /**
  * pH de solutions aqueuses à 25 °C (Ke = 10⁻¹⁴), concentrations en mol/L.
+ *
+ * Les formules « fort » sont celles du programme de Terminale D ; l'acide
+ * faible est résolu sans approximation pour que la valeur mesurée par le
+ * pH-mètre simulé reste juste, même quand l'approximation « peu d'acide a
+ * réagi » que l'on demande aux élèves devient grossière.
  */
 const KW = 1e-14;
 
-/** Acide fort (HCl) : [H₃O⁺] = C, valable pour 10⁻⁶ < C < 10⁻¹ mol/L. */
+/**
+ * Acide fort (HCl) : [H₃O⁺] = C.
+ * Le programme limite la relation à 10⁻⁶ < C < 10⁻¹ mol/L : en dessous, l'eau
+ * elle-même apporte des ions ; au-dessus, les interactions entre ions comptent.
+ */
 export function phStrongAcid(C: number): number {
   return -Math.log10(C);
 }
@@ -40,7 +49,11 @@ export function conjugateBaseConcentration(C: number, pKa: number): number {
   return (C * 10 ** -pKa) / (10 ** -pKa + h);
 }
 
-/** Teintes de l’indicateur universel, du rouge (acide) au violet (basique). */
+/**
+ * Teintes de l'indicateur universel, du rouge (acide) au violet (basique).
+ * Les couples (pH, couleur) sont des points de contrôle : on interpole entre
+ * eux. C'est une échelle indicative, pas une mesure colorimétrique.
+ */
 const UNIVERSAL: [number, [number, number, number]][] = [
   [0, [213, 31, 38]],
   [2, [229, 50, 45]],

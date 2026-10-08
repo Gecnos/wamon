@@ -81,7 +81,8 @@ Les écrans de séance sont génériques : ils ne connaissent aucun exercice en 
 | Fichier | Contenu |
 | --- | --- |
 | `models/dosageFortFort.ts` | pH d’un acide fort dosé par une base forte ; couleurs des indicateurs. |
-| `models/titration.ts` | Point d’entrée des dosages. Pour un acide faible, l’électroneutralité est résolue exactement par dichotomie : le pH est juste au début, à la demi-équivalence et à l’équivalence. |
+| `models/titration.ts` | Point d’entrée des dosages. Pour un acide faible, l’électroneutralité est résolue exactement par dichotomie : le pH est juste au début, à la demi-équivalence et à l’équivalence. Une base faible dosée par un acide fort passe par un modèle miroir (`mirror`). |
+| `models/ph.ts` | pH d’un acide fort, d’une base forte, d’un acide faible ; teintes de l’indicateur universel. |
 | `models/preparation.ts` | Dilution, dissolution, et teinte d’une solution selon la loi de Beer-Lambert. |
 | `models/dilution.ts` | Ancien modèle de dilution, conservé pour ses tests. |
 

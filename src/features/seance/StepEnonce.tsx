@@ -40,6 +40,7 @@ function ProjectedStatement({ ex }: { ex: Exercise }) {
         <p className="mt-8 flex flex-wrap items-baseline gap-x-3 border-t-2 border-ink pt-6 text-xl font-bold text-ink sm:text-2xl">
           <span>Que vaut</span>
           <span className="rounded-md bg-signal px-2.5 py-0.5 font-mono">{unknown.symbol}</span>
+          {/* Le pH n'a pas d'unité : on ne laisse pas une phrase qui finit par « en ». */}
           <span>? {unknown.unit ? `Donnez le résultat en ${unknown.unit}.` : 'Donnez le résultat sans unité.'}</span>
         </p>
       </div>
