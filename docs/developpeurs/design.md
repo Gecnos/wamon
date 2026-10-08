@@ -2,18 +2,18 @@
 
 Wamon est surtout utilisé **projeté au tableau**, souvent avec un vidéoprojecteur fatigué, et parfois **sur le téléphone** d’un élève. Chaque choix de design part de ces deux situations.
 
-## Direction : le cahier de TP
+## Direction : le manuel de labo
 
-L’interface reprend les objets familiers d’une classe de sciences :
+Page blanche, encre presque noire, un seul orange de sécurité pour ce qui est actif ou à faire ensuite, et des graduations de verrerie comme signature :
 
 | Élément | Usage |
 | --- | --- |
-| Papier blanc, encre bleue (`encre`) | Fond et couleur d’action principale |
-| Copie d’élève (marge rouge, lignes) | L’énoncé projeté, l’aperçu d’une proposition |
-| Papier millimétré (`bg-millimetre`) | Les courbes, la paillasse |
-| Stylo rouge (`rouge`) | La correction, la valeur exacte, une réponse à discuter |
+| Blanc (`paper`, `surface`) et encre (`ink`) | Fond et texte |
+| Orange de sécurité (`signal`) | L’action principale, l’étape en cours, la réponse de la classe. Texte noir dessus, jamais blanc |
+| Bleu de mesure (`mesure`) | Les symboles, les valeurs et les liens |
+| Rouge (`rouge`) | La valeur exacte, la correction, une réponse à discuter |
 | Vert (`vert`) | Une réponse confirmée |
-| Surligneur (`surligneur`) | La réponse de la classe |
+| Règle graduée (composant `Ruler`) | Frise des étapes, séparateur de titre, avancement de la burette |
 
 Le thème est défini dans `src/styles/app.css` (`@theme`). N’ajoutez pas de couleur en dur : utilisez ces jetons.
 
@@ -58,7 +58,6 @@ Aucune feuille de style par composant. `src/styles/app.css` ne contient que :
 
 - l’import de Tailwind et des polices ;
 - le thème ;
-- l’utilitaire `bg-millimetre` ;
 - quelques règles de base.
 
 Pour un SVG injecté, utilisez les variantes arbitraires (`[&_svg]:w-full`). Un `style` en ligne n’est acceptable que pour une valeur calculée à l’exécution, comme la couleur d’une solution.

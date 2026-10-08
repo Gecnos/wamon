@@ -7,35 +7,41 @@
 @custom-variant projection (&:where(.projection, .projection *));
 
 /*
- * Direction « cahier de TP » : papier blanc, encre bleue, papier millimétré
- * pour les mesures, stylo rouge pour la correction, surligneur pour la
- * réponse de la classe. Atkinson Hyperlegible a été dessinée pour la
- * lisibilité à distance et en basse vision : idéal pour un vidéoprojecteur.
+ * Direction « manuel de labo » : page blanche, encre presque noire, un seul
+ * orange de sécurité pour ce qui est actif ou à faire ensuite, un bleu de
+ * mesure pour les valeurs et les liens, des graduations comme signature.
+ * Atkinson Hyperlegible a été dessinée pour la lisibilité à distance et en
+ * basse vision : idéale pour un vidéoprojecteur.
  */
 @theme {
   --font-sans: "Atkinson Hyperlegible Next Variable", system-ui, sans-serif;
   --font-mono: "Atkinson Hyperlegible Mono Variable", ui-monospace, monospace;
 
-  --color-paper: #f3f5f9;
+  --color-paper: #ffffff;
   --color-surface: #ffffff;
-  --color-sunken: #eaeef5;
-  --color-grid: #d5deea;
-  --color-grid-fine: #e8edf5;
-  --color-line: #d2d9e4;
-  --color-line-strong: #93a0b6;
+  --color-sunken: #f1f3f6;
+  --color-line: #dde1e8;
+  --color-line-strong: #838c9c;
 
-  --color-ink: #13203a;
-  --color-ink-2: #46526a;
+  --color-ink: #14171c;
+  --color-ink-2: #4a5260;
 
-  --color-encre: #1e44c4;
-  --color-encre-strong: #142f8e;
-  --color-encre-soft: #e6ebfb;
+  --color-signal: #ff5a1f;
+  --color-signal-strong: #e64a0f;
+  --color-signal-soft: #fff0e8;
 
-  --color-rouge: #c02d1c;
-  --color-rouge-soft: #fce6e2;
-  --color-vert: #127546;
-  --color-vert-soft: #ddf2e6;
-  --color-surligneur: #ffe45c;
+  --color-mesure: #1456c9;
+  --color-mesure-strong: #0d3f99;
+  --color-mesure-soft: #e8effc;
+
+  --color-rouge: #c4281b;
+  --color-rouge-soft: #fdebe8;
+  --color-vert: #0f7a43;
+  --color-vert-soft: #e1f4e8;
+  --color-surligneur: #ffd5bf;
+
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
 
   --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
@@ -56,18 +62,6 @@
   }
 }
 
-/* Papier millimétré : lignes fines tous les 8 px, épaisses tous les 40 px. */
-@utility bg-millimetre {
-  background-color: var(--color-surface);
-  background-image:
-    linear-gradient(var(--color-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
-    linear-gradient(var(--color-grid-fine) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-grid-fine) 1px, transparent 1px);
-  background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px;
-  background-position: -1px -1px;
-}
-
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
@@ -86,11 +80,22 @@
     min-height: 100dvh;
   }
 
+  /* Sélection de texte et barres de défilement aux couleurs du produit. */
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-ink);
+  }
+
+  * {
+    scrollbar-color: var(--color-line-strong) transparent;
+  }
+
   /* 16 px minimum : iOS ne zoome plus sur les champs. */
   input,
   textarea,
   select {
     font-size: max(1rem, 16px);
+    caret-color: var(--color-signal-strong);
   }
 
   button,
@@ -108,7 +113,7 @@
   }
 
   :focus-visible {
-    outline: 3px solid var(--color-encre);
+    outline: 3px solid var(--color-ink);
     outline-offset: 2px;
   }
 
@@ -120,5 +125,12 @@
   input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+
+  /* Les chiffres des mesures s'alignent en colonnes. */
+  table,
+  dd,
+  output {
+    font-variant-numeric: tabular-nums;
   }
 }

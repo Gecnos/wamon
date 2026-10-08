@@ -7,7 +7,6 @@ import SeanceView, { SeanceRedirect } from './pages/SeanceView';
 import LaboView from './pages/LaboView';
 import CatalogView from './pages/CatalogView';
 import GuideView from './pages/GuideView';
-import ContributionView from './pages/ContributionView';
 import { SeanceProvider } from './features/seance/SeanceContext';
 import { ProjectionProvider } from './lib/projection';
 
@@ -35,7 +34,7 @@ export default function App() {
             <Route path="materiel" element={<CatalogView />} />
             <Route path="materiel/:id" element={<CatalogView />} />
             <Route path="guide" element={<GuideView />} />
-            <Route path="contribuer" element={<ContributionView />} />
+            <Route path="contribuer" element={<Navigate to="/" replace />} />
             {/* Anciennes adresses */}
             <Route path="simulation" element={<Navigate to="/exercices" replace />} />
             <Route path="classe" element={<Navigate to="/guide" replace />} />

@@ -38,8 +38,8 @@ export function PreparationExperiment({ ex, params, variantId, answer }: Props) 
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-      <section aria-label="Paillasse" className="rounded-2xl border border-line bg-surface p-3 sm:p-5">
-        <div className="aspect-[56/40] w-full text-[#46526a]">
+      <section aria-label="Paillasse" className="rounded-lg border border-line bg-surface p-3 sm:p-5">
+        <div className="aspect-[56/40] w-full text-[#4a5260]">
           <PreparationBench
             ex={ex}
             stage={stage}
@@ -53,7 +53,7 @@ export function PreparationExperiment({ ex, params, variantId, answer }: Props) 
         </div>
       </section>
 
-      <section aria-labelledby="protocole-titre" className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
+      <section aria-labelledby="protocole-titre" className="rounded-lg border border-line bg-surface p-5 sm:p-6">
         <h3 id="protocole-titre" className="text-lg font-bold text-ink">Protocole</h3>
         <p className="mt-1 text-[0.95rem] text-ink-2">
           {exp.answerIsUsed
@@ -65,8 +65,8 @@ export function PreparationExperiment({ ex, params, variantId, answer }: Props) 
             const isDone = i < stage;
             const isCurrent = i === stage;
             return (
-              <li key={label} className={`flex items-start gap-3 rounded-xl p-2 transition-colors duration-200 ${isCurrent ? 'bg-encre-soft' : ''}`}>
-                <span className={`grid size-8 shrink-0 place-items-center rounded-full text-sm font-bold ${isDone ? 'bg-vert text-white' : isCurrent ? 'bg-encre text-white' : 'border-2 border-line-strong text-ink-2'}`}>
+              <li key={label} className={`flex items-start gap-3 rounded-md p-2 transition-colors duration-200 ${isCurrent ? 'bg-mesure-soft' : ''}`}>
+                <span className={`grid size-8 shrink-0 place-items-center rounded-full text-sm font-bold ${isDone ? 'bg-vert text-white' : isCurrent ? 'bg-ink text-white' : 'border-2 border-line-strong text-ink-2'}`}>
                   {isDone ? <Check size={16} /> : i + 1}
                 </span>
                 <span className={`pt-1 text-[1.05rem] leading-snug ${isCurrent ? 'font-bold text-ink' : isDone ? 'text-ink-2 line-through decoration-ink-2/40' : 'text-ink-2'}`}>{label}</span>
@@ -78,7 +78,7 @@ export function PreparationExperiment({ ex, params, variantId, answer }: Props) 
           {!done ? (
             <Button size="lg" className="w-full" onClick={() => setStage(s => s + 1)}>{steps[stage]}</Button>
           ) : (
-            <div className="rounded-xl bg-surligneur/60 p-4 text-ink">
+            <div className="rounded-md bg-surligneur/60 p-4 text-ink">
               <p className="font-bold">Solution prête. Comparez la fiole et le témoin.</p>
               <p className="mt-1 text-[0.95rem]">Même teinte : la réponse tient. Teinte différente : il y a une erreur à trouver.</p>
             </div>

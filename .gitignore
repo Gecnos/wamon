@@ -30,3 +30,6 @@ Thumbs.db
 # Journaux
 *.log
 npm-debug.log*
+
+# Captures et état de travail du skill de design
+.impeccable/

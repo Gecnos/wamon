@@ -25,7 +25,7 @@ export function IndicatorPicker({ value, onChange, legend = 'Indicateur coloré'
               type="button"
               aria-pressed={selected}
               onClick={() => onChange(id)}
-              className={`relative flex min-h-14 items-center gap-3 rounded-xl border-2 px-3 py-2 text-left transition-colors ${selected ? 'border-encre bg-encre-soft' : 'border-line bg-surface hover:border-line-strong'}`}
+              className={`relative flex min-h-14 items-center gap-3 rounded-md border-2 px-3 py-2 text-left transition-colors ${selected ? 'border-ink bg-signal-soft' : 'border-line bg-surface hover:border-line-strong'}`}
             >
               <span className="flex h-9 w-4 shrink-0 flex-col overflow-hidden rounded-full ring-1 ring-ink/15" aria-hidden="true">
                 <span className="flex-1" style={{ background: indicator.colorBefore }} />
@@ -36,7 +36,7 @@ export function IndicatorPicker({ value, onChange, legend = 'Indicateur coloré'
                 <span className="block font-semibold leading-tight text-ink">{SHORT[id]}</span>
                 <span className="block text-sm text-ink-2">virage pH {fmt(indicator.pHMin, 1)} – {fmt(indicator.pHMax, 1)}</span>
               </span>
-              {selected && <Check size={18} className="absolute right-2 top-2 text-encre" />}
+              {selected && <Check size={18} className="absolute right-2 top-2 text-mesure" />}
             </button>
           );
         })}

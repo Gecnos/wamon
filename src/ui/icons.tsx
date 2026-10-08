@@ -31,3 +31,6 @@ export const Board = (p: IconProps) => <Icon {...p}><rect x="3" y="4" width="18"
 export const Pin = (p: IconProps) => <Icon {...p}><path d="M12 21s-6-5.7-6-11a6 6 0 0 1 12 0c0 5.3-6 11-6 11Z" /><circle cx="12" cy="10" r="2" /></Icon>;
 export const Trash = (p: IconProps) => <Icon {...p}><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" /></Icon>;
 export const Expand = (p: IconProps) => <Icon {...p}><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" /></Icon>;
+export const Book = (p: IconProps) => <Icon {...p}><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H19v15H6a2 2 0 0 0-2 2V5.5Z" /><path d="M8 8h7M8 12h5" /></Icon>;
+export const Beaker = (p: IconProps) => <Icon {...p}><path d="M6 3h12M8 3v16a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V3" /><path d="M8 11h8M8 15h3" /></Icon>;
+export const Mail = (p: IconProps) => <Icon {...p}><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m3.5 7 8.5 6 8.5-6" /></Icon>;

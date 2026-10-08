@@ -5,12 +5,13 @@ type Variant = 'primary' | 'secondary' | 'ghost' | 'accent';
 type Size = 'md' | 'lg';
 
 const base =
-  'inline-flex select-none items-center justify-center gap-2 rounded-xl font-semibold transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-45';
+  'inline-flex select-none items-center justify-center gap-2 rounded-md font-bold transition-[background-color,border-color,color,transform] duration-150 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40';
 
+/** L’orange signale l’action à faire ensuite : un seul bouton orange par écran. */
 const variants: Record<Variant, string> = {
-  primary: 'bg-encre text-white shadow-sm hover:bg-encre-strong',
-  accent: 'bg-encre text-white shadow-sm hover:bg-[#9d2415]',
-  secondary: 'border border-line-strong bg-surface text-ink hover:border-ink-2 hover:bg-sunken',
+  primary: 'border-2 border-ink bg-signal text-ink hover:bg-signal-strong',
+  accent: 'border-2 border-ink bg-ink text-white hover:bg-black',
+  secondary: 'border-2 border-ink bg-surface text-ink hover:bg-sunken',
   ghost: 'text-ink-2 hover:bg-sunken hover:text-ink',
 };
 

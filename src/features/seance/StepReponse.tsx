@@ -23,13 +23,13 @@ export function StepReponse({ ex }: { ex: Exercise }) {
 
   return (
     <div className="mx-auto grid max-w-3xl gap-6">
-      <section className="rounded-2xl border border-line bg-surface p-6 sm:p-10">
+      <section className="rounded-lg border border-line bg-surface p-6 sm:p-10">
         <NumberField size="xl" symbol={q.symbol} label={q.name} unit={q.unit} value={state.classAnswer} onChange={classAnswer => update({ classAnswer })}
           min={0} max={q.max} step={q.step} placeholder="?" autoFocus={state.classAnswer === null}
           hint="La correction ne s’affichera qu’après l’expérience." />
       </section>
 
-      <section aria-labelledby="groupes-titre" className="rounded-2xl border border-dashed border-line-strong p-5 sm:p-6">
+      <section aria-labelledby="groupes-titre" className="rounded-lg border border-dashed border-line-strong p-5 sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <Users className="shrink-0 text-ink-2" />
@@ -48,7 +48,7 @@ export function StepReponse({ ex }: { ex: Exercise }) {
                 <div className="min-w-0 flex-1">
                   <NumberField label={g.name} unit={q.unit} value={g.value} onChange={value => setGroup(g.id, value)} min={0} max={q.max} step={q.step} placeholder="?" />
                 </div>
-                <button type="button" onClick={() => removeGroup(g.id)} className="grid size-12 shrink-0 place-items-center rounded-xl text-ink-2 transition-colors hover:bg-rouge-soft hover:text-rouge active:scale-95" aria-label={`Retirer ${g.name}`}><Trash /></button>
+                <button type="button" onClick={() => removeGroup(g.id)} className="grid size-12 shrink-0 place-items-center rounded-md text-ink-2 transition-colors hover:bg-rouge-soft hover:text-rouge active:scale-95" aria-label={`Retirer ${g.name}`}><Trash /></button>
               </li>
             ))}
           </ul>
