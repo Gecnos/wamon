@@ -94,9 +94,9 @@ export function PreparationBench({ ex, stage, amount, obtained, expected, expect
       {/* Fiole jaugée : verre, trait de jauge, bouchon */}
       <g className={finished ? 'motion-safe:animate-shake' : ''} style={{ transformOrigin: `${FIOLE.cx}px ${FIOLE.bottom}px` }}>
         <path d={`M ${FIOLE.neckX} ${FIOLE.neckTop} V ${FIOLE.bulbCy - FIOLE.r + 8} A ${FIOLE.r} ${FIOLE.r} 0 1 0 ${FIOLE.neckX + FIOLE.neckW} ${FIOLE.bulbCy - FIOLE.r + 8} V ${FIOLE.neckTop}`} fill="none" stroke="currentColor" strokeWidth="2.5" />
-        <line x1={FIOLE.neckX - 6} x2={FIOLE.neckX + FIOLE.neckW + 6} y1={FIOLE.jauge} y2={FIOLE.jauge} stroke="#c4281b" strokeWidth="2" />
-        <text x={FIOLE.neckX + FIOLE.neckW + 12} y={FIOLE.jauge + 5} fontSize="14" fill="#c4281b" fontWeight="700">trait de jauge</text>
-        <rect x={FIOLE.neckX - 3} y={FIOLE.neckTop - 16} width={FIOLE.neckW + 6} height="16" rx="3" fill="#838c9c" style={fade(finished)} />
+        <line x1={FIOLE.neckX - 6} x2={FIOLE.neckX + FIOLE.neckW + 6} y1={FIOLE.jauge} y2={FIOLE.jauge} stroke="#c02d1c" strokeWidth="2" />
+        <text x={FIOLE.neckX + FIOLE.neckW + 12} y={FIOLE.jauge + 5} fontSize="14" fill="#c02d1c" fontWeight="700">trait de jauge</text>
+        <rect x={FIOLE.neckX - 3} y={FIOLE.neckTop - 16} width={FIOLE.neckW + 6} height="16" rx="3" fill="#93a0b6" style={fade(finished)} />
       </g>
       <text x={FIOLE.cx} y="392" textAnchor="middle" fontSize="15" fontWeight="700" fill="currentColor">Fiole jaugée</text>
 
@@ -130,7 +130,7 @@ function DilutionTools({ stage, amount, motherColor }: { stage: number; amount: 
         <rect x="107" y="190" width="6" height="90" fill="none" stroke="currentColor" strokeWidth="2" />
         <ellipse cx="110" cy="160" rx="10" ry="27" fill={motherColor} style={{ ...fade(filled, 700), transformOrigin: '110px 187px' }} />
         <rect x="108.5" y="190" width="3" height="88" fill={motherColor} style={fade(filled, 700)} />
-        <line x1="100" x2="120" y1="70" y2="70" stroke="#c4281b" strokeWidth="2" />
+        <line x1="100" x2="120" y1="70" y2="70" stroke="#c02d1c" strokeWidth="2" />
         <text x="126" y="60" fontSize="15" fontWeight="700" fill="currentColor">{fmt(amount, 1)} mL</text>
       </g>
     </g>
@@ -144,10 +144,10 @@ function DissolutionTools({ stage, amount, crystal }: { stage: number; amount: n
   return (
     <g>
       {/* Balance */}
-      <rect x="30" y="300" width="160" height="72" rx="10" fill="#f1f3f6" stroke="currentColor" strokeWidth="2.5" />
-      <rect x="48" y="328" width="92" height="30" rx="4" fill="#14171c" />
+      <rect x="30" y="300" width="160" height="72" rx="10" fill="#eaeef5" stroke="currentColor" strokeWidth="2.5" />
+      <rect x="48" y="328" width="92" height="30" rx="4" fill="#13203a" />
       <text x="132" y="349" textAnchor="end" fontSize="18" fontFamily="'Atkinson Hyperlegible Mono Variable', monospace" fill="#8ff0b4">{weighed ? fmt(poured ? 0 : amount, 2) : '0,00'} g</text>
-      <rect x="40" y="288" width="140" height="12" rx="3" fill="#cfd5df" stroke="currentColor" strokeWidth="2" />
+      <rect x="40" y="288" width="140" height="12" rx="3" fill="#c7d0de" stroke="currentColor" strokeWidth="2" />
       {/* Coupelle et cristaux */}
       <path d="M 70 288 q 40 -26 80 0 Z" fill="none" stroke="currentColor" strokeWidth="2" />
       <g style={{ ...fade(weighed && !poured, 400), transform: `scale(${pile})`, transformOrigin: '110px 286px', transition: `opacity 400ms ease, transform 700ms ${EASE}` }}>

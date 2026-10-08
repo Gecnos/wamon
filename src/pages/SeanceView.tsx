@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { DEFAULT_EXERCISE, findExercise, LEVEL_LABELS, type Exercise } from '../exercises';
 import { Button } from '../ui/Button';
-import { ArrowLeft, Dice, Reset } from '../ui/icons';
+import { ArrowLeft, ArrowRight, Dice, Reset } from '../ui/icons';
 import { useSeance } from '../features/seance/SeanceContext';
 import { ActionBar } from '../features/seance/ActionBar';
 import { Stepper } from '../features/seance/Stepper';
@@ -57,11 +57,11 @@ function Seance({ ex, etape }: { ex: Exercise; etape: string | undefined }) {
   let action;
   if (index === 0) {
     const blocked = ex.warning(state.params) !== null;
-    action = <ActionBar back={back} hint="Quand la classe a trouvé un résultat, passez à la saisie."><Button size="lg" className="w-full md:w-auto" onClick={() => go(1)} disabled={blocked}>La classe a une réponse</Button></ActionBar>;
+    action = <ActionBar back={back} hint="Quand la classe a trouvé un résultat, passez à la saisie."><Button size="lg" className="w-full md:w-auto" onClick={() => go(1)} disabled={blocked}>La classe a une réponse <ArrowRight /></Button></ActionBar>;
   } else if (index === 1) {
-    action = <ActionBar back={back} hint={state.classAnswer === null ? 'Saisissez d’abord la valeur trouvée par la classe.' : 'Le matériel est prêt.'}><Button size="lg" className="w-full md:w-auto" onClick={() => go(2)} disabled={state.classAnswer === null}>Lancer l’expérience</Button></ActionBar>;
+    action = <ActionBar back={back} hint={state.classAnswer === null ? 'Saisissez d’abord la valeur trouvée par la classe.' : 'Le matériel est prêt.'}><Button size="lg" className="w-full md:w-auto" onClick={() => go(2)} disabled={state.classAnswer === null}>Lancer l’expérience <ArrowRight /></Button></ActionBar>;
   } else if (index === 2) {
-    action = <ActionBar back={back} hint="Une fois le résultat observé, affichez le bilan."><Button size="lg" className="w-full md:w-auto" onClick={() => go(3)}>Voir le bilan</Button></ActionBar>;
+    action = <ActionBar back={back} hint="Une fois le résultat observé, affichez le bilan."><Button size="lg" className="w-full md:w-auto" onClick={() => go(3)}>Voir le bilan <ArrowRight /></Button></ActionBar>;
   } else {
     action = (
       <ActionBar back={back}>
@@ -74,19 +74,19 @@ function Seance({ ex, etape }: { ex: Exercise; etape: string | undefined }) {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 pt-6 sm:px-6 sm:pt-8">
+    <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6 sm:pt-8">
       <div className="projection:hidden">
-        <Link to="/exercices" className="inline-flex min-h-11 items-center gap-2 text-[0.95rem] font-bold text-ink-2 hover:text-ink"><ArrowLeft size={18} /> Tous les exercices</Link>
-        <h1 className="mt-1 text-2xl font-bold tracking-tight text-ink sm:text-3xl">{ex.title}</h1>
-        <p className="mt-1 text-[0.95rem] text-ink-2">{ex.levels.map(l => LEVEL_LABELS[l]).join(', ')}, environ {ex.duration}</p>
+        <Link to="/exercices" className="inline-flex min-h-11 items-center gap-2 text-[0.95rem] font-semibold text-ink-2 hover:text-ink"><ArrowLeft size={18} /> Tous les exercices</Link>
+        <p className="mt-2 text-[0.95rem] text-ink-2">{ex.levels.map(l => LEVEL_LABELS[l]).join(', ')}, environ {ex.duration}</p>
+        <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">{ex.title}</h1>
       </div>
 
-      <div className="mt-6">
+      <div className="mt-6 rounded-2xl bg-surface px-2 py-4 sm:px-6">
         <Stepper exerciseId={ex.id} current={index} furthest={Math.max(state.furthest, index)} />
       </div>
 
       <header className="mt-8 mb-6">
-        <h2 className="text-3xl font-bold tracking-tight text-balance text-ink sm:text-4xl">{heading.title}</h2>
+        <h2 className="text-3xl font-extrabold tracking-tight text-balance text-ink sm:text-4xl">{heading.title}</h2>
         <p className="mt-2 max-w-3xl text-lg text-ink-2 projection:hidden">{heading.lead}</p>
       </header>
 
