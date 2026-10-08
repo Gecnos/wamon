@@ -4,6 +4,7 @@
   "titre": "Dosage acide fort par base forte",
   "matiere": "chimie",
   "niveau": ["1ere", "terminale"],
+  "description": "Dosage d'un acide fort (acide chlorhydrique) par une base forte (soude). L'équivalence a lieu à pH = 7 : le bleu de bromothymol convient.",
   "grandeurs": {
     "Ca": {
       "label": "Concentration de l'acide (Ca)",

@@ -1,111 +1,146 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { LinkButton } from '../ui/Button';
-import { ArrowRight, Board, Flask } from '../ui/icons';
+import { EXERCISES, LEVEL_LABELS } from '../exercises';
 import { STEPS } from '../features/seance/logic';
+import { Readout } from '../features/titration/Readout';
+import { TitrationCurve } from '../features/titration/TitrationCurve';
+import { titrationPoint } from '../models/titration';
+import { CONTACT_EMAIL, mailto } from '../lib/contact';
+import { buttonClass, LinkButton } from '../ui/Button';
+import { Ruler } from '../ui/Ruler';
 
-function SessionPreview() {
+const DEMO = { Ca: 0.1, Va: 20, Cb: 0.1 };
+const DEMO_MAX = 25;
+const DURATION_MS = 9000;
+
+/** Volume versé qui avance en boucle ; figé à la fin si l’utilisateur limite les animations. */
+function useDemoVolume() {
+  const [volume, setVolume] = useState(DEMO_MAX);
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let raf = 0;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const t = ((now - start) % (DURATION_MS + 2500)) / DURATION_MS;
+      // Ralentit près de l’équivalence, comme un opérateur attentif.
+      const eased = t >= 1 ? 1 : t < 0.5 ? t * 1.5 : 0.75 + (t - 0.5) * 0.5;
+      setVolume(Math.min(DEMO_MAX, eased * DEMO_MAX));
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
+  return volume;
+}
+
+function Beaker({ color }: { color: string }) {
   return (
-    <div className="relative rounded-3xl border border-line bg-surface p-5 shadow-[0_20px_60px_-30px_rgba(14,34,25,0.45)] sm:p-7" aria-hidden="true">
-      <div className="flex items-center justify-between text-sm font-semibold text-ink-2">
-        <span>Séance · Dosage acide fort / base forte</span>
-        <span className="rounded-full bg-brand-soft px-2.5 py-1 text-brand-strong">Étape 1 sur 4</span>
+    <svg viewBox="0 0 120 150" className="h-full w-auto" aria-hidden="true">
+      <path d="M22 40 V128 a10 10 0 0 0 10 10 H88 a10 10 0 0 0 10 -10 V40" fill="none" stroke="#14171c" strokeWidth="3" />
+      <path d="M24 70 V128 a8 8 0 0 0 8 8 H88 a8 8 0 0 0 8 -8 V70 Z" style={{ fill: color, transition: 'fill 300ms ease' }} />
+      <path d="M16 40 H104" stroke="#14171c" strokeWidth="3" strokeLinecap="round" />
+      {/* Graduations du bécher */}
+      {[60, 80, 100, 120].map(y => <path key={y} d={`M22 ${y} h${y % 40 === 0 ? 12 : 7}`} stroke="#14171c" strokeWidth="2" />)}
+      {/* Burette au-dessus */}
+      <rect x="55" y="0" width="10" height="26" fill="none" stroke="#14171c" strokeWidth="2.5" />
+      <path d="M60 26 V36" stroke="#14171c" strokeWidth="2" />
+    </svg>
+  );
+}
+
+/** Panneau de mesure : le même relevé que celui projeté en séance. */
+function HeroDemo() {
+  const volume = useDemoVolume();
+  const reading = titrationPoint(DEMO, volume, 'btb');
+  return (
+    <figure className="m-0 overflow-hidden rounded-lg border-2 border-ink bg-surface">
+      <figcaption className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 bg-ink px-4 py-3 text-white sm:px-5">
+        <span className="font-bold">Démonstration : dosage d’un acide fort par une base forte</span>
+        <span className="text-sm text-white/80">Bleu de bromothymol, 0,10 mol/L</span>
+      </figcaption>
+      <div className="grid grid-cols-[5.5rem_minmax(0,1fr)] items-end gap-3 p-4 sm:grid-cols-[7rem_minmax(0,1fr)] sm:p-5">
+        <div className="h-32 sm:h-44"><Beaker color={reading.color} /></div>
+        <TitrationCurve title="Démonstration : courbe de dosage" {...DEMO} maxVb={DEMO_MAX} currentVb={volume} showTheory={false} />
       </div>
-      <p className="mt-5 text-xl font-bold leading-snug text-ink sm:text-2xl">Calculer le volume équivalent V<sub>e</sub> de soude nécessaire pour doser cet acide.</p>
-      <div className="mt-5 grid grid-cols-3 gap-2 sm:gap-3">
-        {[['Ca', '0,1', 'mol/L'], ['Va', '20', 'mL'], ['Cb', '0,1', 'mol/L']].map(([symbol, value, unit]) => (
-          <div key={symbol} className="rounded-xl bg-sunken p-3">
-            <p className="font-mono text-sm text-ink-2">{symbol}</p>
-            <p className="mt-1 text-xl font-bold tabular-nums text-ink sm:text-2xl">{value} <span className="text-sm font-semibold text-ink-2">{unit}</span></p>
-          </div>
-        ))}
+      <div className="border-t-2 border-ink">
+        <Readout volume={volume} maxVb={DEMO_MAX} pH={reading.pH} color={reading.color} colorLabel={reading.colorLabel} />
       </div>
-      <div className="mt-6 flex items-center gap-2">
-        {STEPS.map((step, i) => (
-          <div key={step.id} className="flex flex-1 flex-col gap-1.5">
-            <span className={`h-1.5 rounded-full ${i === 0 ? 'bg-brand' : 'bg-line'}`} />
-            <span className={`hidden text-xs font-semibold sm:block ${i === 0 ? 'text-brand-strong' : 'text-ink-2'}`}>{step.short}</span>
-          </div>
-        ))}
-      </div>
-    </div>
+    </figure>
   );
 }
 
 export default function Landing() {
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6">
-      <section className="grid items-center gap-10 py-10 sm:py-16 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <section className="grid items-center gap-10 py-10 sm:py-14 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] xl:gap-12">
         <div>
-          <p className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-semibold text-ink-2">
-            <Board size={16} className="text-brand" /> Pour les enseignants de physique-chimie
-          </p>
-          <h1 className="mt-5 text-4xl font-extrabold leading-[1.08] tracking-tight text-ink sm:text-5xl lg:text-6xl">
-            Vos exercices de chimie, vérifiés <span className="text-brand">par l’expérience.</span>
+          <h1 className="text-4xl font-bold leading-[1.04] tracking-[-0.03em] text-balance text-ink sm:text-5xl lg:text-6xl">
+            Vos élèves calculent. L’expérience tranche.
           </h1>
-          <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-2">
-            Projetez un énoncé, laissez la classe calculer, puis réalisez le dosage devant elle. Les élèves voient si leur résultat tient debout — même sans laboratoire équipé ni connexion.
+          <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-2">
+            Wamon est fait pour les professeurs de physique-chimie. Projetez un exercice, laissez la classe chercher, puis faites l’expérience devant elle : tout le monde voit si le résultat tient. Il suffit d’un ordinateur et d’un vidéoprojecteur, sans laboratoire équipé et sans connexion.
           </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <LinkButton to="/seance/enonce" size="lg">Préparer une séance <ArrowRight /></LinkButton>
-            <LinkButton to="/labo" size="lg" variant="secondary">Manipuler librement</LinkButton>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+            <LinkButton to="/exercices" size="lg" className="whitespace-nowrap">Préparer une séance</LinkButton>
+            <LinkButton to="/guide" size="lg" variant="secondary" className="whitespace-nowrap">Voir le déroulé en classe</LinkButton>
           </div>
-          <p className="mt-4 text-sm text-ink-2">Gratuit, libre et utilisable hors ligne. Aucun compte à créer.</p>
         </div>
-        <SessionPreview />
+        <HeroDemo />
       </section>
 
-      <section aria-labelledby="deroule" className="border-t border-line py-12 sm:py-16">
-        <h2 id="deroule" className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">Une séance se déroule en quatre temps</h2>
-        <p className="mt-2 max-w-2xl text-ink-2">Wamon vous guide d’une étape à l’autre. À chaque écran, un seul bouton principal vous dit quoi faire ensuite.</p>
-        <ol className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section aria-labelledby="deroule" className="py-12 sm:py-16">
+        <h2 id="deroule" className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">Une séance, quatre temps</h2>
+        <p className="mt-2 max-w-2xl text-lg text-ink-2">À chaque écran, un seul bouton orange vous indique la suite. Le bouton « retour » du navigateur revient à l’étape précédente sans rien perdre.</p>
+        <Ruler className="mt-8" majors={4} minors={8} progress={1} />
+        <ol className="grid gap-8 pt-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
           {STEPS.map((step, i) => (
-            <li key={step.id} className="rounded-2xl border border-line bg-surface p-5">
-              <span className="grid size-10 place-items-center rounded-full bg-brand text-lg font-bold text-white">{i + 1}</span>
-              <h3 className="mt-4 text-lg font-bold text-ink">{step.label}</h3>
+            <li key={step.id}>
+              <span className="grid size-12 place-items-center rounded-md bg-ink text-2xl font-bold tabular-nums text-white">{i + 1}</span>
+              <h3 className="mt-4 text-xl font-bold text-ink">{step.label}</h3>
               <p className="mt-1 text-ink-2">{step.hint}.</p>
             </li>
           ))}
         </ol>
       </section>
 
-      <section aria-labelledby="modes" className="border-t border-line py-12 sm:py-16">
-        <h2 id="modes" className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">Deux façons de travailler</h2>
-        <div className="mt-8 grid gap-4 lg:grid-cols-2">
-          <Link to="/seance/enonce" className="group rounded-3xl border-2 border-brand bg-brand-soft p-6 transition-colors hover:bg-[#d3e5d8] sm:p-8">
-            <Board size={32} className="text-brand" />
-            <h3 className="mt-4 text-xl font-bold text-ink sm:text-2xl">Séance guidée</h3>
-            <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-brand-strong">L’enseignant projette, la classe cherche</p>
-            <p className="mt-3 text-ink-2">Vous choisissez les données, la classe calcule, vous saisissez sa réponse puis lancez le dosage. Wamon compare le résultat au modèle et aide à discuter les écarts entre groupes.</p>
-            <span className="mt-5 inline-flex items-center gap-2 font-bold text-brand-strong">Commencer une séance <ArrowRight className="transition-transform group-hover:translate-x-1" /></span>
-          </Link>
-          <Link to="/labo" className="group rounded-3xl border-2 border-line bg-surface p-6 transition-colors hover:border-line-strong sm:p-8">
-            <Flask size={32} className="text-accent" />
-            <h3 className="mt-4 text-xl font-bold text-ink sm:text-2xl">Labo libre</h3>
-            <p className="mt-1 text-sm font-semibold uppercase tracking-wide text-accent">Chacun manipule à son rythme</p>
-            <p className="mt-3 text-ink-2">Choisissez l’acide, la base, les concentrations et l’indicateur. Versez goutte à goutte, relevez vos mesures et tracez votre propre courbe — sur ordinateur, tablette ou téléphone.</p>
-            <span className="mt-5 inline-flex items-center gap-2 font-bold text-accent">Ouvrir la paillasse <ArrowRight className="transition-transform group-hover:translate-x-1" /></span>
-          </Link>
+      <section aria-labelledby="exercices" className="py-12 sm:py-16">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h2 id="exercices" className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">Des exercices du programme</h2>
+            <p className="mt-2 max-w-2xl text-lg text-ink-2">De la seconde à la terminale. Chacun se règle avec vos propres données ou des valeurs tirées au hasard.</p>
+          </div>
+          <Link to="/exercices" className="inline-flex min-h-11 items-center font-bold text-mesure underline underline-offset-4">Tous les exercices</Link>
         </div>
+        <ul className="mt-6 divide-y divide-line overflow-hidden rounded-lg border-2 border-ink">
+          {EXERCISES.map(ex => (
+            <li key={ex.id}>
+              <Link to={`/seance/${ex.id}/enonce`} className="grid gap-1 p-4 transition-colors hover:bg-sunken sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6 sm:p-5">
+                <span className="font-bold text-mesure">{ex.levels.map(l => LEVEL_LABELS[l]).join(', ')}</span>
+                <span>
+                  <span className="block text-xl font-bold text-ink">{ex.title}</span>
+                  <span className="mt-1 block text-ink-2">{ex.summary}</span>
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <section aria-labelledby="experiences" className="border-t border-line py-12 sm:py-16">
-        <h2 id="experiences" className="text-2xl font-bold tracking-tight text-ink sm:text-3xl">Expériences disponibles</h2>
-        <ul className="mt-6 divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface">
-          <li>
-            <Link to="/seance/enonce" className="flex items-center gap-4 p-5 hover:bg-paper">
-              <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-brand-soft text-brand"><Flask /></span>
-              <span className="min-w-0 flex-1"><span className="block font-bold text-ink">Dosage d’un acide fort par une base forte</span><span className="block text-sm text-ink-2">Chimie · 1re et terminale · burette, bécher, indicateurs colorés, courbe pH</span></span>
-              <span className="hidden rounded-full bg-ok-soft px-3 py-1 text-sm font-semibold text-ok sm:inline">Disponible</span>
-              <ArrowRight className="text-ink-2" />
-            </Link>
-          </li>
-          <li className="flex items-center gap-4 p-5 text-ink-2">
-            <span className="grid size-11 shrink-0 place-items-center rounded-xl bg-sunken"><Flask /></span>
-            <span className="min-w-0 flex-1"><span className="block font-bold">Dilution d’une solution mère</span><span className="block text-sm">Chimie · 2de · pipette et fiole jaugées</span></span>
-            <span className="rounded-full bg-sunken px-3 py-1 text-sm font-semibold">En préparation</span>
-          </li>
-        </ul>
-        <p className="mt-4 text-ink-2">Un exercice qui marche bien avec vos élèves ? <Link to="/contribuer" className="font-semibold text-ink underline underline-offset-4">Proposez-le</Link>.</p>
+      <section aria-labelledby="labo" className="grid gap-5 pb-14 sm:pb-20 lg:grid-cols-2">
+        <div className="rounded-lg border-2 border-ink p-6 sm:p-8">
+          <h2 id="labo" className="text-2xl font-bold tracking-tight text-ink">Et pour les élèves, un labo libre</h2>
+          <p className="mt-3 text-lg text-ink-2">
+            Sur ordinateur, tablette ou téléphone, chaque élève choisit l’acide, la base, les concentrations et l’indicateur, verse goutte à goutte et relève ses mesures pour construire sa propre courbe.
+          </p>
+          <LinkButton to="/labo" variant="secondary" className="mt-6">Ouvrir le labo libre</LinkButton>
+        </div>
+        <div className="rounded-lg bg-ink p-6 text-white sm:p-8">
+          <h2 className="text-2xl font-bold tracking-tight">Une idée d’exercice, une question&nbsp;?</h2>
+          <p className="mt-3 text-lg text-white/85">
+            Écrivez-nous : décrivez l’exercice avec vos mots, ou dites-nous ce qui manque à votre classe. Nous vous répondons.
+          </p>
+          <a href={mailto('Wamon : proposition ou question')} className={buttonClass('primary', 'md', 'mt-6 border-signal')}>{CONTACT_EMAIL}</a>
+        </div>
       </section>
     </div>
   );

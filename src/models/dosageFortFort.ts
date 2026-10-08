@@ -130,7 +130,7 @@ export function calculateTitrationPoint(
 /**
  * Calcul le dégradé de couleur et la description textuelle selon la zone de virage.
  */
-function getIndicatorColor(pH: number, ind: IndicatorConfig): { color: string; colorLabel: string } {
+export function getIndicatorColor(pH: number, ind: IndicatorConfig): { color: string; colorLabel: string } {
   if (pH < ind.pHMin) {
     return { color: ind.colorBefore, colorLabel: ind.nameBefore };
   }
@@ -150,8 +150,16 @@ function getIndicatorColor(pH: number, ind: IndicatorConfig): { color: string; c
     };
   }
 
-  if (ratio < 0.5) {
-    return { color: ind.colorBefore, colorLabel: ind.nameTransition };
-  }
-  return { color: ind.colorAfter, colorLabel: ind.nameTransition };
+  // Teinte sensible : avant → couleur de virage → après (jaune → vert → bleu pour le BBT).
+  const color = ratio < 0.5
+    ? mixHex(ind.colorBefore, ind.colorTransition, ratio * 2)
+    : mixHex(ind.colorTransition, ind.colorAfter, (ratio - 0.5) * 2);
+  return { color, colorLabel: ind.nameTransition };
+}
+
+/** Mélange linéaire de deux couleurs #rrggbb (t = 0 : a, t = 1 : b). */
+function mixHex(a: string, b: string, t: number): string {
+  const channel = (hex: string, i: number) => parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16);
+  const mixed = [0, 1, 2].map(i => Math.round(channel(a, i) + (channel(b, i) - channel(a, i)) * t));
+  return `#${mixed.map(v => v.toString(16).padStart(2, '0')).join('')}`;
 }

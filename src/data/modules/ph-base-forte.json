@@ -1,0 +1,33 @@
+{
+  "id": "ph-base-forte",
+  "version": 1,
+  "titre": "pH d'une solution d'hydroxyde de sodium",
+  "matiere": "chimie",
+  "niveau": ["terminale"],
+  "description": "La soude est une base forte : [HO⁻] = C et pH = 14 + log C, à 25 °C.",
+  "grandeurs": {
+    "C": { "label": "Concentration de la solution de soude (C)", "unite": "mol/L", "min": 0.001, "max": 0.1, "step": 0.001, "default": 0.01 },
+    "pH": { "label": "pH de la solution (pH)", "unite": "", "min": 11, "max": 13, "step": 0.01, "default": 12 }
+  },
+  "variantes": [
+    {
+      "id": "A",
+      "nom": "Variante A — Inconnue : pH",
+      "inconnue": "pH",
+      "donnees": ["C"],
+      "formule": "14 + log10(C)",
+      "description": "Calculer le pH de cette solution d'hydroxyde de sodium à 25 °C."
+    },
+    {
+      "id": "B",
+      "nom": "Variante B — Inconnue : concentration (C)",
+      "inconnue": "C",
+      "donnees": ["pH"],
+      "formule": "10^(pH - 14)",
+      "description": "Le pH de cette solution d'hydroxyde de sodium a été mesuré à 25 °C. Calculer sa concentration C."
+    }
+  ],
+  "vues": ["becher", "ph-metre"],
+  "tolerance": 0.03,
+  "modele": "ph.ts"
+}

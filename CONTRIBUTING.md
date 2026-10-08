@@ -1,40 +1,93 @@
 # Contribuer à Wamon
 
-Wamon avance avec les enseignants et les développeurs qui connaissent les réalités des cours de sciences en Afrique de l’Ouest. Les exercices peuvent être proposés en français, avec les unités et les programmes employés dans les établissements concernés.
+Merci de votre intérêt ! Wamon avance avec des professeurs et des développeurs qui connaissent les réalités des cours de sciences, en particulier en Afrique de l’Ouest : classes chargées, matériel de laboratoire rare, connexion instable. Toute contribution qui rend l’application plus utile dans ces conditions est la bienvenue.
 
-## Proposer un exercice sans écrire de code
+Il existe plusieurs façons d’aider, et la plupart ne demandent pas de savoir programmer.
 
-1. Dans Wamon, ouvrez **Contribuer** et téléchargez le fichier de départ. Il contient la structure d’un module au format JSON.
-2. Complétez le titre, la matière, le niveau, l’énoncé, les grandeurs (nom, symbole, unité, valeurs permises) et une ou plusieurs variantes de calcul.
-3. Joignez l’énoncé complet, la solution expliquée étape par étape, les unités, les hypothèses et les sources pédagogiques utiles.
-4. Envoyez le fichier à l’équipe du projet ou ouvrez une proposition de changement dans le dépôt. Une personne de l’équipe l’ajoutera au catalogue après relecture.
+- [Proposer un exercice](#proposer-un-exercice)
+- [Relire un exercice](#relire-un-exercice)
+- [Signaler un problème](#signaler-un-problème)
+- [Contribuer au code](#contribuer-au-code)
 
-Les exercices qui utilisent les types de simulation déjà pris en charge peuvent être préparés comme contenu JSON. Le fichier téléchargé est un brouillon structuré : vérifiez et remplacez les champs d’exemple avant de le proposer. La page Contribuer explique la relecture et indique quand une adaptation technique est nécessaire.
+## Proposer un exercice
 
-## Ajouter un nouveau type de simulation
+**Vous n’avez pas besoin de connaître le format des fichiers ni GitHub.** Écrivez à **vianneyhoueho@gmail.com** (le lien « Nous écrire » de l’application ouvre le message), en décrivant l’exercice comme un sujet de TP : titre, niveau, énoncé, données, ce que la classe doit trouver, réponse attendue, correction et ce que l’expérience doit montrer.
 
-Un nouvel exercice peut réutiliser un moteur et des vues existants. S’il demande un nouveau modèle scientifique, une nouvelle animation ou un nouvel instrument, il faut aussi ajouter le modèle correspondant dans `src/models/`, son rendu dans `src/engine/` ou `src/components/`, puis relier le module à ces éléments. Le module de dosage acide fort/base forte sert d’exemple de bout en bout.
+Ce qui aide le plus la relecture :
 
-Une contribution de nouveau type devrait inclure :
+- l’énoncé complet, avec les unités ;
+- une correction détaillée et vérifiable ;
+- ce que la classe doit **voir** : un changement de couleur, un précipité, un volume lu sur la burette… ;
+- la source de l’exercice si vous l’avez adapté (manuel, sujet d’examen, guide du programme).
 
-- le raisonnement scientifique et les équations avec unités cohérentes ;
-- les cas limites et une solution de référence vérifiable ;
-- le dessin de l’expérience ou du matériel requis ;
-- les contrôles nécessaires pour que l’enseignant puisse modifier les données ;
-- une description de ce que les élèves doivent observer pendant l’expérience.
+## Relire un exercice
 
-## Format du module
+Chaque exercice est relu par au moins un professeur avant d’être publié. Pour relire :
 
-Les modules sont des fichiers JSON dans `src/data/modules/`. Les champs importants sont :
+- refaites le calcul et vérifiez les unités ;
+- vérifiez que les données sont réalistes et que les manipulations sont sans danger ;
+- vérifiez que l’énoncé est clair pour un élève du niveau indiqué.
 
-- `grandeurs` : grandeurs avec `label`, `unite`, `min`, `max`, `step` et `default` ;
-- `variantes` : valeur inconnue, grandeurs données, formule et consigne ;
-- `vues` : instruments et graphiques utilisés par le rendu ;
-- `tolerance` : écart relatif admis pour vérifier la réponse ;
-- `modele` : moteur scientifique associé au module.
+Envoyez vos remarques par e-mail, ou en commentaire de la pull request.
 
-Les formules doivent utiliser les symboles déclarés dans `grandeurs`. Une personne qui propose seulement du contenu n’a pas à modifier le moteur scientifique.
+## Signaler un problème
 
-## Relecture et licences
+Ouvrez un [ticket](https://github.com/Gecnos/wamon/issues/new/choose) avec le modèle **Signaler un problème**. Indiquez ce que vous faisiez, ce que vous attendiez et ce qui s’est passé. Précisez aussi l’appareil et le navigateur, et joignez une capture d’écran si possible. Une erreur scientifique (un pH faux, une couleur d’indicateur incorrecte) est un problème à signaler au même titre qu’un bouton qui ne marche pas.
 
-Chaque proposition est relue pour la justesse des calculs, les unités, la sécurité des manipulations et la clarté des consignes en classe. Le code est sous licence MIT et les contenus pédagogiques sous licence CC BY-SA. Merci d’indiquer les sources et les crédits des schémas ou contenus adaptés.
+## Contribuer au code
+
+### Installer le projet
+
+```bash
+git clone https://github.com/Gecnos/wamon.git
+cd wamon
+npm install
+npm run dev
+```
+
+Node.js 20.19 ou plus récent est nécessaire.
+
+### Organisation du travail
+
+1. Choisissez un ticket, ou ouvrez-en un pour discuter d’un changement important avant de le coder.
+2. Créez une branche depuis `dev` : `feature/…` pour une fonctionnalité, `fix/…` pour une correction, `docs/…` pour la documentation, `chore/…` pour l’outillage.
+3. Faites des commits courts, avec un message au format [Conventional Commits](https://www.conventionalcommits.org/fr/), en français : `feat(labo): ajouter l’acide méthanoïque`, `fix(dosage): corriger la couleur du BBT au virage`.
+4. Vérifiez avant de pousser :
+
+   ```bash
+   npm test
+   npm run build
+   ```
+
+5. Ouvrez une pull request vers `dev`. Le modèle de description vous guide. `dev` est fusionnée dans `main` pour publier une version.
+
+### Règles du projet
+
+- **Justesse scientifique d’abord.** Un modèle (`src/models/`) est une fonction pure, documentée (équations, unités, hypothèses) et testée sur des valeurs connues. Une valeur de référence trouvée dans un manuel est le meilleur des tests.
+- **Lisible en projection, utilisable au doigt.** Les textes et contrastes doivent rester lisibles au fond d’une salle, et les zones à toucher mesurer au moins 44 px. Voir [les principes de design](docs/developpeurs/design.md).
+- **Tailwind uniquement.** Pas de nouvelle feuille de style : `src/styles/app.css` ne contient que le thème.
+- **Hors ligne.** Aucune ressource externe (police, script, image) chargée au moment de l’exécution.
+- **En français.** L’interface, les commentaires et la documentation sont en français. Les identifiants de code peuvent rester en anglais.
+
+### Ajouter un exercice à partir d’une proposition reçue
+
+Suivez [docs/developpeurs/ajouter-un-exercice.md](docs/developpeurs/ajouter-un-exercice.md). Le message du professeur sert de point de départ.
+
+### Outils d’assistance au design (facultatif)
+
+Des « skills » d’agents de code (design d’interface, animations, mobile) sont listés dans `skills-lock.json`. Pour les installer localement :
+
+```bash
+npx skills@latest add emilkowalski/skills -a claude-code -s '*' -y
+npx skills@latest add anthropics/skills -a claude-code -s frontend-design -s webapp-testing -y
+```
+
+Ils sont installés dans `.claude/skills/` et `.agents/`, qui ne sont pas versionnés.
+
+## Licences
+
+En contribuant, vous acceptez que votre code soit publié sous licence [MIT](LICENSE) et vos contenus pédagogiques sous licence [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.fr). Indiquez les sources et les crédits des énoncés, données et schémas adaptés.
+
+## Code de conduite
+
+Ce projet suit un [code de conduite](CODE_OF_CONDUCT.md). En participant, vous vous engagez à le respecter.
