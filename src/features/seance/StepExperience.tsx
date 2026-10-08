@@ -4,7 +4,6 @@ import { findVariant } from '../../exercises';
 import { fmt } from '../../lib/format';
 import { Button } from '../../ui/Button';
 import { Drop, Pause, Play, Reset } from '../../ui/icons';
-import { CalculExperience } from '../calcul/CalculExperience';
 import { PhExperience } from '../ph/PhExperience';
 import { PreparationExperiment } from '../preparation/PreparationExperiment';
 import { BenchStage } from '../titration/BenchStage';
@@ -79,7 +78,6 @@ function TitrationExperiment({ ex }: { ex: TitrationExercise }) {
 export function StepExperience({ ex }: { ex: Exercise }) {
   const { state } = useSeance(ex);
   if (ex.kind === 'titration') return <TitrationExperiment ex={ex} />;
-  if (ex.kind === 'calcul') return <CalculExperience ex={ex} params={state.params} variantId={state.variantId} answer={state.classAnswer ?? 0} />;
   if (ex.kind === 'ph') return <PhExperience ex={ex} params={state.params} variantId={state.variantId} answer={state.classAnswer ?? 0} />;
   return <PreparationExperiment ex={ex} params={state.params} variantId={state.variantId} answer={state.classAnswer ?? 0} />;
 }

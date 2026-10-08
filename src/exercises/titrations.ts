@@ -1,7 +1,6 @@
 import fortConfig from '../data/modules/dosage-fort-fort.json';
 import faibleConfig from '../data/modules/dosage-faible-fort.json';
 import baseFaibleConfig from '../data/modules/dosage-base-faible-fort.json';
-import amineConfig from '../data/modules/dosage-amine-fort.json';
 import type { ModuleConfig } from '../types';
 import { fmt } from '../lib/format';
 import { INDICATORS } from '../models/dosageFortFort';
@@ -106,17 +105,5 @@ export const dosageBaseFaible = titration(baseFaibleConfig as ModuleConfig, {
   base: { name: 'acide chlorhydrique', formula: 'H₃O⁺ + Cl⁻' },
   mirror: true,
   defaultIndicator: 'helianthine',
-  equipment: ['burette', 'becher', 'pipette-jaugee', 'statif'],
-});
-
-export const dosageAmine = titration(amineConfig as ModuleConfig, {
-  id: 'dosage-amine-fort',
-  short: 'Dosage de la méthylamine',
-  duration: '35 min',
-  context: 'Les amines sont des bases faibles. On dose une solution de méthylamine (CH₃NH₂, pKa du couple CH₃NH₃⁺/CH₃NH₂ = 10,66) par une solution d’acide chlorhydrique.',
-  acid: { name: 'méthylamine', formula: 'CH₃NH₂', pKa: 10.66 },
-  base: { name: 'acide chlorhydrique', formula: 'H₃O⁺ + Cl⁻' },
-  mirror: true,
-  defaultIndicator: 'btb',
   equipment: ['burette', 'becher', 'pipette-jaugee', 'statif'],
 });

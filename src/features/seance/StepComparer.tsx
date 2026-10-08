@@ -3,7 +3,6 @@ import { findVariant } from '../../exercises';
 import { fmt } from '../../lib/format';
 import { tint } from '../../models/preparation';
 import { Check } from '../../ui/icons';
-import { FigureView } from '../calcul/FigureView';
 import { PhScale } from '../ph/PhScale';
 import { TitrationCurve, type CurveMarker } from '../titration/TitrationCurve';
 import { useSeance } from './SeanceContext';
@@ -51,20 +50,6 @@ function PhPicture({ ex, rows }: { ex: Extract<Exercise, { kind: 'ph' }>; rows: 
       <p className="mt-1 text-[0.95rem] text-ink-2">Chaque réponse est traduite en pH, puis placée sur la teinte de l’indicateur universel.</p>
       <div className="mt-4">
         <PhScale title="Échelle de pH avec les réponses de la classe" markers={markers} />
-      </div>
-    </section>
-  );
-}
-
-function AnswersPicture({ ex, rows }: { ex: Extract<Exercise, { kind: 'calcul' }>; rows: Row[] }) {
-  const { state } = useSeance(ex);
-  const v = findVariant(ex, state.variantId);
-  const q = ex.quantities[v.unknown];
-  return (
-    <section aria-labelledby="reponses-titre" className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
-      <h3 id="reponses-titre" className="text-lg font-bold text-ink">Les réponses face à la valeur exacte</h3>
-      <div className="mt-4">
-        <FigureView figure={{ type: 'bars', unit: q.unit, bars: [{ label: 'Valeur exacte', value: ex.reference(state.params, state.variantId), color: '#c02d1c' }, ...rows.map(r => ({ label: r.name, value: r.value, color: r.color }))] }} />
       </div>
     </section>
   );
@@ -165,7 +150,7 @@ export function StepComparer({ ex }: { ex: Exercise }) {
           </p>
         </section>
 
-        {ex.kind === 'titration' ? <TitrationPicture ex={ex} rows={rows} /> : ex.kind === 'ph' ? <PhPicture ex={ex} rows={rows} /> : ex.kind === 'calcul' ? <AnswersPicture ex={ex} rows={rows} /> : <TintPicture ex={ex} rows={rows} />}
+        {ex.kind === 'titration' ? <TitrationPicture ex={ex} rows={rows} /> : ex.kind === 'ph' ? <PhPicture ex={ex} rows={rows} /> : <TintPicture ex={ex} rows={rows} />}
       </div>
 
       <details className="group rounded-2xl border border-line bg-surface p-5 sm:p-6">

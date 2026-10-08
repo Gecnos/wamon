@@ -1,6 +1,6 @@
 # Ajouter un exercice
 
-Les professeurs proposent des exercices avec leurs mots, par e-mail (vianneyhoueho@gmail.com). Ce guide explique comment en faire un exercice jouable. Il existe quatre types d’exercices : `titration` (dosage), `preparation` (dilution, dissolution), `ph` (mesure de pH) et `calcul` (tout autre calcul de chimie). Un exercice `calcul` a toujours une **simulation animée** : ajoutez sa scène dans `src/features/calcul/sim/scenes.tsx` (une fonction pure de l’avancement `t`, de 0 à 1, construite avec les éléments de `primitives.tsx` : bécher, burette, pipette, pH-mètre, flamme, courbes…). Un test refuse un exercice de calcul sans scène.
+Les professeurs proposent des exercices avec leurs mots, par e-mail (vianneyhoueho@gmail.com). Ce guide explique comment en faire un exercice jouable. Il existe trois types d’exercices : `titration` (dosage), `preparation` (dilution, dissolution) et `ph` (mesure de pH).
 
 ## 1. Partir de la proposition
 
@@ -12,7 +12,7 @@ Une proposition arrive par e-mail ou en ticket GitHub. Elle contient :
 Avant de coder :
 
 - refaites le calcul et vérifiez les unités ;
-- identifiez le type d’expérience : un dosage (`titration`, avec `mirror: true` pour une base faible dosée par un acide fort), une dilution ou une dissolution (`preparation`), une mesure de pH (`ph`), un autre calcul (`calcul`, le plus simple : voir `src/exercises/chimie.ts`), ou une expérience nouvelle.
+- identifiez le type d’expérience : un dosage (`titration`, avec `mirror: true` pour une base faible dosée par un acide fort), une dilution ou une dissolution (`preparation`), une mesure de pH (`ph`), ou une expérience nouvelle.
 
 ## 2. Écrire le fichier de données
 

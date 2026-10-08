@@ -1,26 +1,18 @@
 import { dissolution, dilution } from './preparations';
-import {
-  constanteAcidite, dilutionCommerciale, dosagePermanganate, dosageVin, predominance, produitIonique,
-  rendementEsterification, saponification, tampon, vitesseFormation, vitessesStoechiometrie,
-} from './chimie';
-import { dosageAmine, dosageBaseFaible, dosageFaibleFort, dosageFortFort } from './titrations';
+import { dosageBaseFaible, dosageFaibleFort, dosageFortFort } from './titrations';
 import { phAcideFaible, phAcideFort, phBaseForte } from './ph';
 import type { Exercise } from './types';
 
-export type { CalculExercise, Exercise, Figure, Level, Params, PhExercise, PreparationExercise, TitrationExercise, Variant, Quantity, Correction } from './types';
+export type { Exercise, Level, Params, PhExercise, PreparationExercise, TitrationExercise, Variant, Quantity, Correction } from './types';
 
 /** Tous les exercices, dans l’ordre du programme. Ajoutez le vôtre ici. */
 export const EXERCISES: Exercise[] = [
   // Solutions : préparation
-  dissolution, dilution, dilutionCommerciale,
-  // pH et couples acide-base
-  produitIonique, phAcideFort, phBaseForte, phAcideFaible, constanteAcidite, predominance, tampon,
+  dissolution, dilution,
+  // pH
+  phAcideFort, phBaseForte, phAcideFaible,
   // Dosages
-  dosageFortFort, dosageFaibleFort, dosageBaseFaible, dosageAmine, dosagePermanganate,
-  // Cinétique
-  vitesseFormation, vitessesStoechiometrie,
-  // Chimie organique
-  rendementEsterification, saponification, dosageVin,
+  dosageFortFort, dosageFaibleFort, dosageBaseFaible,
 ];
 
 export const DEFAULT_EXERCISE = dosageFortFort.id;

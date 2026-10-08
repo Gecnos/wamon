@@ -123,35 +123,4 @@ export interface PhExercise extends ExerciseBase {
   phOfAnswer: (p: Params, variantId: string, answer: number) => number;
 }
 
-/** Ce que la classe voit à la fin de l’expérience d’un exercice de calcul. */
-export type Figure =
-  | {
-      type: 'curve';
-      xLabel: string;
-      yLabel: string;
-      points: { x: number; y: number }[];
-      /** Sécante entre deux points de la courbe (vitesse moyenne). */
-      secant?: { x1: number; y1: number; x2: number; y2: number };
-    }
-  | { type: 'bars'; unit: string; bars: { label: string; value: number; color?: string }[] }
-  | { type: 'reading'; label: string; value: string; color?: string; detail?: string };
-
-/**
- * Exercice de calcul : la classe calcule, puis un protocole pas à pas aboutit à
- * un résultat visible (une lecture, des barres, une courbe) qui donne raison
- * ou tort à sa réponse.
- */
-export interface CalculExercise extends ExerciseBase {
-  kind: 'calcul';
-  /** Gestes à montrer, dans l’ordre. */
-  protocol: (p: Params, variantId: string, answer: number) => string[];
-  outcome: (p: Params, variantId: string, answer: number) => {
-    figure: Figure;
-    /** Phrase de conclusion de l’expérience. */
-    summary: string;
-    /** Vrai si l’expérience confirme la réponse de la classe. */
-    agrees: boolean;
-  };
-}
-
-export type Exercise = TitrationExercise | PreparationExercise | PhExercise | CalculExercise;
+export type Exercise = TitrationExercise | PreparationExercise | PhExercise;

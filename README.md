@@ -35,23 +35,14 @@ Elle est pensée pour les établissements où le matériel de laboratoire manque
 | --- | --- | --- | --- |
 | Préparer une solution par dissolution | Seconde | la masse à peser, ou la concentration obtenue | la teinte de la solution comparée à un témoin |
 | Préparer une solution par dilution | Seconde | le volume à prélever, ou la concentration de la fille | la teinte de la solution comparée à un témoin |
-| Diluer une solution commerciale d’acide chlorhydrique | Terminale | le volume de solution commerciale (37 %, d = 1,16), ou la concentration obtenue | le pH de la solution préparée |
-| Produit ionique de l’eau | Terminale | [H₃O⁺], [HO⁻] ou le pH | la lecture du pH-mètre et la teinte de l’indicateur universel |
-| pH d’un acide fort, d’une base forte, d’un acide faible | Terminale | le pH, la concentration, ou [CH₃COO⁻] | le pH-mètre, avec le piège pOH / pH et la différence fort / faible |
-| Constante d’acidité de l’acide éthanoïque | Terminale | Ka, pKa ou la proportion d’acide ayant réagi | les concentrations des espèces en solution |
-| Forme prédominante d’un couple acide-base | Terminale | le rapport [A⁻] / [AH] ou la part de la forme basique | les parts de chaque forme selon le pH |
-| Solution tampon | Terminale | le pH du tampon ou le volume à mélanger | le tampon résiste à la dilution et à l’ajout d’acide, pas l’eau pure |
+| pH d’une solution d’acide chlorhydrique | Terminale | le pH, ou la concentration | la lecture du pH-mètre et la teinte de l’indicateur universel |
+| pH d’une solution d’hydroxyde de sodium | Terminale | le pH, ou la concentration | la lecture du pH-mètre, avec le piège pOH / pH |
+| pH d’une solution d’acide éthanoïque | Terminale | le pH, la concentration, ou la concentration en ions éthanoate | un acide faible est bien moins acide qu’un acide fort de même concentration |
 | Dosage acide fort / base forte | Première, terminale | le volume équivalent, ou la concentration de l’acide | le virage de l’indicateur et la courbe de pH |
 | Dosage de l’acide éthanoïque | Terminale | le volume équivalent, ou la concentration de l’acide | la courbe d’un acide faible, la demi-équivalence, le choix de l’indicateur |
-| Dosage de l’ammoniac, dosage de la méthylamine | Terminale | le volume équivalent, ou la concentration de la base | la courbe d’une base faible dosée par un acide fort, l’équivalence en milieu acide |
-| Dosage de l’acide oxalique par le permanganate | Terminale | le volume équivalent, ou la concentration | la décoloration puis la teinte rose persistante |
-| Vitesse de formation du diiode | Terminale | la vitesse moyenne, ou la concentration à une date | la courbe [I₂] = f(t) et sa sécante |
-| Vitesses et stœchiométrie | Terminale | la vitesse de disparition ou de formation d’une espèce | les vitesses proportionnelles aux coefficients |
-| Rendement d’une estérification | Terminale | le rendement, ou la masse d’ester obtenue | une réaction limitée : ester théorique et obtenu |
-| Préparation d’un savon | Terminale | la quantité de soude, ou la masse de savon (réactif limitant) | les quantités d’huile et de soude comparées |
-| Dosage de l’éthanol dans un vin | Terminale | le volume de sel de Mohr à verser, ou le degré alcoolique | le virage du vert au rouge vineux |
+| Dosage de l’ammoniac | Terminale | le volume équivalent, ou la concentration de l’ammoniac | la courbe d’une base faible dosée par un acide fort, l’équivalence en milieu acide |
 
-Les exercices de terminale suivent le guide du programme d’études par compétences de la classe de Terminale D du Bénin (chimie des solutions aqueuses, cinétique, chimie organique). Le document source est dans [docs/references](docs/references/).
+Les exercices de terminale suivent le guide du programme d’études par compétences de la classe de Terminale D du Bénin (chimie des solutions aqueuses). Le document source est dans [docs/references](docs/references/).
 
 ![Dilution : la solution préparée avec la réponse de la classe est comparée à un tube témoin](docs/images/seance-dilution.png)
 
@@ -61,7 +52,6 @@ Les exercices de terminale suivent le guide du programme d’études par compét
 
   <img src="docs/images/labo-mobile.png" width="260" alt="Le labo libre sur téléphone : burette, bécher et lecture du pH" />
 
-- **Des simulations animées** pour chaque exercice : pipette qui prélève, burette qui coule, ballon à reflux, pH-mètre, molécules, courbes tracées en direct. Lecture, pause et curseur pour revenir en arrière devant la classe.
 - **Un mode projection** qui agrandit toute l’interface et masque les réglages.
 - **Un catalogue du matériel** : une fiche par instrument, avec le bon geste et les erreurs fréquentes.
 - **Une adresse par écran** : le bouton « retour » du navigateur revient à l’étape précédente sans rien perdre.
