@@ -24,7 +24,7 @@ export function StepReponse({ ex }: { ex: Exercise }) {
   return (
     <div className="mx-auto grid max-w-3xl gap-6">
       <section className="rounded-2xl border border-line bg-surface p-6 sm:p-10">
-        <NumberField size="xl" symbol={q.symbol} label={q.name} unit={q.unit} value={state.classAnswer} onChange={classAnswer => update({ classAnswer })}
+        <NumberField size="xl" stepper={q.digits >= 0} digits={q.digits < 0 ? q.digits : 4} symbol={q.symbol} label={q.name} unit={q.unit} value={state.classAnswer} onChange={classAnswer => update({ classAnswer })}
           min={0} max={q.max} step={q.step} placeholder="?" autoFocus={state.classAnswer === null}
           hint="La correction ne s’affichera qu’après l’expérience." />
       </section>
@@ -46,7 +46,7 @@ export function StepReponse({ ex }: { ex: Exercise }) {
               <li key={g.id} className="flex items-end gap-2">
                 <span className="mb-4 size-3 shrink-0 rounded-full" style={{ background: GROUP_COLORS[i % GROUP_COLORS.length] }} aria-hidden="true" />
                 <div className="min-w-0 flex-1">
-                  <NumberField label={g.name} unit={q.unit} value={g.value} onChange={value => setGroup(g.id, value)} min={0} max={q.max} step={q.step} placeholder="?" />
+                  <NumberField label={g.name} stepper={q.digits >= 0} digits={q.digits < 0 ? q.digits : 4} unit={q.unit} value={g.value} onChange={value => setGroup(g.id, value)} min={0} max={q.max} step={q.step} placeholder="?" />
                 </div>
                 <button type="button" onClick={() => removeGroup(g.id)} className="grid size-12 shrink-0 place-items-center rounded-xl text-ink-2 transition-colors hover:bg-rouge-soft hover:text-rouge active:scale-95" aria-label={`Retirer ${g.name}`}><Trash /></button>
               </li>

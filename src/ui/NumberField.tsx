@@ -12,6 +12,10 @@ interface NumberFieldProps {
   max?: number;
   step?: number;
   size?: 'md' | 'xl';
+  /** Boutons −/+ : inutiles pour les grandeurs en notation scientifique. */
+  stepper?: boolean;
+  /** Chiffres à afficher (négatif : notation scientifique). */
+  digits?: number;
   hint?: string;
   placeholder?: string;
   autoFocus?: boolean;
@@ -21,15 +25,15 @@ interface NumberFieldProps {
  * Champ numérique tolérant la virgule, avec boutons −/+ assez grands pour le
  * doigt et la souris d’un enseignant debout devant son tableau.
  */
-export function NumberField({ label, symbol, unit, value, onChange, min = 0, max = Infinity, step = 1, size = 'md', hint, placeholder, autoFocus }: NumberFieldProps) {
+export function NumberField({ label, symbol, unit, value, onChange, min = 0, max = Infinity, step = 1, size = 'md', stepper = true, digits = 4, hint, placeholder, autoFocus }: NumberFieldProps) {
   const id = useId();
   const decimals = decimalsOf(step);
-  const [text, setText] = useState(value === null ? '' : fmt(value, 4));
+  const [text, setText] = useState(value === null ? '' : fmt(value, digits));
 
   // Resynchronise le texte quand la valeur change de l’extérieur (−/+, hasard…).
   useEffect(() => {
-    setText(current => (parseDecimal(current) === value ? current : value === null ? '' : fmt(value, 4)));
-  }, [value]);
+    setText(current => (parseDecimal(current) === value ? current : value === null ? '' : fmt(value, digits)));
+  }, [value, digits]);
 
   const nudge = (direction: 1 | -1) => {
     const next = clamp(Number(((value ?? min) + direction * step).toFixed(decimals)), min, max);
@@ -41,7 +45,7 @@ export function NumberField({ label, symbol, unit, value, onChange, min = 0, max
     if (parsed === null) return;
     const bounded = clamp(parsed, min, max);
     if (bounded !== parsed) onChange(bounded);
-    setText(fmt(bounded, 4));
+    setText(fmt(bounded, digits));
   };
 
   const big = size === 'xl';
@@ -54,9 +58,9 @@ export function NumberField({ label, symbol, unit, value, onChange, min = 0, max
         <span>{label}</span>
       </label>
       <div className={`mt-2 flex items-stretch overflow-hidden rounded-xl border-2 border-line bg-surface focus-within:border-encre ${big ? 'h-20' : 'h-12'}`}>
-        <button type="button" className={`${control} border-r border-line`} onClick={() => nudge(-1)} disabled={value !== null && value <= min} aria-label={`Diminuer ${label}`}>
+        {stepper && <button type="button" className={`${control} border-r border-line`} onClick={() => nudge(-1)} disabled={value !== null && value <= min} aria-label={`Diminuer ${label}`}>
           <Minus size={big ? 26 : 18} />
-        </button>
+        </button>}
         <input
           id={id}
           type="text"
@@ -74,9 +78,9 @@ export function NumberField({ label, symbol, unit, value, onChange, min = 0, max
           className={`w-0 min-w-0 flex-1 bg-transparent text-center font-bold tabular-nums text-ink outline-none placeholder:font-normal placeholder:text-ink-2/50 ${big ? 'text-4xl' : 'text-lg'}`}
         />
         <span className={`flex items-center pr-3 font-semibold text-ink-2 ${big ? 'text-xl' : 'text-sm'}`}>{unit}</span>
-        <button type="button" className={`${control} border-l border-line`} onClick={() => nudge(1)} disabled={value !== null && value >= max} aria-label={`Augmenter ${label}`}>
+        {stepper && <button type="button" className={`${control} border-l border-line`} onClick={() => nudge(1)} disabled={value !== null && value >= max} aria-label={`Augmenter ${label}`}>
           <Plus size={big ? 26 : 18} />
-        </button>
+        </button>}
       </div>
       {hint && <p className="mt-1.5 text-sm text-ink-2">{hint}</p>}
     </div>

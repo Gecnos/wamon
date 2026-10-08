@@ -1,5 +1,6 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import { EXERCISES, LEVEL_LABELS, type Exercise, type Level } from '../exercises';
+import { CONTACT_EMAIL, mailto } from '../lib/contact';
 import { ArrowRight } from '../ui/icons';
 
 const FILTERS: { id: Level | 'tous'; label: string }[] = [
@@ -52,7 +53,7 @@ export default function ExercicesView() {
       </ol>
 
       <p className="mt-8 text-lg text-ink-2">
-        Il vous manque un exercice&nbsp;? <Link to="/contribuer" className="font-bold text-encre underline underline-offset-4">Décrivez-le-nous</Link>, sans rien installer ni programmer.
+        Il vous manque un exercice&nbsp;? Écrivez-nous à <a href={mailto('Wamon : idée d’exercice')} className="font-bold text-encre underline underline-offset-4">{CONTACT_EMAIL}</a>.
       </p>
     </div>
   );

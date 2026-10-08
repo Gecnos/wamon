@@ -24,7 +24,7 @@ function Detail({ item }: { item: CatalogItem }) {
     <article className="mx-auto max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
       <Link to="/materiel" className="inline-flex min-h-11 items-center gap-2 font-semibold text-ink-2 hover:text-ink"><ArrowLeft size={18} /> Tout le matériel</Link>
       <div className="mt-4 grid items-start gap-6 lg:grid-cols-[22rem_minmax(0,1fr)]">
-        <div className="rounded-2xl border border-line bg-millimetre p-6 lg:sticky lg:top-20">
+        <div className="rounded-2xl border border-line bg-sunken p-6 lg:sticky lg:top-20">
           <Drawing item={item} className="h-72 sm:h-96" />
         </div>
         <div>
@@ -88,7 +88,7 @@ export default function CatalogView() {
         {ITEMS.map(item => (
           <li key={item.id}>
             <Link to={`/materiel/${item.id}`} className="group flex h-full flex-col rounded-2xl border border-line bg-surface p-5 transition-colors hover:border-encre">
-              <div className="rounded-2xl bg-millimetre p-4"><Drawing item={item} className="h-44" /></div>
+              <div className="rounded-2xl bg-sunken p-4"><Drawing item={item} className="h-44" /></div>
               <p className="mt-4 font-semibold text-encre">{CATEGORIES[item.categorie] ?? item.categorie}</p>
               <h2 className="mt-1 text-xl font-bold text-ink">{item.nom}</h2>
               <p className="mt-1 flex-1 text-ink-2">{item.role}</p>

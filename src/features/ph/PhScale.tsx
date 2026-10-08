@@ -16,7 +16,7 @@ export function PhScale({ markers, title }: { markers: PhMarker[]; title: string
   return (
     <figure className="m-0">
       <div className="relative mx-3 pt-3 pb-1">
-        <div className="relative h-9 rounded-md border-2 border-ink" style={{ background: universalGradient() }} role="img" aria-label={title}>
+        <div className="relative h-9 rounded-xl border border-line" style={{ background: universalGradient() }} role="img" aria-label={title}>
           {markers.map(m => (
             <span key={m.label} aria-hidden="true" className="absolute -top-3 -bottom-2 w-1.5 -translate-x-1/2 rounded-full border border-white" style={{ left: pos(m.value), background: m.color }} />
           ))}

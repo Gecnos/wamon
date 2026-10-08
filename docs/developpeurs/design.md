@@ -2,18 +2,18 @@
 
 Wamon est surtout utilisé **projeté au tableau**, souvent avec un vidéoprojecteur fatigué, et parfois **sur le téléphone** d’un élève. Chaque choix de design part de ces deux situations.
 
-## Direction : le manuel de labo
+## Direction : simple et lisible
 
-Page blanche, encre presque noire, un seul orange de sécurité pour ce qui est actif ou à faire ensuite, et des graduations de verrerie comme signature :
+Un fond clair, des cartes blanches à bordure fine, du bleu pour l’action, du rouge pour la correction. Pas d’ornement : la couleur sert à dire quelque chose.
 
 | Élément | Usage |
 | --- | --- |
-| Blanc (`paper`, `surface`) et encre (`ink`) | Fond et texte |
-| Orange de sécurité (`signal`) | L’action principale, l’étape en cours, la réponse de la classe. Texte noir dessus, jamais blanc |
-| Bleu de mesure (`mesure`) | Les symboles, les valeurs et les liens |
-| Rouge (`rouge`) | La valeur exacte, la correction, une réponse à discuter |
+| Fond gris très clair (`paper`), cartes blanches (`surface`) | Fond et blocs de contenu |
+| Texte bleu nuit (`ink`, `ink-2`) | Texte et texte secondaire |
+| Bleu (`encre`) | L’action principale, l’étape en cours, les liens et les symboles |
+| Rouge (`rouge`) | La correction, la valeur exacte, une réponse à discuter |
 | Vert (`vert`) | Une réponse confirmée |
-| Règle graduée (composant `Ruler`) | Frise des étapes, séparateur de titre, avancement de la burette |
+| Surligneur (`surligneur`) | La réponse de la classe |
 
 Le thème est défini dans `src/styles/app.css` (`@theme`). N’ajoutez pas de couleur en dur : utilisez ces jetons.
 

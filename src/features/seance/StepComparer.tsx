@@ -3,6 +3,7 @@ import { findVariant } from '../../exercises';
 import { fmt } from '../../lib/format';
 import { tint } from '../../models/preparation';
 import { Check } from '../../ui/icons';
+import { FigureView } from '../calcul/FigureView';
 import { PhScale } from '../ph/PhScale';
 import { TitrationCurve, type CurveMarker } from '../titration/TitrationCurve';
 import { useSeance } from './SeanceContext';
@@ -23,12 +24,12 @@ function TitrationPicture({ ex, rows }: { ex: Extract<Exercise, { kind: 'titrati
   const predictions = rows.map(r => ex.predictedVolume(state.params, state.variantId, r.value));
   const maxVb = buretteCapacity(ve, Math.max(0, ...predictions));
   const markers: CurveMarker[] = [
-    { value: ve, label: `Équivalence réelle : ${fmt(ve, 2)} mL`, color: '#c4281b' },
+    { value: ve, label: `Équivalence réelle : ${fmt(ve, 2)} mL`, color: '#c02d1c' },
     ...rows.map((r, i) => ({ value: predictions[i], label: r.name, color: r.color, dashed: true })),
   ];
-  if (ex.acid.pKa !== undefined) markers.push({ value: ve / 2, label: `Demi-équivalence : pH = pKa = ${fmt(ex.acid.pKa, 2)}`, color: '#4a5260', dashed: true });
+  if (ex.acid.pKa !== undefined) markers.push({ value: ve / 2, label: `Demi-équivalence : pH = pKa = ${fmt(ex.acid.pKa, 2)}`, color: '#46526a', dashed: true });
   return (
-    <section aria-labelledby="bilan-titre" className="rounded-lg border border-line bg-surface p-4 sm:p-6">
+    <section aria-labelledby="bilan-titre" className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
       <h3 id="bilan-titre" className="text-lg font-bold text-ink">Où tombent les réponses sur la courbe&nbsp;?</h3>
       <div className="mt-3">
         <TitrationCurve title="Courbe complète du dosage avec les réponses" Ca={Ca} Va={Va} Cb={Cb} pKa={ex.acid.pKa} mirror={ex.mirror} titrant={ex.base.name} maxVb={maxVb} currentVb={ve} markers={markers} />
@@ -41,11 +42,11 @@ function PhPicture({ ex, rows }: { ex: Extract<Exercise, { kind: 'ph' }>; rows: 
   const { state } = useSeance(ex);
   const reference = ex.phOf(state.params.C);
   const markers = [
-    { label: 'Valeur mesurée', value: reference, color: '#c4281b' },
+    { label: 'Valeur mesurée', value: reference, color: '#c02d1c' },
     ...rows.map(r => ({ label: r.name, value: ex.phOfAnswer(state.params, state.variantId, r.value), color: r.color })),
   ];
   return (
-    <section aria-labelledby="ph-titre" className="rounded-lg border-2 border-ink bg-surface p-4 sm:p-6">
+    <section aria-labelledby="ph-titre" className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
       <h3 id="ph-titre" className="text-lg font-bold text-ink">Où tombent les réponses sur l’échelle de pH&nbsp;?</h3>
       <p className="mt-1 text-[0.95rem] text-ink-2">Chaque réponse est traduite en pH, puis placée sur la teinte de l’indicateur universel.</p>
       <div className="mt-4">
@@ -55,18 +56,32 @@ function PhPicture({ ex, rows }: { ex: Extract<Exercise, { kind: 'ph' }>; rows: 
   );
 }
 
+function AnswersPicture({ ex, rows }: { ex: Extract<Exercise, { kind: 'calcul' }>; rows: Row[] }) {
+  const { state } = useSeance(ex);
+  const v = findVariant(ex, state.variantId);
+  const q = ex.quantities[v.unknown];
+  return (
+    <section aria-labelledby="reponses-titre" className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
+      <h3 id="reponses-titre" className="text-lg font-bold text-ink">Les réponses face à la valeur exacte</h3>
+      <div className="mt-4">
+        <FigureView figure={{ type: 'bars', unit: q.unit, bars: [{ label: 'Valeur exacte', value: ex.reference(state.params, state.variantId), color: '#c02d1c' }, ...rows.map(r => ({ label: r.name, value: r.value, color: r.color }))] }} />
+      </div>
+    </section>
+  );
+}
+
 function TintPicture({ ex, rows }: { ex: Extract<Exercise, { kind: 'preparation' }>; rows: Row[] }) {
   const { state } = useSeance(ex);
   const target = ex.method === 'dilution' ? state.params.Cfille : state.params.C;
   const tubes = [
-    { name: 'Attendue', C: target, color: '#c4281b' },
+    { name: 'Attendue', C: target, color: '#c02d1c' },
     ...rows.map(r => {
       const exp = ex.experiment(state.params, state.variantId, r.value);
       return { name: r.name, C: exp.answerIsUsed ? exp.obtained : exp.expected, color: r.color };
     }),
   ];
   return (
-    <section aria-labelledby="teintes-titre" className="rounded-lg border border-line bg-surface p-4 sm:p-6">
+    <section aria-labelledby="teintes-titre" className="rounded-2xl border border-line bg-surface p-4 sm:p-6">
       <h3 id="teintes-titre" className="text-lg font-bold text-ink">Échelle de teintes</h3>
       <p className="text-[0.95rem] text-ink-2">Chaque tube contient la solution que donnerait la réponse, à côté de la solution attendue.</p>
       <ul className="mt-6 flex flex-wrap items-end gap-6">
@@ -93,7 +108,7 @@ export function StepComparer({ ex }: { ex: Exercise }) {
   const correction = ex.correction(state.params, state.variantId);
 
   const rows: Row[] = [
-    { name: 'Classe', value: state.classAnswer, color: '#1456c9' },
+    { name: 'Classe', value: state.classAnswer, color: '#1e44c4' },
     ...state.groups.map((g, i) => ({ name: g.name, value: g.value, color: GROUP_COLORS[i % GROUP_COLORS.length] })),
   ].filter((r): r is Row => r.value !== null);
 
@@ -102,12 +117,12 @@ export function StepComparer({ ex }: { ex: Exercise }) {
   return (
     <div className="grid gap-6">
       {classResult && (
-        <section aria-live="polite" className={`rounded-lg border-2 p-6 sm:p-8 ${classResult.isCoherent ? 'border-vert bg-vert-soft' : 'border-rouge bg-rouge-soft'}`}>
+        <section aria-live="polite" className={`rounded-2xl border-2 p-6 sm:p-8 ${classResult.isCoherent ? 'border-vert bg-vert-soft' : 'border-rouge bg-rouge-soft'}`}>
           <h3 className="text-2xl font-bold text-balance text-ink sm:text-4xl">
             {classResult.isCoherent ? 'L’expérience confirme la réponse de la classe.' : 'L’expérience ne confirme pas la réponse de la classe.'}
           </h3>
           <p className="mt-3 text-lg text-ink-2">
-            Classe : <mark className="rounded bg-signal px-1.5 font-bold text-ink tabular-nums">{fmt(classResult.userValue, q.digits)} {q.unit}</mark>
+            Classe : <mark className="rounded bg-surligneur px-1 font-bold text-ink tabular-nums">{fmt(classResult.userValue, q.digits)} {q.unit}</mark>
             {' '}— valeur exacte : <strong className="text-ink tabular-nums">{fmt(ref, q.digits)} {q.unit}</strong>
             {' '}— écart de <strong className="text-ink tabular-nums">{fmt(classResult.diffPercent, 1)} %</strong> (tolérance {tolerancePct} %).
           </p>
@@ -115,7 +130,7 @@ export function StepComparer({ ex }: { ex: Exercise }) {
       )}
 
       <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)]">
-        <section aria-labelledby="tableau-titre" className="rounded-lg border border-line bg-surface p-5 sm:p-6">
+        <section aria-labelledby="tableau-titre" className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
           <h3 id="tableau-titre" className="text-lg font-bold text-ink">Toutes les réponses</h3>
           <table className="mt-3 w-full text-left">
             <thead>
@@ -150,19 +165,19 @@ export function StepComparer({ ex }: { ex: Exercise }) {
           </p>
         </section>
 
-        {ex.kind === 'titration' ? <TitrationPicture ex={ex} rows={rows} /> : ex.kind === 'ph' ? <PhPicture ex={ex} rows={rows} /> : <TintPicture ex={ex} rows={rows} />}
+        {ex.kind === 'titration' ? <TitrationPicture ex={ex} rows={rows} /> : ex.kind === 'ph' ? <PhPicture ex={ex} rows={rows} /> : ex.kind === 'calcul' ? <AnswersPicture ex={ex} rows={rows} /> : <TintPicture ex={ex} rows={rows} />}
       </div>
 
-      <details className="group rounded-lg border border-line bg-surface p-5 sm:p-6">
+      <details className="group rounded-2xl border border-line bg-surface p-5 sm:p-6">
         <summary className="flex min-h-11 cursor-pointer list-none items-center justify-between text-lg font-bold text-ink">
           Afficher la correction
           <span className="text-2xl text-ink-2 transition-transform duration-200 group-open:rotate-45" aria-hidden="true">+</span>
         </summary>
         {/* La correction n’apparaît qu’à la demande de l’enseignant. */}
-        <div className="mt-4 grid gap-4 rounded-md bg-sunken p-5 text-lg text-ink">
+        <div className="mt-4 grid gap-4 rounded-xl bg-sunken p-5 text-lg text-ink">
           <p>{correction.law}</p>
           <p className="font-mono text-xl">{correction.formula}</p>
-          <p className="rounded-md border-2 border-ink bg-surface p-4 font-mono text-xl font-bold tabular-nums text-rouge">{correction.numeric}</p>
+          <p className="rounded-xl border border-line bg-surface p-4 font-mono text-xl font-bold tabular-nums text-rouge">{correction.numeric}</p>
           {correction.note && <p className="text-base text-ink-2">{correction.note}</p>}
         </div>
       </details>

@@ -1,0 +1,35 @@
+{
+  "id": "dosage-amine-fort",
+  "version": 1,
+  "titre": "Dosage de la méthylamine par l'acide chlorhydrique",
+  "matiere": "chimie",
+  "niveau": ["terminale"],
+  "description": "Dosage d'une amine (méthylamine, couple CH₃NH₃⁺/CH₃NH₂ de pKa 10,66) par un acide fort : les amines sont des bases faibles.",
+  "grandeurs": {
+    "Ca": { "label": "Concentration de la méthylamine (Cb)", "unite": "mol/L", "min": 0.01, "max": 0.5, "step": 0.01, "default": 0.1 },
+    "Va": { "label": "Volume de méthylamine dosé (Vb)", "unite": "mL", "min": 5, "max": 50, "step": 1, "default": 20 },
+    "Cb": { "label": "Concentration de l'acide chlorhydrique (Ca)", "unite": "mol/L", "min": 0.01, "max": 0.5, "step": 0.01, "default": 0.1 },
+    "Ve": { "label": "Volume équivalent d'acide versé (Vae)", "unite": "mL", "min": 1, "max": 50, "step": 0.1, "default": 20 }
+  },
+  "variantes": [
+    {
+      "id": "A",
+      "nom": "Variante A — Inconnue : volume équivalent (Vae)",
+      "inconnue": "Ve",
+      "donnees": ["Ca", "Va", "Cb"],
+      "formule": "Ca * Va / Cb",
+      "description": "Calculer le volume Vae d'acide chlorhydrique nécessaire pour doser cette solution de méthylamine."
+    },
+    {
+      "id": "B",
+      "nom": "Variante B — Inconnue : concentration de la méthylamine (Cb)",
+      "inconnue": "Ca",
+      "donnees": ["Va", "Cb", "Ve"],
+      "formule": "Cb * Ve / Va",
+      "description": "Calculer la concentration Cb de la solution de méthylamine à partir du volume équivalent mesuré."
+    }
+  ],
+  "vues": ["burette", "becher", "courbe-ph"],
+  "tolerance": 0.02,
+  "modele": "titration.ts"
+}

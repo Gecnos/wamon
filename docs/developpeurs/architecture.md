@@ -24,6 +24,7 @@ index.html → src/main.tsx → src/App.tsx (routes)
 | `src/features/seance/` | La séance guidée : état partagé, frise des étapes, les quatre étapes. |
 | `src/features/titration/` | Paillasse animée du dosage, courbe de pH, lecture des mesures, choix de l’indicateur. |
 | `src/features/preparation/` | Paillasse de dilution et de dissolution, protocole pas à pas. |
+| `src/features/calcul/` | Exercices de calcul : protocole pas à pas et figures (lecture, barres, courbe). |
 | `src/features/ph/` | Mesure de pH : paillasse du pH-mètre et échelle aux teintes de l’indicateur universel. |
 | `src/exercises/` | Le registre des exercices (`EXERCISES`). Chaque exercice combine son fichier JSON et son comportement. |
 | `src/data/modules/` | Données des exercices : grandeurs, unités, bornes, variantes, consignes. |

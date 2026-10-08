@@ -5,6 +5,7 @@ import { STEPS } from '../features/seance/logic';
 import { TitrationCurve } from '../features/titration/TitrationCurve';
 import { fmt } from '../lib/format';
 import { titrationPoint } from '../models/titration';
+import { CONTACT_EMAIL, mailto } from '../lib/contact';
 import { LinkButton } from '../ui/Button';
 import { ArrowRight } from '../ui/icons';
 
@@ -49,7 +50,7 @@ function HeroDemo() {
   const volume = useDemoVolume();
   const reading = titrationPoint(DEMO, volume, 'btb');
   return (
-    <figure className="m-0 overflow-hidden rounded-2xl border border-line bg-millimetre shadow-[0_24px_60px_-36px_rgba(19,32,58,0.5)]">
+    <figure className="m-0 overflow-hidden rounded-2xl border border-line bg-sunken shadow-[0_24px_60px_-36px_rgba(19,32,58,0.5)]">
       <div className="grid grid-cols-[5.5rem_minmax(0,1fr)] items-end gap-2 p-4 sm:grid-cols-[7rem_minmax(0,1fr)] sm:p-6">
         <div className="h-32 sm:h-40"><Beaker color={reading.color} /></div>
         <div className="rounded-xl bg-surface/85 p-2 backdrop-blur-[1px]">
@@ -110,7 +111,7 @@ export default function Landing() {
         <ul className="mt-8 grid gap-x-10 gap-y-6 md:grid-cols-2">
           {EXERCISES.map(ex => (
             <li key={ex.id}>
-              <Link to={`/seance/${ex.id}/enonce`} className="group block border-l-4 border-encre-soft py-1 pl-5 transition-colors hover:border-encre">
+              <Link to={`/seance/${ex.id}/enonce`} className="group block h-full rounded-2xl border border-line bg-surface p-4 transition-colors hover:border-line-strong">
                 <span className="block text-[0.95rem] font-semibold text-encre">{ex.levels.map(l => LEVEL_LABELS[l]).join(', ')}</span>
                 <span className="mt-0.5 block text-xl font-bold text-ink">{ex.title}</span>
                 <span className="mt-1 block text-ink-2">{ex.summary}</span>
@@ -129,11 +130,11 @@ export default function Landing() {
           <LinkButton to="/labo" variant="secondary" className="mt-6">Ouvrir le labo libre</LinkButton>
         </div>
         <div className="rounded-2xl bg-encre p-6 text-white sm:p-8">
-          <h2 className="text-2xl font-bold tracking-tight">Vous avez un exercice qui marche bien&nbsp;?</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Une idée d’exercice, une question&nbsp;?</h2>
           <p className="mt-3 text-lg text-white/85">
-            Décrivez-le avec vos mots : l’énoncé, les données, la réponse attendue. Pas de fichier à remplir, pas de code. L’équipe s’occupe du reste et vous tient au courant.
+            Écrivez-nous : décrivez l’exercice avec vos mots, ou dites-nous ce qui manque à votre classe. Nous vous répondons.
           </p>
-          <Link to="/contribuer" className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-xl bg-white px-5 font-bold text-encre-strong transition-transform duration-150 active:scale-[0.97]">Proposer un exercice</Link>
+          <a href={mailto('Wamon : proposition ou question')} className="mt-6 inline-flex min-h-12 items-center rounded-xl bg-white px-5 font-bold text-encre-strong transition-transform duration-150 active:scale-[0.97]">{CONTACT_EMAIL}</a>
         </div>
       </section>
     </div>

@@ -7,10 +7,10 @@
 @custom-variant projection (&:where(.projection, .projection *));
 
 /*
- * Direction « cahier de TP » : papier blanc, encre bleue, papier millimétré
- * pour les mesures, stylo rouge pour la correction, surligneur pour la
- * réponse de la classe. Atkinson Hyperlegible a été dessinée pour la
- * lisibilité à distance et en basse vision : idéal pour un vidéoprojecteur.
+ * Design simple : fond clair, cartes blanches, bleu pour l'action, rouge pour
+ * la correction, surligneur pour la réponse de la classe. Atkinson Hyperlegible
+ * a été dessinée pour la lisibilité à distance et en basse vision : idéale
+ * pour un vidéoprojecteur.
  */
 @theme {
   --font-sans: "Atkinson Hyperlegible Next Variable", system-ui, sans-serif;
@@ -54,18 +54,6 @@
     25% { transform: rotate(-8deg); }
     60% { transform: rotate(6deg); }
   }
-}
-
-/* Papier millimétré : lignes fines tous les 8 px, épaisses tous les 40 px. */
-@utility bg-millimetre {
-  background-color: var(--color-surface);
-  background-image:
-    linear-gradient(var(--color-grid) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-grid) 1px, transparent 1px),
-    linear-gradient(var(--color-grid-fine) 1px, transparent 1px),
-    linear-gradient(90deg, var(--color-grid-fine) 1px, transparent 1px);
-  background-size: 40px 40px, 40px 40px, 8px 8px, 8px 8px;
-  background-position: -1px -1px;
 }
 
 @layer base {

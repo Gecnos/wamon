@@ -34,8 +34,8 @@ function Bench({ stage, pH, color }: { stage: number; pH: number; color: string 
       </g>
       {/* Afficheur */}
       <rect x="196" y="98" width="108" height="104" rx="8" fill="#fff" stroke="currentColor" strokeWidth="3" />
-      <rect x="206" y="110" width="88" height="42" rx="4" fill="#14171c" />
-      <text x="286" y="142" textAnchor="end" fontSize="30" fontWeight="700" fill="#ff5a1f" fontFamily="'Atkinson Hyperlegible Mono Variable', monospace">{read ? fmt(pH, 2) : '--.--'}</text>
+      <rect x="206" y="110" width="88" height="42" rx="4" fill="#13203a" />
+      <text x="286" y="142" textAnchor="end" fontSize="30" fontWeight="700" fill="#8ff0b4" fontFamily="'Atkinson Hyperlegible Mono Variable', monospace">{read ? fmt(pH, 2) : '--.--'}</text>
       <text x="250" y="180" textAnchor="middle" fontSize="16" fontWeight="700" fill="currentColor">pH-mètre</text>
       <path d="M250 6 V98" stroke="currentColor" strokeWidth="3" fill="none" />
     </svg>
@@ -56,20 +56,20 @@ export function PhExperience({ ex, params, variantId, answer }: Props) {
 
   return (
     <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]">
-      <section aria-label="Paillasse" className="grid gap-5 rounded-lg border-2 border-ink bg-surface p-4 sm:p-5">
-        <div className="mx-auto w-full max-w-md rounded-md bg-sunken p-3">
+      <section aria-label="Paillasse" className="grid gap-5 rounded-2xl border border-line bg-surface p-4 sm:p-5">
+        <div className="mx-auto w-full max-w-md rounded-xl bg-sunken p-3">
           <Bench stage={stage} pH={exp.measured} color={universalColor(exp.measured)} />
         </div>
         <PhScale
           title="Échelle de pH aux teintes de l’indicateur universel"
           markers={[
-            ...(stage >= 3 ? [{ label: 'Mesuré', value: exp.measured, color: '#14171c' }] : []),
-            { label: exp.answerIsUsed ? 'Énoncé' : 'Classe', value: exp.target, color: '#ff5a1f' },
+            ...(stage >= 3 ? [{ label: 'Mesuré', value: exp.measured, color: '#13203a' }] : []),
+            { label: exp.answerIsUsed ? 'Énoncé' : 'Classe', value: exp.target, color: '#1e44c4' },
           ]}
         />
       </section>
 
-      <section aria-labelledby="protocole-titre" className="rounded-lg border-2 border-ink bg-surface p-5 sm:p-6">
+      <section aria-labelledby="protocole-titre" className="rounded-2xl border border-line bg-surface p-5 sm:p-6">
         <h3 id="protocole-titre" className="text-lg font-bold text-ink">Protocole</h3>
         <p className="mt-1 text-[0.95rem] text-ink-2">
           {exp.answerIsUsed
@@ -81,8 +81,8 @@ export function PhExperience({ ex, params, variantId, answer }: Props) {
             const isDone = i < stage;
             const isCurrent = i === stage;
             return (
-              <li key={label} className={`flex items-start gap-3 rounded-md p-2 transition-colors duration-200 ${isCurrent ? 'bg-signal-soft' : ''}`}>
-                <span className={`grid size-8 shrink-0 place-items-center rounded-md text-sm font-bold ${isDone ? 'bg-vert text-white' : isCurrent ? 'bg-ink text-white' : 'border-2 border-line-strong text-ink-2'}`}>
+              <li key={label} className={`flex items-start gap-3 rounded-xl p-2 transition-colors duration-200 ${isCurrent ? 'bg-encre-soft' : ''}`}>
+                <span className={`grid size-8 shrink-0 place-items-center rounded-xl text-sm font-bold ${isDone ? 'bg-vert text-white' : isCurrent ? 'bg-encre text-white' : 'border-2 border-line-strong text-ink-2'}`}>
                   {isDone ? <Check size={16} /> : i + 1}
                 </span>
                 <span className={`pt-1 text-[1.05rem] leading-snug ${isCurrent ? 'font-bold text-ink' : isDone ? 'text-ink-2 line-through decoration-ink-2/40' : 'text-ink-2'}`}>{label}</span>
@@ -94,7 +94,7 @@ export function PhExperience({ ex, params, variantId, answer }: Props) {
           {!done ? (
             <Button size="lg" className="w-full" onClick={() => setStage(s => s + 1)}>{steps[stage]}</Button>
           ) : (
-            <div className="rounded-md border-2 border-ink bg-signal-soft p-4 text-ink">
+            <div className="rounded-xl border border-line bg-encre-soft p-4 text-ink">
               <p className="font-bold">
                 pH mesuré : {fmt(exp.measured, 2)}. {exp.answerIsUsed ? 'L’énoncé annonce' : 'La classe avait prévu'} {fmt(exp.target, 2)}.
               </p>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { mailto } from '../lib/contact';
 import { useProjection } from '../lib/projection';
 import { Close, Expand, Menu, Projector } from '../ui/icons';
 
@@ -55,7 +56,7 @@ export default function AppShell() {
           </nav>
 
           <div className="ml-auto flex items-center gap-2">
-            <Link to="/contribuer" className="hidden min-h-11 items-center rounded-xl px-3 font-semibold text-encre transition-colors hover:bg-encre-soft md:inline-flex projection:hidden">Proposer un exercice</Link>
+            <a href={mailto('Wamon : proposition ou question')} className="hidden min-h-11 items-center rounded-xl px-3 font-semibold text-encre transition-colors hover:bg-encre-soft md:inline-flex projection:hidden">Nous écrire</a>
             {projection && (
               <button type="button" onClick={fullscreen} className="hidden size-11 place-items-center rounded-xl text-ink-2 hover:bg-sunken sm:grid" aria-label="Plein écran" title="Plein écran">
                 <Expand />
@@ -80,11 +81,12 @@ export default function AppShell() {
         {menuOpen && (
           <nav id="menu-mobile" aria-label="Navigation principale" className="border-t border-line bg-surface px-4 pb-4 pt-2 lg:hidden">
             <ul className="grid gap-1">
-              {[...NAV, { to: '/contribuer', label: 'Proposer un exercice', match: ['/contribuer'] }].map(item => (
+              {NAV.map(item => (
                 <li key={item.to}>
                   <NavLink to={item.to} className={() => `block rounded-lg px-3 py-3 text-lg font-semibold ${isActive(item.match) ? 'bg-encre-soft text-encre-strong' : 'text-ink hover:bg-sunken'}`}>{item.label}</NavLink>
                 </li>
               ))}
+              <li><a href={mailto('Wamon : proposition ou question')} className="block rounded-lg px-3 py-3 text-lg font-semibold text-ink hover:bg-sunken">Nous écrire</a></li>
             </ul>
           </nav>
         )}
@@ -101,7 +103,7 @@ export default function AppShell() {
             <p className="mt-3 max-w-md">Un projet libre et gratuit pour faire de la science en classe, même sans laboratoire ni connexion.</p>
           </div>
           <ul className="grid content-start gap-2 text-[0.95rem]">
-            <li><Link to="/contribuer" className="font-semibold text-ink hover:underline">Proposer un exercice</Link></li>
+            <li><a href={mailto('Wamon : proposition ou question')} className="font-semibold text-ink hover:underline">Une idée d’exercice ? Écrivez-nous</a></li>
             <li><a href="https://github.com/Gecnos/wamon" className="font-semibold text-ink hover:underline">Code source sur GitHub</a></li>
             <li>Code sous licence MIT, contenus sous CC BY-SA</li>
           </ul>
