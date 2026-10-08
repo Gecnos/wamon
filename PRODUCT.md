@@ -43,7 +43,7 @@ A free, open, offline-capable "lab in the classroom" that checks the class's own
 ## Brand Commitments
 
 - Name: Wamon. Tagline in use: "Le labo dans la classe." / "Vos élèves calculent. L'expérience tranche."
-- The previous "cahier de TP" visual identity (white paper, blue ink, graph paper, red pen) is explicitly to be replaced; it is not a brand commitment.
+- Visual direction decided on 2026-10-08: simple and plain (light background, white cards with thin borders, blue for action). The user rejected a dense, high-contrast "lab manual" attempt (black outlines, monospace figures, orange accent, graduated rulers) as looking too Japanese; keep ornament to a minimum.
 - Avoid what the `frontend-design` skill flagged in the earlier look: cream background, all-caps eyebrows, arrows on buttons.
 
 ## Evidence on Hand
