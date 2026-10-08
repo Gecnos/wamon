@@ -42,7 +42,7 @@ Elle est pensée pour les établissements où le matériel de laboratoire manque
 | Dosage de l’acide éthanoïque | Terminale | le volume équivalent, ou la concentration de l’acide | la courbe d’un acide faible, la demi-équivalence, le choix de l’indicateur |
 | Dosage de l’ammoniac | Terminale | le volume équivalent, ou la concentration de l’ammoniac | la courbe d’une base faible dosée par un acide fort, l’équivalence en milieu acide |
 
-Les exercices de terminale suivent le guide du programme d’études par compétences de la classe de Terminale D du Bénin (situation d’apprentissage 2, chimie des solutions aqueuses).
+Les exercices de terminale suivent le guide du programme d’études par compétences de la classe de Terminale D du Bénin (chimie des solutions aqueuses). Le document source est dans [docs/references](docs/references/).
 
 ![Dilution : la solution préparée avec la réponse de la classe est comparée à un tube témoin](docs/images/seance-dilution.png)
 
