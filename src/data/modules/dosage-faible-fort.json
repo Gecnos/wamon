@@ -1,0 +1,35 @@
+{
+  "id": "dosage-faible-fort",
+  "version": 1,
+  "titre": "Dosage de l'acide éthanoïque par la soude",
+  "matiere": "chimie",
+  "niveau": ["terminale"],
+  "description": "Dosage d'un acide faible (acide éthanoïque, pKa = 4,76) par une base forte. L'équivalence a lieu en milieu basique : le choix de l'indicateur compte.",
+  "grandeurs": {
+    "Ca": { "label": "Concentration de l'acide éthanoïque (Ca)", "unite": "mol/L", "min": 0.01, "max": 0.5, "step": 0.01, "default": 0.1 },
+    "Va": { "label": "Volume d'acide dosé (Va)", "unite": "mL", "min": 5, "max": 50, "step": 1, "default": 20 },
+    "Cb": { "label": "Concentration de la soude (Cb)", "unite": "mol/L", "min": 0.01, "max": 0.5, "step": 0.01, "default": 0.1 },
+    "Ve": { "label": "Volume équivalent (Ve)", "unite": "mL", "min": 1, "max": 50, "step": 0.1, "default": 20 }
+  },
+  "variantes": [
+    {
+      "id": "A",
+      "nom": "Variante A — Inconnue : volume équivalent (Ve)",
+      "inconnue": "Ve",
+      "donnees": ["Ca", "Va", "Cb"],
+      "formule": "Ca * Va / Cb",
+      "description": "Calculer le volume équivalent Ve de soude nécessaire pour doser cette solution d'acide éthanoïque."
+    },
+    {
+      "id": "B",
+      "nom": "Variante B — Inconnue : concentration de l'acide (Ca)",
+      "inconnue": "Ca",
+      "donnees": ["Va", "Cb", "Ve"],
+      "formule": "Cb * Ve / Va",
+      "description": "Calculer la concentration Ca de la solution d'acide éthanoïque à partir du volume équivalent mesuré."
+    }
+  ],
+  "vues": ["burette", "becher", "courbe-ph"],
+  "tolerance": 0.02,
+  "modele": "titration.ts"
+}

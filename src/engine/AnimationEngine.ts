@@ -1,5 +1,6 @@
 import { CANVAS_GEOMETRY } from './TitrationCanvas';
-import { calculateTitrationPoint, IndicatorType } from '../models/dosageFortFort';
+import type { IndicatorType } from '../models/dosageFortFort';
+import { titrationPoint } from '../models/titration';
 
 export type AnimMode = 'idle' | 'drop' | 'flow' | 'fast';
 
@@ -12,6 +13,9 @@ export interface AnimEngineConfig {
   Cb: number;
   indicator: IndicatorType;
   buretteFluidColor: string;
+  /** Absent : acide fort. */
+  pKa?: number;
+  mirror?: boolean;
 }
 
 export interface AnimEngineState {
@@ -330,7 +334,7 @@ export class AnimationEngine {
 
   private _updateBecherSVG(): void {
     const GEO = CANVAS_GEOMETRY.becher;
-    const { Ca, Va, Cb, indicator } = this.config;
+    const { Ca, Va, Cb, indicator, pKa, mirror } = this.config;
 
     const totalVol = Va + this.currentVb;
     const maxVol = 120;
@@ -339,7 +343,7 @@ export class AnimationEngine {
     const liqTopY = GEO.bottom - fillFrac * totalH;
     const liqH = GEO.bottom - liqTopY + 4;
 
-    const titState = calculateTitrationPoint(Ca, Va, Cb, this.currentVb, indicator);
+    const titState = titrationPoint({ Ca, Va, Cb, pKa, mirror }, this.currentVb, indicator);
     const color = titState.color;
 
     const liqEl = document.getElementById('tc-bch-liquid');
@@ -357,8 +361,8 @@ export class AnimationEngine {
   }
 
   private _syncPhLabel(): void {
-    const { Ca, Va, Cb, indicator } = this.config;
-    const titState = calculateTitrationPoint(Ca, Va, Cb, this.currentVb, indicator);
+    const { Ca, Va, Cb, indicator, pKa, mirror } = this.config;
+    const titState = titrationPoint({ Ca, Va, Cb, pKa, mirror }, this.currentVb, indicator);
 
     const textEl = document.getElementById('tc-ph-text');
     if (textEl) {

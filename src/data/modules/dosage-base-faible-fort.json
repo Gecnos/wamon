@@ -1,0 +1,35 @@
+{
+  "id": "dosage-base-faible-fort",
+  "version": 1,
+  "titre": "Dosage de l'ammoniac par l'acide chlorhydrique",
+  "matiere": "chimie",
+  "niveau": ["terminale"],
+  "description": "Dosage d'une base faible (ammoniac, couple NH₄⁺/NH₃ de pKa 9,25) par un acide fort. L'équivalence a lieu en milieu acide : le choix de l'indicateur compte.",
+  "grandeurs": {
+    "Ca": { "label": "Concentration de l'ammoniac (Cb)", "unite": "mol/L", "min": 0.01, "max": 0.5, "step": 0.01, "default": 0.1 },
+    "Va": { "label": "Volume d'ammoniac dosé (Vb)", "unite": "mL", "min": 5, "max": 50, "step": 1, "default": 20 },
+    "Cb": { "label": "Concentration de l'acide chlorhydrique (Ca)", "unite": "mol/L", "min": 0.01, "max": 0.5, "step": 0.01, "default": 0.1 },
+    "Ve": { "label": "Volume équivalent d'acide versé (Vae)", "unite": "mL", "min": 1, "max": 50, "step": 0.1, "default": 20 }
+  },
+  "variantes": [
+    {
+      "id": "A",
+      "nom": "Variante A — Inconnue : volume équivalent (Vae)",
+      "inconnue": "Ve",
+      "donnees": ["Ca", "Va", "Cb"],
+      "formule": "Ca * Va / Cb",
+      "description": "Calculer le volume Vae d'acide chlorhydrique nécessaire pour doser cette solution d'ammoniac."
+    },
+    {
+      "id": "B",
+      "nom": "Variante B — Inconnue : concentration de l'ammoniac (Cb)",
+      "inconnue": "Ca",
+      "donnees": ["Va", "Cb", "Ve"],
+      "formule": "Cb * Ve / Va",
+      "description": "Calculer la concentration Cb de la solution d'ammoniac à partir du volume équivalent mesuré."
+    }
+  ],
+  "vues": ["burette", "becher", "courbe-ph"],
+  "tolerance": 0.02,
+  "modele": "titration.ts"
+}

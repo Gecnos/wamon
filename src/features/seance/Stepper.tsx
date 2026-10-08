@@ -1,46 +1,48 @@
 import { Link } from 'react-router-dom';
+import { Ruler } from '../../ui/Ruler';
 import { Check } from '../../ui/icons';
 import { STEPS } from './logic';
 
 interface StepperProps {
+  exerciseId: string;
   current: number;
   furthest: number;
 }
 
-export function Stepper({ current, furthest }: StepperProps) {
+/** Les quatre temps de la séance, posés sur une règle graduée qui se remplit. */
+export function Stepper({ exerciseId, current, furthest }: StepperProps) {
   return (
     <nav aria-label="Étapes de la séance">
-      {/* Mobile : une ligne de progression et le nom de l’étape. */}
-      <div className="sm:hidden">
-        <p className="text-sm font-semibold text-ink-2">Étape {current + 1} sur {STEPS.length}</p>
-        <div className="mt-2 flex gap-1.5">
-          {STEPS.map((step, i) => <span key={step.id} className={`h-1.5 flex-1 rounded-full ${i <= current ? 'bg-brand' : 'bg-line'}`} />)}
-        </div>
-      </div>
-
-      <ol className="hidden gap-2 sm:grid sm:grid-cols-4">
+      <ol className="grid grid-cols-4">
         {STEPS.map((step, i) => {
           const active = i === current;
           const done = i < current;
           const reachable = i <= furthest && !active;
-          const content = (
-            <>
-              <span className={`grid size-9 shrink-0 place-items-center rounded-full text-base font-bold ${active ? 'bg-white text-brand-strong' : done ? 'bg-brand text-white' : 'border-2 border-line-strong text-ink-2'}`}>
-                {done ? <Check size={18} /> : i + 1}
-              </span>
-              <span className="min-w-0 font-semibold leading-tight">{step.label}</span>
-            </>
+          const plate = (
+            <span className={`grid size-11 shrink-0 place-items-center rounded-md text-xl font-bold tabular-nums transition-colors duration-200 sm:size-12 sm:text-2xl ${active ? 'bg-ink text-white' : done ? 'bg-signal text-ink' : 'border-2 border-line-strong text-ink-2'}`}>
+              {done ? <Check size={22} /> : i + 1}
+            </span>
           );
-          const cls = `flex min-h-16 items-center gap-3 rounded-2xl border-2 px-3 py-2 transition-colors ${active ? 'border-brand bg-brand text-white' : done ? 'border-brand/30 bg-brand-soft text-brand-strong' : 'border-line bg-surface text-ink-2'}`;
+          const label = (
+            <span className={`hidden text-left text-base leading-tight sm:block ${active ? 'font-bold text-ink' : 'font-semibold text-ink-2'}`}>{step.label}</span>
+          );
           return (
-            <li key={step.id}>
-              {reachable
-                ? <Link to={`/seance/${step.id}`} className={`${cls} hover:border-brand`}>{content}</Link>
-                : <div className={cls} aria-current={active ? 'step' : undefined}>{content}</div>}
+            <li key={step.id} className="min-w-0">
+              {reachable ? (
+                <Link to={`/seance/${exerciseId}/${step.id}`} className="group flex items-center gap-3 rounded-md pr-2 hover:bg-sunken" aria-label={`Revenir à l’étape ${i + 1} : ${step.label}`}>
+                  {plate}{label}
+                </Link>
+              ) : (
+                <div className="flex items-center gap-3 pr-2" aria-current={active ? 'step' : undefined}>
+                  {plate}{label}
+                </div>
+              )}
             </li>
           );
         })}
       </ol>
+      <Ruler className="mt-3" majors={4} minors={8} progress={(current + 1) / STEPS.length} />
+      <p className="mt-2 text-sm font-bold text-ink sm:hidden">Étape {current + 1} sur 4 : {STEPS[current].label}</p>
     </nav>
   );
 }

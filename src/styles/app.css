@@ -1,42 +1,73 @@
 @import "tailwindcss";
+/* Polices embarquées dans le build : l'application reste lisible hors ligne. */
+@import "@fontsource-variable/atkinson-hyperlegible-next";
+@import "@fontsource-variable/atkinson-hyperlegible-mono";
 
 /* Mode projection : la classe `projection` est posée sur <html>. */
 @custom-variant projection (&:where(.projection, .projection *));
 
+/*
+ * Direction « manuel de labo » : page blanche, encre presque noire, un seul
+ * orange de sécurité pour ce qui est actif ou à faire ensuite, un bleu de
+ * mesure pour les valeurs et les liens, des graduations comme signature.
+ * Atkinson Hyperlegible a été dessinée pour la lisibilité à distance et en
+ * basse vision : idéale pour un vidéoprojecteur.
+ */
 @theme {
-  --font-sans: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, "Cascadia Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  --font-sans: "Atkinson Hyperlegible Next Variable", system-ui, sans-serif;
+  --font-mono: "Atkinson Hyperlegible Mono Variable", ui-monospace, monospace;
 
-  /* Fond clair, texte sombre : la combinaison la plus sûre sur un vidéoprojecteur. */
-  --color-paper: #f5f3ea;
+  --color-paper: #ffffff;
   --color-surface: #ffffff;
-  --color-sunken: #ece9dd;
-  --color-line: #d3d8cc;
-  --color-line-strong: #9aa79a;
-  --color-ink: #0e2219;
-  --color-ink-2: #3a4e44;
-  --color-brand: #1b5a3d;
-  --color-brand-strong: #103b27;
-  --color-brand-soft: #e0ece3;
-  --color-accent: #a3440c;
-  --color-accent-soft: #fbe8d9;
-  --color-ok: #17683b;
-  --color-ok-soft: #dff2e5;
-  --color-bad: #a1301c;
-  --color-bad-soft: #fbe3dc;
+  --color-sunken: #f1f3f6;
+  --color-line: #dde1e8;
+  --color-line-strong: #838c9c;
 
-  --animate-fade-in: fade-in 220ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --color-ink: #14171c;
+  --color-ink-2: #4a5260;
 
-  @keyframes fade-in {
+  --color-signal: #ff5a1f;
+  --color-signal-strong: #e64a0f;
+  --color-signal-soft: #fff0e8;
+
+  --color-mesure: #1456c9;
+  --color-mesure-strong: #0d3f99;
+  --color-mesure-soft: #e8effc;
+
+  --color-rouge: #c4281b;
+  --color-rouge-soft: #fdebe8;
+  --color-vert: #0f7a43;
+  --color-vert-soft: #e1f4e8;
+  --color-surligneur: #ffd5bf;
+
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+
+  --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
+
+  --animate-enter: enter 240ms var(--ease-out-strong) both;
+  --animate-shake: shake 700ms var(--ease-in-out-strong) 1;
+
+  @keyframes enter {
     from { opacity: 0; transform: translateY(6px); }
     to { opacity: 1; transform: none; }
+  }
+
+  /* Retourner la fiole pour homogénéiser. */
+  @keyframes shake {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-8deg); }
+    60% { transform: rotate(6deg); }
   }
 }
 
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
     scroll-padding-top: 5rem;
+    font-optical-sizing: auto;
   }
 
   /* Tout est en rem : agrandir la racine agrandit toute l'interface. */
@@ -49,8 +80,40 @@
     min-height: 100dvh;
   }
 
+  /* Sélection de texte et barres de défilement aux couleurs du produit. */
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-ink);
+  }
+
+  * {
+    scrollbar-color: var(--color-line-strong) transparent;
+  }
+
+  /* 16 px minimum : iOS ne zoome plus sur les champs. */
+  input,
+  textarea,
+  select {
+    font-size: max(1rem, 16px);
+    caret-color: var(--color-signal-strong);
+  }
+
+  button,
+  a,
+  summary,
+  [role="button"] {
+    touch-action: manipulation;
+  }
+
+  button,
+  summary,
+  [role="button"] {
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
   :focus-visible {
-    outline: 3px solid var(--color-brand);
+    outline: 3px solid var(--color-ink);
     outline-offset: 2px;
   }
 
@@ -63,5 +126,11 @@
     -webkit-appearance: none;
     margin: 0;
   }
-}
 
+  /* Les chiffres des mesures s'alignent en colonnes. */
+  table,
+  dd,
+  output {
+    font-variant-numeric: tabular-nums;
+  }
+}
