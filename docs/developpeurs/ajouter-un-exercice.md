@@ -1,6 +1,6 @@
 # Ajouter un exercice
 
-Les professeurs proposent des exercices avec leurs mots, par e-mail (vianneyhoueho@gmail.com). Ce guide explique comment en faire un exercice jouable. Il existe quatre types d’exercices : `titration` (dosage), `preparation` (dilution, dissolution), `ph` (mesure de pH) et `calcul` (tout autre calcul de chimie, avec une figure à la fin du protocole).
+Les professeurs proposent des exercices avec leurs mots, par e-mail (vianneyhoueho@gmail.com). Ce guide explique comment en faire un exercice jouable. Il existe quatre types d’exercices : `titration` (dosage), `preparation` (dilution, dissolution), `ph` (mesure de pH) et `calcul` (tout autre calcul de chimie). Un exercice `calcul` a toujours une **simulation animée** : ajoutez sa scène dans `src/features/calcul/sim/scenes.tsx` (une fonction pure de l’avancement `t`, de 0 à 1, construite avec les éléments de `primitives.tsx` : bécher, burette, pipette, pH-mètre, flamme, courbes…). Un test refuse un exercice de calcul sans scène.
 
 ## 1. Partir de la proposition
 

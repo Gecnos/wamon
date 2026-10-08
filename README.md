@@ -61,6 +61,7 @@ Les exercices de terminale suivent le guide du programme d’études par compét
 
   <img src="docs/images/labo-mobile.png" width="260" alt="Le labo libre sur téléphone : burette, bécher et lecture du pH" />
 
+- **Des simulations animées** pour chaque exercice : pipette qui prélève, burette qui coule, ballon à reflux, pH-mètre, molécules, courbes tracées en direct. Lecture, pause et curseur pour revenir en arrière devant la classe.
 - **Un mode projection** qui agrandit toute l’interface et masque les réglages.
 - **Un catalogue du matériel** : une fiche par instrument, avec le bon geste et les erreurs fréquentes.
 - **Une adresse par écran** : le bouton « retour » du navigateur revient à l’étape précédente sans rien perdre.
